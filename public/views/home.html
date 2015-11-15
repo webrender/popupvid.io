@@ -1,5 +1,20 @@
 <div class="jumbotron text-center">
-	<h1>Home Page 4 Life</h1>
-
-	<p>{{ tagline }}</p>
+	<div class="container">
+		<div class="row">
+			<h1>popupvid.io</h1><br>
+			<input type="text" ng-model="url" url-input name="fname" class="form-control form-inline" placeholder="enter youtube url">
+			<div class="col-md-6 col-md-offset-3">
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-10 col-md-offset-1">
+				<div class="player-container">
+					<div id="player-overlay" ng-click="pause()"></div>
+					<div id="player"></div>	
+				</div>
+				<div class="sidebar">
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
