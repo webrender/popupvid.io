@@ -1,20 +1,50 @@
+<div class="editor">
+    <div class="player-container" ng-mousemove="mouseTracker($event)">
+        <div class="player-overlay" ng-click="pause()"></div>
+        <div id="player"></div>
+        <div class="card animated">
+            <div class="card-emoji">🐺</div>
+            <div class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
+        </div>
+    </div>
+    <div class="sidebar">
+        <div class="sidebar-adjust">
+            <div class="larger" ng-click="expandSidebar()">&laquo;</div>
+            <div class="smaller disabled" ng-click="collapseSidebar()">&raquo;</div>
+        </div>
+        <div class="sidebar-content">
+            <div class="sidebar-card">
+                <div class="sidebar-card-emoji">🐺</div>
+                <div class="sidebar-card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade intro" class="intro" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+          <span class="sr-only">Close</span>
+        </button>
+        <h4 class="modal-title">Popupvid.io Editor</h4>
+      </div>
+      <div class="modal-body">
+        Welcome to the editor. Click anywhere within the video to pause and insert a comment. The sidebar on the right will allow you to review your comments and save your edit.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Ok, got it!</button>
+      </div>
+    </div>
+  </div>
+</div>
 <div class="jumbotron text-center">
-	<div class="container">
-		<div class="row">
-			<h1>popupvid.io</h1><br>
-			<input type="text" ng-model="url" url-input name="fname" class="form-control form-inline" placeholder="enter youtube url">
-			<div class="col-md-6 col-md-offset-3">
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-10 col-md-offset-1">
-				<div class="player-container">
-					<div id="player-overlay" ng-click="pause()"></div>
-					<div id="player"></div>	
-				</div>
-				<div class="sidebar">
-				</div>
-			</div>
-		</div>
-	</div>
+    <div class="container">
+        <div class="row">
+            <h1>popupvid.io</h1><br>
+            <input type="text" ng-model="url" url-input class="form-control form-inline urlInput" placeholder="enter youtube url">
+            <div class="col-md-6 col-md-offset-3"></div>
+        </div>
+    </div>
 </div>
