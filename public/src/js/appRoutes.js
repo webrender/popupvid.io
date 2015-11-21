@@ -2,15 +2,15 @@ angular.module('appRoutes', []).config(['$routeProvider', '$locationProvider', f
 
 	$routeProvider
 
-		// home page
+		//	home page
 		.when('/', {
 			templateUrl: 'views/home.html',
 			controller: 'MainController'
 		});
 
-		// .when('/nerds', {
-		// 	templateUrl: 'views/nerd.html',
-		// 	controller: 'NerdController'
+		//	.when('/nerds', {
+		//	templateUrl: 'views/nerd.html',
+		//	controller: 'NerdController'
 		// })
 
 	$locationProvider.html5Mode(true);
