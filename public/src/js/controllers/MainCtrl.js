@@ -18,6 +18,7 @@ MainCtrl.directive('urlInput', function() {
 						videoId: match[2],
 						events: {
 						'onReady': function(event){
+							$scope.player.mute();
 							$('.editor').css({
 								'visibility': 'visible',
 								'opacity': '1'
@@ -39,6 +40,15 @@ MainCtrl.directive('urlInput', function() {
 });
 
 function MainController($scope, $window) {
+
+	$scope.url = "https://www.youtube.com/watch?v=KLB8Sjj7g0M";
+
+	$scope.colorList = ['#7bd148','#5484ed','#a4bdfc','#46d6db','#7ae7bf','#51b749','#fbd75b','#ffb878','#ff887c','#dc2127','#dbadff','#e1e1e1', '#ffffff'];
+
+	$scope.emojiMessage = {};
+	$scope.selectedEmoji = '🐺';
+
+	$scope.emojiBgColor = '#7bd148';
 
 	$scope.resizeEvent = function() {
 		$('.player-container').css('height', document.body.clientWidth * 0.5625);
@@ -96,15 +106,30 @@ function MainController($scope, $window) {
 				'top': ((mouseY - offset.top - 32)/$(".player-container").height())*100 + '%',
 				'left': ((mouseX - 32)/$(".player-container").width())*100 + '%'
 			});
+			window.setTimeout(function() {
+				$('.card-settings').css('visibility','visible').addClass('fadeIn');
+			}, 500);
+			$('.card-text').focus();
 			cardOpen = true;
 		} else {
-			if (cardOpen){
-				$('.card').removeClass('bounceIn').addClass('bounceOut');
-				$scope.collapseSidebar();
-				cardOpen = false;
-			}
-			$scope.player.playVideo();
+			//	if (cardOpen){
+			//		$('.card').removeClass('bounceIn').addClass('bounceOut');
+			//		$scope.collapseSidebar();
+			//	cardOpen = false;
+			//	}
+			//	$scope.player.playVideo();
 		}
+	};
+
+	$scope.picker = function() {
+		$('.card-emoji-input').emojiPicker({
+			height: '100px',
+			width: '200px'
+		});
+	};
+
+	$scope.colorSelect = function(color){
+		$scope.emojiBgColor = color;
 	};
 }
 

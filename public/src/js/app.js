@@ -1,1 +1,1 @@
-angular.module('popupvid.io', ['ngRoute', 'appRoutes', 'MainCtrl']);
+angular.module('popupvid.io', ['ngRoute', 'appRoutes', 'MainCtrl', 'ngSanitize', 'emojiApp']);
