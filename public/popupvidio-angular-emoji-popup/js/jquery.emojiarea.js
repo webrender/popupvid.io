@@ -768,10 +768,10 @@
 	};
 
 	EmojiMenu.prototype.reposition = function() {
-		var $button = this.emojiarea.$button;
-		var offset = $button.offset();
-		offset.top += $button.outerHeight();
-		offset.left += Math.round($button.outerWidth() / 2);
+		// var $button = this.emojiarea.$button;
+		// var offset = $button.offset();
+		// offset.top += $button.outerHeight();
+		// offset.left += Math.round($button.outerWidth() / 2);
 
 		// this.$menu.css({
 		// 	top : offset.top,
@@ -798,7 +798,7 @@
 		 */
 		// if (this.emojiarea && this.emojiarea === emojiarea)
 		// 	return this.hide();
-		emojiarea.$button.addClass('on');
+		// emojiarea.$button.addClass('on');
 		this.emojiarea = emojiarea;
 		this.emojiarea.menu = this;
 

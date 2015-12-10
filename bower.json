@@ -1,9 +1,12 @@
 {
-	"name": "angular",
-	"version": "1.0.0",
-	"dependencies": {
-		"bootstrap": "latest",
-		"angular": "latest",
-		"angular-route": "latest"	
-	}
+  "name": "angular",
+  "version": "1.0.0",
+  "dependencies": {
+    "bootstrap": "4.0",
+    "angular": "latest",
+    "angular-route": "latest",
+    "angular-sanitize": "~1.4.8",
+    "animate.css": "~3.4.0",
+    "jquery-ui": "~1.11.4"
+  }
 }

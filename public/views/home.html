@@ -2,9 +2,9 @@
     <div class="player-container" ng-mousemove="mouseTracker($event)">
         <div class="player-overlay" ng-click="pause()"></div>
         <div id="player"></div>
-        <div class="card animated">
+        <div is-draggable class="card animated">
             <div class="card-emoji" style="background-color: {{emojiBgColor}}">{{selectedEmoji | colonToCode}}</div>
-            <div class="card-settings animated">
+            <div class="card-settings left animated">
               TEXT<br>
               <input type="text" ng-model="currentText" class="current-text" placeholder="Lorem ipsum sit amet...">
               COLOR<br>

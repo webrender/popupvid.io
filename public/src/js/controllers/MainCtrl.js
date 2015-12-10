@@ -39,6 +39,22 @@ MainCtrl.directive('urlInput', function() {
 	};
 });
 
+MainCtrl.directive('isDraggable', function() {
+	return {
+		restrict: 'A',
+		link: function(scope, elm, attrs){
+			// var options = scope.$eval(attrs.isDraggable);
+			elm.draggable({
+				cancel: ".card-emoji, .card-settings, .card-text", 
+				containment: "parent",
+				drag: function() {
+					console.log('foo');
+				}
+			});
+		}
+	};
+});
+
 function MainController($scope, $window) {
 
 	$scope.url = "https://www.youtube.com/watch?v=KLB8Sjj7g0M";
@@ -109,7 +125,7 @@ function MainController($scope, $window) {
 			window.setTimeout(function() {
 				$('.card-settings').css('visibility','visible').addClass('fadeIn');
 			}, 500);
-			$('.card-text').focus();
+			$('.current-text').focus();
 			cardOpen = true;
 		} else {
 			//	if (cardOpen){
