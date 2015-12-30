@@ -45,10 +45,14 @@ MainCtrl.directive('isDraggable', function() {
 		link: function(scope, elm, attrs){
 			// var options = scope.$eval(attrs.isDraggable);
 			elm.draggable({
-				cancel: ".card-emoji, .card-settings, .card-text", 
+				cancel: ".card-emoji, .card-settings, .card-text",
 				containment: "parent",
-				drag: function() {
-					console.log('foo');
+				drag: function(event, ui) {
+					if (window.innerHeight - ui.offset.top < 395) {
+						$('.card-settings').removeClass('bottom').addClass('top');
+					} else {
+						$('.card-settings').removeClass('top').addClass('bottom');
+					}
 				}
 			});
 		}
@@ -122,6 +126,11 @@ function MainController($scope, $window) {
 				'top': ((mouseY - offset.top - 32)/$(".player-container").height())*100 + '%',
 				'left': ((mouseX - 32)/$(".player-container").width())*100 + '%'
 			});
+			if (window.innerHeight - mouseY < 395){
+				$('.card-settings').addClass('top');
+			} else {
+				$('.card-settings').addClass('bottom');
+			}
 			window.setTimeout(function() {
 				$('.card-settings').css('visibility','visible').addClass('fadeIn');
 			}, 500);

@@ -37,6 +37,7 @@ body, h1 {
     transition: visibility 0s, opacity 0.2s linear;
     display: flex;
     align-items: center;
+    overflow: hidden;
 
     .player-container {
         position: relative;
@@ -241,7 +242,7 @@ body, h1 {
         &.right {
             top: -130px;
             left: 306px;
-            
+
             &:after {
                 top: calc( 50% - 5px);
                 left: -10px;
@@ -252,12 +253,12 @@ body, h1 {
         }
 
         &.top {
-            top: 71px;
+            top: -333px;
             left: 32px;
 
             &:after {
                 left: calc( 50% - 5px);
-                top: -330px;
+                bottom: -10px;
                 border-left: 10px solid transparent;
                 border-right: 10px solid transparent;
                 border-top: 10px solid #FFF;
@@ -269,7 +270,7 @@ body, h1 {
             display: block;
             position: absolute;
             width: 0;
-            height: 0;    
+            height: 0;
         }
 
         .btn {

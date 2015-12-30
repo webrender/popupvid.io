@@ -31,6 +31,7 @@ h1 {
   transition: visibility 0s, opacity 0.2s linear;
   display: flex;
   align-items: center;
+  overflow: hidden;
 }
 .editor .player-container {
   position: relative;
@@ -224,12 +225,12 @@ h1 {
   border-right: 10px solid #FFF;
 }
 .card .card-settings.top {
-  top: 71px;
+  top: -333px;
   left: 32px;
 }
 .card .card-settings.top:after {
   left: calc(45%);
-  top: -330px;
+  bottom: -10px;
   border-left: 10px solid transparent;
   border-right: 10px solid transparent;
   border-top: 10px solid #FFF;
