@@ -1,3 +1,6 @@
+html, body {
+    height: 100%;
+}
 body {
     padding-top:30px;
     background: #222;
@@ -49,7 +52,7 @@ body, h1 {
             position: absolute;
             top: 0;
             left: 0;
-            height:100%;
+            height: calc(~'100% - 50px');
             width: 100%;
             z-index:10;
         }
@@ -69,8 +72,8 @@ body, h1 {
     right: -299px;
     width: 300px;
     margin-top: 20px;
-    background-color: rgba(85,85,85,0.7);
-    border-left: 1px solid #555;
+    background-color: rgba(255,255,255, 0.7);
+    border-left: 1px solid rgba(255,255,255,0.8);
     z-index:15;
     transition: right 0.2s ease-in;
 
@@ -87,28 +90,30 @@ body, h1 {
     }
     .sidebar-card {
         vertical-align: top;
-        padding: 5px 0 2px;
+        padding: 4px 0 4px;
         background: rgba(255,255,255,0.1);
-        border-bottom: 1px solid #666;
+        border-bottom: 1px solid rgba(255,255,255,0.8);
         max-height: 43px;
         overflow: hidden;
         transition: max-height 0.2s;
+        cursor: pointer;
 
         .sidebar-card-emoji {
-            font-size: 29px;
-            background: green;
+            font-size: 26px;
             display: block;
             height: 34px;
             width: 34px;
             border: 3px solid white;
             border-radius: 30px;
-            line-height: 30px;
+            line-height: 33px;
             overflow: hidden;
             margin-left: 3px;
+            padding-left: 1px;
             float: left;
+            font-family: 'Apple Color Emoji';
         }
         .sidebar-card-text {
-            color: white;
+            color: black;
             font-size: 12px;
             display: inline-block;
             width: 235px;
@@ -116,28 +121,6 @@ body, h1 {
         }
     }
 
-    .sidebar-adjust {
-        position: absolute;
-        background-color: rgba(85,85,85,0.7);
-        border-radius: 5px 0 0 5px;
-        top: 50%;
-        height: 52px;
-        z-index: 100;
-        width: 15px;
-        text-align: center;
-        color: #ccc;
-        left: -15px;
-        border: 1px solid #555;
-        cursor: pointer;
-        font-size: 16px;
-
-        .disabled {
-            color: #666;
-        }
-        .larger {
-            border-bottom: 1px solid #555;
-        }
-    }
 }
 
 // CARD
@@ -196,6 +179,13 @@ body, h1 {
         &:focus {
             outline: none;
         }
+    }
+
+    .card-close {
+        float: right;
+        font-weight: bold;
+        cursor: pointer;
+        line-height: 6px;
     }
 
     .card-settings {

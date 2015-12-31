@@ -5,18 +5,17 @@
         <div is-draggable class="card animated">
             <div class="card-emoji" style="background-color: {{emojiBgColor}}">{{selectedEmoji | colonToCode}}</div>
             <div class="card-settings animated">
-              TEXT<br>
+              <div>TEXT<div class="card-close" ng-click="closeCard()">x</div></div>
               <input type="text" ng-model="currentText" class="current-text" placeholder="Lorem ipsum sit amet...">
               COLOR<br>
               <ul class="colorList">
-                <li ng-repeat="color in colorList" style="background-color: {{color}}" ng-click="colorSelect(color)"></li∂>
+                <li ng-repeat="color in colorList" style="background-color: {{color}}" ng-click="colorSelect(color)"></li>
               </ul>
               EMOJI<br>
               <div class="card-settings-emojipicker"></div>
               <div class="card-buttons">
-                <button class="btn btn-secondary-outline"><i class="fa fa-trash"></i></button>
-                <button class="btn btn-secondary-outline"><i class="fa fa-times-circle"></i></button>
-                <button class="btn btn-secondary-outline"><i class="fa fa-floppy-o"></i></button>
+                <button class="btn btn-danger-outline" ng-click="deleteCard()"><i class="fa fa-trash"></i></button>
+                <button class="btn btn-success-outline" ng-click="saveCard()"><i class="fa fa-floppy-o"></i></button>
               </div>
             </div>
             <div emoji-form emoji-message="emojiMessage">
@@ -26,15 +25,11 @@
             <div class="card-text">{{currentText}}</div>
         </div>
     </div>
-    <div class="sidebar">
-        <div class="sidebar-adjust">
-            <div class="larger" ng-click="expandSidebar()">&laquo;</div>
-            <div class="smaller disabled" ng-click="collapseSidebar()">&raquo;</div>
-        </div>
-        <div class="sidebar-content">
-            <div class="sidebar-card">
-              <div class="sidebar-card-emoji">{{selectedEmoji | colonToCode}}</div>
-              <div class="sidebar-card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
+    <div class="sidebar large">
+        <div class="sidebar-content" ng-repeat="card in cardIndex">
+            <div class="sidebar-card animated" ng-click="displayCard(card)">
+              <div class="sidebar-card-emoji" style="background-color: {{card.bg}}">{{card.emoji | colonToCode}}</div>
+              <div class="sidebar-card-text">{{card.text}}</div>
             </div>
         </div>
     </div>
