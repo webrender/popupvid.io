@@ -25,13 +25,15 @@
             <div class="card-text">{{currentText}}</div>
         </div>
     </div>
-    <div class="sidebar large">
-        <div class="sidebar-content" ng-repeat="card in cardIndex">
-            <div class="sidebar-card animated" ng-click="displayCard(card)">
-              <div class="sidebar-card-emoji" style="background-color: {{card.bg}}">{{card.emoji | colonToCode}}</div>
-              <div class="sidebar-card-text">{{card.text}}</div>
-            </div>
-        </div>
+    <div class="sidebar-wrap">
+      <div class="sidebar">
+          <div class="sidebar-content" ng-repeat="card in cardIndex">
+              <div class="sidebar-card animated fadeIn" ng-click="displayCard(card)">
+                <div class="sidebar-card-emoji" style="background-color: {{card.bg}}">{{card.emoji | colonToCode}}</div>
+                <div class="sidebar-card-text">{{card.text}}</div>
+              </div>
+          </div>
+      </div>
     </div>
 </div>
 <div class="modal fade intro" class="intro" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

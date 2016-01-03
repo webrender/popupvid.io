@@ -173,6 +173,7 @@ function MainController($scope, $window) {
 				$scope.currentText = '';
 				$scope.selectedEmoji = ':wolf:';
 				$scope.emojiBgColor = '#7bd148';
+				$('.sidebar-wrap').removeClass('small');
 			}, 500);
 		}, 500);
 	};
@@ -186,24 +187,28 @@ function MainController($scope, $window) {
 			'x': currentX,
 			'y': currentY
 		};
-		if ($scope.cardIndex.length === 0) {
-			$scope.cardIndex[0] = cardData;
-			$scope.closeCard();
-		} else {
-			for (var i = 0; i < $scope.cardIndex.length; i++){
-				if ($scope.cardIndex[i].time === $scope.currentTime){
-					$scope.cardIndex[i] = cardData;
-					break;
-				} else if (i+1 === $scope.cardIndex.length) {
-					$scope.cardIndex.push(cardData);
-					break;
-				} else if ($scope.cardIndex[i].time > $scope.currentTime) {
-					$scope.cardIndex.splice(i, 0, cardData);
-					break;
+		$('.sidebar-wrap').addClass('small');
+		window.setTimeout(function(){
+			if ($scope.cardIndex.length === 0) {
+				$scope.cardIndex[0] = cardData;
+				$scope.closeCard();
+			} else {
+				for (var i = 0; i < $scope.cardIndex.length; i++){
+					if ($scope.cardIndex[i].time === $scope.currentTime){
+						$scope.cardIndex[i] = cardData;
+						break;
+					} else if (i+1 === $scope.cardIndex.length) {
+						$scope.cardIndex.push(cardData);
+						break;
+					} else if ($scope.cardIndex[i].time > $scope.currentTime) {
+						$scope.cardIndex.splice(i, 0, cardData);
+						break;
+					}
 				}
+				$scope.closeCard();
 			}
-			$scope.closeCard();
-		}
+		}, 500);
+
 	};
 
 	$scope.deleteCard = function() {
