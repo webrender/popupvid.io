@@ -77,16 +77,20 @@ body, h1 {
     transition: right 0.2s ease-in;
     padding-left: 100px;
 
+    &.small {
+        right: -159px;
+    }
+
+    &.smaller-hover {
+
+    }
+
     &:hover {
         right: 0px;
 
         .sidebar-card:hover {
             max-height: 100px;
         }
-    }
-
-    &.small {
-        right: -159px;
     }
 }
 .sidebar {
@@ -157,7 +161,7 @@ body, h1 {
         width: 61px;
         border: 5px solid white;
         border-radius: 30px;
-        line-height: 62px;
+        line-height: 59px;
         padding-left: 1px;
         overflow: hidden;
         font-family: 'Apple Color Emoji';

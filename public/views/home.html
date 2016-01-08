@@ -6,7 +6,7 @@
             <div class="card-emoji" style="background-color: {{emojiBgColor}}">{{selectedEmoji | colonToCode}}</div>
             <div class="card-settings animated">
               <div>TEXT<div class="card-close" ng-click="closeCard()">x</div></div>
-              <input type="text" ng-model="currentText" class="current-text" placeholder="Lorem ipsum sit amet...">
+              <input type="text" autofocus ng-model="currentText" class="current-text" placeholder="Lorem ipsum sit amet...">
               COLOR<br>
               <ul class="colorList">
                 <li ng-repeat="color in colorList" style="background-color: {{color}}" ng-click="colorSelect(color)"></li>
@@ -22,7 +22,7 @@
                 <textarea id="messageInput"></textarea>
             </div>
             <input type="hidden" class="card-emoji-input"></input>
-            <div class="card-text">{{currentText}}</div>
+            <div class="card-text" onclick="$('.current-text').focus()">{{currentText}}</div>
         </div>
     </div>
     <div class="sidebar-wrap">

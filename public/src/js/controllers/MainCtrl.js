@@ -19,16 +19,16 @@ MainCtrl.directive('urlInput', function() {
 						width: '100%',
 						videoId: match[2],
 						events: {
-						'onReady': function(event){
-							$scope.player.mute();
-							$('.editor').css({
-								'visibility': 'visible',
-								'opacity': '1'
-							});
-							$('.intro').modal('show');
-						}
-						//'onStateChange': onPlayerStateChange
-					},
+							'onReady': function(event){
+								$scope.player.mute();
+								$('.editor').css({
+									'visibility': 'visible',
+									'opacity': '1'
+								});
+								$('.intro').modal('show');
+							},
+							'onStateChange': $scope.onPlayerStateChange
+						},
 						playerVars: {
 							playsinline: 1,
 							showinfo: 0
@@ -96,10 +96,23 @@ function MainController($scope, $window) {
 		mouseY = e.pageY;
 	};
 
+	$scope.onPlayerStateChange = function(state) {
+		if (state.data == 1 && cardOpen){
+			$scope.closeCard();
+		}
+	};
+
 	$scope.pause = function() {
 		if ($scope.player.getPlayerState() == 1) {
 			$scope.player.pauseVideo();
 			$scope.displayCard();
+		}
+		if ($scope.player.getPlayerState() == 2) {
+			if (cardOpen){
+				$scope.closeCard();
+			} else {
+				$scope.displayCard();
+			}
 		}
 	};
 
@@ -125,8 +138,9 @@ function MainController($scope, $window) {
 			}
 			window.setTimeout(function() {
 				$('.card-settings').css('visibility','visible').removeClass('fadeOut').addClass('fadeIn');
+				cardOpen = true;
+				$('.current-text').focus();
 			}, 500);
-			$('.current-text').focus();
 		} else {
 			$scope.currentTime = $scope.player.getCurrentTime();
 			var offset = $(".player-container").offset();
@@ -138,17 +152,18 @@ function MainController($scope, $window) {
 				'top': currentY + '%',
 				'left': currentX + '%'
 			});
-			if (window.innerHeight - mouseY < 395){
+			if (window.innerHeight - mouseY < 450){
 				$('.card-settings').removeClass('bottom').addClass('top');
 			} else {
 				$('.card-settings').removeClass('top').addClass('bottom');
 			}
 			window.setTimeout(function() {
 				$('.card-settings').css('visibility','visible').removeClass('fadeOut').addClass('fadeIn');
+				cardOpen = true;
+				$('.current-text').focus();
 			}, 500);
-			$('.current-text').focus();
-			cardOpen = true;
 		}
+		$('.sidebar-wrap').addClass('smaller-hover');
 	};
 
 	$scope.picker = function() {
@@ -167,6 +182,7 @@ function MainController($scope, $window) {
 		window.setTimeout(function() {
 			$('.card').removeClass('bounceIn').addClass('bounceOut');
 			$('.card-settings').css('visibility','hidden');
+			$('.sidebar-wrap').removeClass('smaller-hover');
 			cardOpen = false;
 			$scope.player.playVideo();
 			window.setTimeout(function() {

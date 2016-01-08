@@ -66,14 +66,14 @@ h1 {
   transition: right 0.2s ease-in;
   padding-left: 100px;
 }
+.sidebar-wrap.small {
+  right: -159px;
+}
 .sidebar-wrap:hover {
   right: 0px;
 }
 .sidebar-wrap:hover .sidebar-card:hover {
   max-height: 100px;
-}
-.sidebar-wrap.small {
-  right: -159px;
 }
 .sidebar {
   background-color: rgba(255, 255, 255, 0.7);
@@ -139,7 +139,7 @@ h1 {
   width: 61px;
   border: 5px solid white;
   border-radius: 30px;
-  line-height: 62px;
+  line-height: 59px;
   padding-left: 1px;
   overflow: hidden;
   font-family: 'Apple Color Emoji';

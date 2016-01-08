@@ -8,9 +8,9 @@ module.exports = function(app) {
 	// handle things like api calls
 	// authentication routes
 
-	app.get('/api/test', function(req, res) {
+    app.get('/v/:id', function(req, res) {
         // use mongoose to get all nerds in the database
-        Entry.find(function(err, entries) {
+        Entry.find({slug: req.params.id}, function(err, entries) {
 
             // if there is an error retrieving, send the error.
             // nothing after res.send(err) will execute
@@ -20,6 +20,11 @@ module.exports = function(app) {
             res.json(entries); // return all nerds in JSON format
         });
     });
+
+    // save
+    // save/:id
+    // edit/:id
+    // auth
 
     app.get('/api/testsave', function(req, res){
 
