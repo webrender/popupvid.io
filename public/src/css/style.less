@@ -70,23 +70,25 @@ body, h1 {
     position: absolute;
     top: -20px;
     bottom: 0;
-    right: -200px;
+    right: 0;
     width: 300px;
     margin-top: 20px;
     z-index:15;
-    transition: right 0.2s ease-in;
+    transition: transform 0.2s ease-in;
+    transform: translateX(200px);
     padding-left: 100px;
 
     &.small {
-        right: -159px;
+    transform: translateX(159px);
     }
 
     &.smaller-hover {
-
+        padding-left: 20px;
+        right: -80px;
     }
 
     &:hover {
-        right: 0px;
+    transform: translateX(0px);
 
         .sidebar-card:hover {
             max-height: 100px;
@@ -97,7 +99,6 @@ body, h1 {
     background-color: rgba(255,255,255, 0.7);
     border-left: 1px solid rgba(255,255,255,0.8);
     height:100%;
-    transition: margin-left 0.2s ease-in;
 
     .sidebar-card {
         vertical-align: top;
