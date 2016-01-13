@@ -5,8 +5,7 @@
         <div is-draggable class="card animated">
             <div class="card-emoji" style="background-color: {{emojiBgColor}}">{{selectedEmoji | colonToCode}}</div>
             <div class="card-settings animated">
-              <div>TEXT<div class="card-close" ng-click="closeCard()">x</div></div>
-              <input type="text" autofocus ng-model="currentText" class="current-text" placeholder="Lorem ipsum sit amet...">
+              <div><div class="card-close" ng-click="closeCard()">x</div></div>
               COLOR<br>
               <ul class="colorList">
                 <li ng-repeat="color in colorList" style="background-color: {{color}}" ng-click="colorSelect(color)"></li>
@@ -22,7 +21,7 @@
                 <textarea id="messageInput"></textarea>
             </div>
             <input type="hidden" class="card-emoji-input"></input>
-            <div class="card-text" onclick="$('.current-text').focus()">{{currentText}}</div>
+            <div class="card-text"><textarea autofocus ng-model="currentText" class="current-text" placeholder="Lorem ipsum sit amet..." maxlength="37"></textarea></div>
         </div>
     </div>
     <div class="sidebar-wrap">
@@ -50,7 +49,7 @@
         Welcome to the editor. Click anywhere within the video to pause and insert a comment. The sidebar on the right will allow you to review your comments and save your edit.
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Ok, got it!</button>
+        <button type="button" class="btn btn-success" data-dismiss="modal">Ok, got it!</button>
       </div>
     </div>
   </div>

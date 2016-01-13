@@ -50,9 +50,9 @@ MainCtrl.directive('isDraggable', function() {
 				containment: "parent",
 				drag: function(event, ui) {
 					console.log(ui.offset);
-					if (window.innerHeight - ui.offset.top > 395) {
+					if (window.innerHeight - ui.offset.top > 335) {
 						$('.card-settings').removeClass('top left right').addClass('bottom');
-					} else if (ui.offset.top > 325) {
+					} else if (ui.offset.top > 265) {
 						$('.card-settings').removeClass('bottom left right').addClass('top');
 					} else if (ui.offset.left > 220) {
 						$('.card-settings').removeClass('top bottom right').addClass('left');
@@ -137,9 +137,9 @@ function MainController($scope, $window) {
 				'left': card.x + '%'
 			});
 			var cardOffset = $('.card').offset();
-			if (window.innerHeight - cardOffset.top > 395) {
+			if (window.innerHeight - cardOffset.top > 335) {
 				$('.card-settings').removeClass('top left right').addClass('bottom');
-			} else if (cardOffset.top > 325) {
+			} else if (cardOffset.top > 265) {
 				$('.card-settings').removeClass('bottom left right').addClass('top');
 			} else if (cardOffset.left > 220) {
 				$('.card-settings').removeClass('top bottom right').addClass('left');
@@ -162,9 +162,9 @@ function MainController($scope, $window) {
 				'top': currentY + '%',
 				'left': currentX + '%'
 			});
-			if (window.innerHeight - mouseY > 450) {
+			if (window.innerHeight - mouseY > 390) {
 				$('.card-settings').removeClass('top left right').addClass('bottom');
-			} else if (mouseY > 325) {
+			} else if (mouseY > 265) {
 				$('.card-settings').removeClass('bottom left right').addClass('top');
 			} else if (mouseX > 220) {
 				$('.card-settings').removeClass('top bottom right').addClass('left');

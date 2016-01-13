@@ -177,7 +177,7 @@ h1 {
 }
 .card .card-settings {
   display: block;
-  height: 310px;
+  height: 250px;
   width: 227px;
   background: #FFF;
   position: absolute;
@@ -245,14 +245,13 @@ h1 {
   font-size: 18px;
   padding: 0px 6px;
 }
-.card .card-settings .current-text {
-  font-size: 14px;
-  color: black;
-  border-radius: 3px;
-  border: 1px solid #ccc;
-  padding: 5px;
-  margin: 5px 0px;
+.card .current-text {
   width: 100%;
+  color: white;
+  background: transparent;
+  border: none;
+  outline: none;
+  resize: none;
 }
 .card .card-settings-emojipicker {
   height: 130px;
