@@ -49,10 +49,15 @@ MainCtrl.directive('isDraggable', function() {
 				cancel: ".card-emoji, .card-settings, .card-text",
 				containment: "parent",
 				drag: function(event, ui) {
-					if (window.innerHeight - ui.offset.top < 395) {
-						$('.card-settings').removeClass('bottom').addClass('top');
+					console.log(ui.offset);
+					if (window.innerHeight - ui.offset.top > 395) {
+						$('.card-settings').removeClass('top left right').addClass('bottom');
+					} else if (ui.offset.top > 325) {
+						$('.card-settings').removeClass('bottom left right').addClass('top');
+					} else if (ui.offset.left > 220) {
+						$('.card-settings').removeClass('top bottom right').addClass('left');
 					} else {
-						$('.card-settings').removeClass('top').addClass('bottom');
+						$('.card-settings').removeClass('top bottom left').addClass('right');
 					}
 					currentX = (ui.offset.left/$(".player-container").width())*100;
 					currentY = (ui.offset.top/$(".player-container").height())*100;
@@ -131,10 +136,15 @@ function MainController($scope, $window) {
 				'top': card.y + '%',
 				'left': card.x + '%'
 			});
-			if ($('.card').offset().top < 395){
-				$('.card-settings').removeClass('top').addClass('bottom');
+			var cardOffset = $('.card').offset();
+			if (window.innerHeight - cardOffsetTop > 395) {
+				$('.card-settings').removeClass('top left right').addClass('bottom');
+			} else if (cardOffset.top > 325) {
+				$('.card-settings').removeClass('bottom left right').addClass('top');
+			} else if (cardOffset.left > 220) {
+				$('.card-settings').removeClass('top bottom right').addClass('left');
 			} else {
-				$('.card-settings').removeClass('bottom').addClass('top');
+				$('.card-settings').removeClass('top bottom left').addClass('right');
 			}
 			window.setTimeout(function() {
 				$('.card-settings').css('visibility','visible').removeClass('fadeOut').addClass('fadeIn');
@@ -152,10 +162,14 @@ function MainController($scope, $window) {
 				'top': currentY + '%',
 				'left': currentX + '%'
 			});
-			if (window.innerHeight - mouseY < 450){
-				$('.card-settings').removeClass('bottom').addClass('top');
+			if (window.innerHeight - mouseY > 450) {
+				$('.card-settings').removeClass('top left right').addClass('bottom');
+			} else if (mouseY > 325) {
+				$('.card-settings').removeClass('bottom left right').addClass('top');
+			} else if (mouseX > 220) {
+				$('.card-settings').removeClass('top bottom right').addClass('left');
 			} else {
-				$('.card-settings').removeClass('top').addClass('bottom');
+				$('.card-settings').removeClass('top bottom left').addClass('right');
 			}
 			window.setTimeout(function() {
 				$('.card-settings').css('visibility','visible').removeClass('fadeOut').addClass('fadeIn');

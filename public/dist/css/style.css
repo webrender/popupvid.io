@@ -60,19 +60,19 @@ h1 {
   top: -20px;
   bottom: 0;
   right: 0;
-  width: 300px;
+  width: 220px;
   margin-top: 20px;
   z-index: 15;
   transition: transform 0.2s ease-in;
   transform: translateX(200px);
-  padding-left: 100px;
+  padding-left: 20px;
 }
 .sidebar-wrap.small {
   transform: translateX(159px);
 }
 .sidebar-wrap.smaller-hover {
-  padding-left: 20px;
-  right: -80px;
+  padding-left: 5px;
+  right: -15px;
 }
 .sidebar-wrap:hover {
   transform: translateX(0px);
