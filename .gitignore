@@ -15,5 +15,5 @@ npm-debug.log
 node_modules
 
 public/libs
-
+public/dist
 .DS_Store
