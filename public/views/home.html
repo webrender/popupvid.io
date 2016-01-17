@@ -21,10 +21,10 @@
                 <textarea id="messageInput"></textarea>
             </div>
             <input type="hidden" class="card-emoji-input"></input>
-            <div class="card-text"><textarea autofocus ng-model="currentText" class="current-text" placeholder="Lorem ipsum sit amet..." maxlength="37"></textarea></div>
+            <div class="card-text"><textarea autofocus ng-model="currentText" class="current-text large"></textarea></div>
         </div>
     </div>
-    <div class="sidebar-wrap">
+    <div class="sidebar-wrap" ng-mouseover="enterSidebar()" ng-mouseleave="leaveSidebar()">
       <div class="sidebar">
           <div class="sidebar-content" ng-repeat="card in cardIndex">
               <div class="sidebar-card animated fadeIn" ng-click="displayCard(card)">
@@ -32,6 +32,7 @@
                 <div class="sidebar-card-text">{{card.text}}</div>
               </div>
           </div>
+          <div class="sidebar-save"><button type="button" class="btn btn-secondary btn-block btn-save">Save Video</button></div>
       </div>
     </div>
 </div>
@@ -48,7 +49,7 @@
       <div class="modal-body">
         Welcome to the editor. Click anywhere within the video to pause and insert a comment. The sidebar on the right will allow you to review your comments and save your edit.
       </div>
-      <div class="modal-footer">
+      <div class="modal-footer text-center">
         <button type="button" class="btn btn-success" data-dismiss="modal">Ok, got it!</button>
       </div>
     </div>

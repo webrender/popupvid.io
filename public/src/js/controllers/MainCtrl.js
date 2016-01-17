@@ -30,8 +30,11 @@ MainCtrl.directive('urlInput', function() {
 							'onStateChange': $scope.onPlayerStateChange
 						},
 						playerVars: {
-							playsinline: 1,
-							showinfo: 0
+							'playsinline': 1,
+							'showinfo': 0,
+							'rel': 0,
+							'disablekb': 1,
+							'iv_load_policy': 3
 						}
 					});
 				}
@@ -49,7 +52,6 @@ MainCtrl.directive('isDraggable', function() {
 				cancel: ".card-emoji, .card-settings, .card-text",
 				containment: "parent",
 				drag: function(event, ui) {
-					console.log(ui.offset);
 					if (window.innerHeight - ui.offset.top > 335) {
 						$('.card-settings').removeClass('top left right').addClass('bottom');
 					} else if (ui.offset.top > 265) {
@@ -67,9 +69,9 @@ MainCtrl.directive('isDraggable', function() {
 	};
 });
 
-function MainController($scope, $window) {
+function MainController($scope, $window, $document, $timeout) {
 
-	$scope.url = "https://www.youtube.com/watch?v=KLB8Sjj7g0M";
+	$scope.url = "https://www.youtube.com/watch?v=HtDgUHw0IJA";
 
 	$scope.colorList = ['#7bd148','#5484ed','#a4bdfc','#46d6db','#7ae7bf','#51b749','#fbd75b','#ffb878','#ff887c','#dc2127','#dbadff','#e1e1e1', '#ffffff'];
 
@@ -249,6 +251,43 @@ function MainController($scope, $window) {
 		}
 		$scope.closeCard();
 	};
+
+	$scope.enterSidebar = function() {
+		if (!cardOpen){
+			$scope.player.pauseVideo();
+		}
+	};
+
+	$document.on('keypress', function(event){
+		if ($scope.player && !cardOpen){
+			if ($scope.player.getPlayerState() == 1)
+				$scope.player.pauseVideo();
+			else
+				$scope.player.playVideo();
+		}
+	});
+
+	$scope.leaveSidebar = function() {
+
+		if (!cardOpen){
+			$scope.player.playVideo();
+		}
+	};
+
+	$scope.$watch('currentText', function(data) {
+		if ($('.current-text')[0]){
+			$timeout(function() {
+				$('.current-text').removeClass('medium small').addClass('large');
+				if ($('.current-text')[0].clientHeight < $('.current-text')[0].scrollHeight) {
+					$('.current-text').removeClass('large').addClass('medium');
+				}
+				if ($('.current-text')[0].clientHeight < $('.current-text')[0].scrollHeight) {
+					$('.current-text').removeClass('medium').addClass('small');
+				}
+			});
+		}
+	});
+
 }
 
-MainCtrl.controller("MainController", ["$scope", "$window", MainController]);
+MainCtrl.controller("MainController", ["$scope", "$window", "$document", "$timeout", MainController]);

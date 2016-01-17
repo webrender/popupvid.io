@@ -18,6 +18,7 @@ h1 {
 .jumbotron input {
   background: #555;
   border-color: #666;
+  color: #aaa;
 }
 .jumbotron input:focus {
   border-color: #999;
@@ -74,8 +75,17 @@ h1 {
   padding-left: 5px;
   right: -15px;
 }
+.sidebar-wrap.smaller-hover:hover {
+  right: 0;
+}
+.sidebar-wrap .btn-save {
+  display: none;
+}
 .sidebar-wrap:hover {
   transform: translateX(0px);
+}
+.sidebar-wrap:hover .btn-save {
+  display: block;
 }
 .sidebar-wrap:hover .sidebar-card:hover {
   max-height: 100px;
@@ -114,6 +124,13 @@ h1 {
   font-size: 12px;
   width: 196px;
   padding-left: 40px;
+}
+.sidebar .sidebar-save {
+  bottom: 2px;
+  position: absolute;
+  right: 2px;
+  left: 22px;
+  text-align: right;
 }
 .card {
   position: absolute;
@@ -191,7 +208,7 @@ h1 {
   margin-top: 5px;
 }
 .card .card-settings.left {
-  top: -130px;
+  top: -103px;
   left: -244px;
 }
 .card .card-settings.left:after {
@@ -213,7 +230,7 @@ h1 {
   border-bottom: 10px solid #FFF;
 }
 .card .card-settings.right {
-  top: -130px;
+  top: -103px;
   left: 306px;
 }
 .card .card-settings.right:after {
@@ -224,7 +241,7 @@ h1 {
   border-right: 10px solid #FFF;
 }
 .card .card-settings.top {
-  top: -333px;
+  top: -271px;
   left: 32px;
 }
 .card .card-settings.top:after {
@@ -252,6 +269,19 @@ h1 {
   border: none;
   outline: none;
   resize: none;
+  height: 50px;
+}
+.card .current-text.large {
+  font-size: 44px;
+  line-height: 44px;
+}
+.card .current-text.medium {
+  font-size: 22px;
+  line-height: 23px;
+}
+.card .current-text.small {
+  font-size: 12px;
+  line-height: 13px;
 }
 .card .card-settings-emojipicker {
   height: 130px;
