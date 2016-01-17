@@ -50,10 +50,13 @@ module.exports = function(grunt) {
       }
     },
 
-    // watch our node server for changes
-    nodemon: {
+    express: {
       dev: {
-        script: 'server.js'
+        options: {
+          script: 'server.js',
+          background: false,
+          port: 8080
+        }
       }
     },
 
@@ -62,7 +65,7 @@ module.exports = function(grunt) {
       options: {
         logConcurrentOutput: true
       },
-      tasks: ['nodemon', 'watch']
+      tasks: ['express', 'watch']
     }
 
   });
@@ -72,8 +75,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-less');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-contrib-watch');
-  grunt.loadNpmTasks('grunt-nodemon');
   grunt.loadNpmTasks('grunt-concurrent');
+  grunt.loadNpmTasks('grunt-express-server');
 
   grunt.registerTask('default', ['less', 'cssmin', 'jshint', 'uglify', 'concurrent']);
 
