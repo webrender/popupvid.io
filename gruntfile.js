@@ -47,6 +47,10 @@ module.exports = function(grunt) {
       js: {
         files: ['public/src/js/**/*.js'],
         tasks: ['jshint', 'uglify']
+      },
+      views: {
+        files: ['public/src/views/**.*'],
+        tasks: ['copy:views']
       }
     },
 
@@ -66,6 +70,17 @@ module.exports = function(grunt) {
         logConcurrentOutput: true
       },
       tasks: ['express', 'watch']
+    },
+
+    copy: {
+      views: {
+        files: [{
+          expand: true,
+          cwd: 'public/src/views/',
+          src: ['**'],
+          dest: 'public/dist/views/'
+        }]
+      }
     }
 
   });
@@ -75,9 +90,10 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-less');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-concurrent');
   grunt.loadNpmTasks('grunt-express-server');
 
-  grunt.registerTask('default', ['less', 'cssmin', 'jshint', 'uglify', 'concurrent']);
+  grunt.registerTask('default', ['less', 'cssmin', 'jshint', 'uglify', 'copy', 'concurrent']);
 
 };

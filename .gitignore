@@ -16,4 +16,4 @@ node_modules
 
 public/libs
 public/dist
-.DS_Store
+**/.DS_Store
