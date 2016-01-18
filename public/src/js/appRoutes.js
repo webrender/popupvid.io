@@ -8,9 +8,9 @@ angular.module('appRoutes', []).config(['$routeProvider', '$locationProvider', f
 			controller: 'MainController'
 		})
 
-		.when('/n/:videoid', {
+		.when('/:action/:videoid', {
 			templateUrl: 'dist/views/editor.html',
-			controller: 'EditController'
+			controller: 'EditController',
 		});
 
 		//	.when('/nerds', {

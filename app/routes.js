@@ -8,7 +8,7 @@ module.exports = function(app) {
 	// handle things like api calls
 	// authentication routes
 
-    app.get('/d/:id', function(req, res) {
+    app.get('/api/load/:id', function(req, res) {
         // use mongoose to get all nerds in the database
         Entry.find({slug: req.params.id}, function(err, entries) {
 
@@ -39,7 +39,7 @@ module.exports = function(app) {
 
     	test.save(function(err){
     		if (err) res.send(err);
-    		res.send('saved. id: ' + slug);
+    		res.send(slug);
     	});
 
     });
