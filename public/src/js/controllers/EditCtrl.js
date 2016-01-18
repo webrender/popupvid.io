@@ -46,6 +46,13 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 			});
 			break;
 		case 'e':
+			$http.get('/api/load/' + $routeParams.videoid).then(function(response) {
+				resObj = JSON.parse(response.data[0].data);
+				$scope.video = resObj.video;
+				$scope.cardIndex = resObj.data;
+			}, function(response){
+				console.log(response);
+			});
 			break;
 		case 'n':
 			$scope.video = $routeParams.videoid;
@@ -195,13 +202,19 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 	$scope.pause = function() {
 		if ($scope.player.getPlayerState() == 1) {
 			$scope.player.pauseVideo();
-			$scope.displayCard();
+			if (!$scope.readOnly){
+				$scope.displayCard();
+			}
 		}
 		if ($scope.player.getPlayerState() == 2) {
-			if (cardOpen){
-				$scope.closeCard();
+			if ($scope.readOnly) {
+				$scope.player.playVideo();
 			} else {
-				$scope.displayCard();
+				if (cardOpen){
+				$scope.closeCard();
+				} else {
+					$scope.displayCard();
+				}
 			}
 		}
 	};
