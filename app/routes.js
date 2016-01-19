@@ -32,15 +32,36 @@ module.exports = function(app) {
 
     	var slug = shortId.generate();
 
-    	var test = new Entry({
+    	var video = new Entry({
     		slug: slug,
             data: JSON.stringify(req.body)
     	});
 
-    	test.save(function(err){
+    	video.save(function(err){
     		if (err) res.send(err);
     		res.send(slug);
     	});
+
+    });
+
+    app.post('/api/save/:id', function(req, res){
+
+        console.log(res.body);
+
+        var slug = req.params.id;
+
+        var query = {slug: slug};
+        //
+        Entry.update({
+            slug: slug 
+        }, { 
+            $set: { 
+                data: JSON.stringify(req.body) 
+            }
+        }, function() {
+            res.send(slug);
+        });
+
 
     });
 

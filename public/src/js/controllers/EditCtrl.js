@@ -9,7 +9,6 @@ EditCtrl.directive('isDraggable', function() {
 	return {
 		restrict: 'A',
 		link: function(scope, elm, attrs){
-			// var options = scope.$eval(attrs.isDraggable);
 			elm.draggable({
 				cancel: ".card-emoji, .card-settings, .card-text",
 				containment: "parent",
@@ -31,7 +30,7 @@ EditCtrl.directive('isDraggable', function() {
 	};
 });
 
-function EditController($scope, $window, $document, $timeout, $http, $routeParams) {
+function EditController($scope, $window, $document, $timeout, $http, $routeParams, $location) {
 	
 	switch($routeParams.action) {
 		case 'v':
@@ -40,9 +39,7 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 				resObj = JSON.parse(response.data[0].data);
 				$scope.video = resObj.video;
 				$scope.cardIndex = resObj.data;
-				$('.sidebar-wrap').addClass('small');
-			}, function(response){
-				console.log(response);
+				$('.sidebar-wrap').addClass('large');
 			});
 			break;
 		case 'e':
@@ -50,8 +47,6 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 				resObj = JSON.parse(response.data[0].data);
 				$scope.video = resObj.video;
 				$scope.cardIndex = resObj.data;
-			}, function(response){
-				console.log(response);
 			});
 			break;
 		case 'n':
@@ -81,8 +76,8 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 								$scope.player.playVideo();
 							}
 							setTimeout(function() {
-								$('.sidebar-wrap').removeClass('small');
-							}, 1000);
+								$('.sidebar-wrap').removeClass('large');
+							}, 2000);
 						},
 						'onStateChange': $scope.onPlayerStateChange
 					},
@@ -182,7 +177,6 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 		var currentTime = $scope.player.getCurrentTime();
 		for (var prop in $scope.cardIndex) {
 			if ($scope.cardIndex[prop].time - currentTime > 0.49){
-				console.log ($scope.cardIndex[prop].time - currentTime);
 				$scope.setTimer(currentTime, $scope.cardIndex[prop]);
 				break;
 			}
@@ -234,7 +228,6 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 
 	$scope.displayCard = function(card) {
 		if (card){
-			console.log(card);
 			$scope.currentTime = card.time;
 			$scope.player.seekTo(card.time);
 			$scope.player.pauseVideo();
@@ -405,16 +398,28 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 			video: $scope.video,
 			data: $scope.cardIndex
 		};
-		$http.post('/api/save', data).then(function(response) {
-			console.log(response);
-			$scope.savedUrl = $window.location.origin + '/v/' + response.data;
-			$scope.editUrl = $window.location.origin + '/e/' + response.data;
-			$('.saveDialog').modal('show');
-		}, function(response){
-			console.log(response);
-		});
+		if ($routeParams.action === 'n') {
+			$http.post('/api/save', data).then(function(response) {
+				$scope.savedUrl = $window.location.origin + '/v/' + response.data;
+				$scope.editUrl = $window.location.origin + '/e/' + response.data;
+				$scope.editId = response.data;
+				$('.saveDialog').modal('show');
+			});
+		} else {
+			$http.post('/api/save/' + $routeParams.videoid, data).then(function(response) {
+				$scope.savedUrl = $window.location.origin + '/v/' + response.data;
+				$scope.editUrl = $window.location.origin + '/e/' + response.data;
+				$('.saveDialog').modal('show');
+			});
+		}
 	};
+
+	$('.saveDialog').on('hidden.bs.modal', function (e) {
+		if ($routeParams.action == 'n'){ 
+			$location.path('/e/' + $scope.editId);
+		}
+	});
 
 }
 
-EditCtrl.controller("EditController", ["$scope", "$window", "$document", "$timeout", "$http", "$routeParams", EditController]);
+EditCtrl.controller("EditController", ["$scope", "$window", "$document", "$timeout", "$http", "$routeParams", "$location", EditController]);
