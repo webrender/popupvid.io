@@ -5,30 +5,40 @@ var sidebarState = 0;
 var currentX = 0;
 var currentY = 0;
 
-EditCtrl.directive('isDraggable', function() {
+EditCtrl.directive('isDraggable', ['$routeParams', function($routeParams) {
 	return {
 		restrict: 'A',
 		link: function(scope, elm, attrs){
-			elm.draggable({
-				cancel: ".card-emoji, .card-settings, .card-text",
-				containment: "parent",
-				drag: function(event, ui) {
-					if (window.innerHeight - ui.offset.top > 335) {
-						$('.card-settings').removeClass('top left right').addClass('bottom');
-					} else if (ui.offset.top > 265) {
-						$('.card-settings').removeClass('bottom left right').addClass('top');
-					} else if (ui.offset.left > 220) {
-						$('.card-settings').removeClass('top bottom right').addClass('left');
-					} else {
-						$('.card-settings').removeClass('top bottom left').addClass('right');
+			if ($routeParams.action === 'v'){ 
+				elm.removeClass('draggable');
+			} else {
+				elm.draggable({
+					cancel: ".card-emoji, .card-settings, .card-text",
+					containment: "parent",
+					drag: function(event, ui) {
+						if (window.innerHeight - ui.offset.top > 335) {
+							$('.card-settings').removeClass('top left right').addClass('bottom');
+						} else if (ui.offset.top > 265) {
+							$('.card-settings').removeClass('bottom left right').addClass('top');
+						} else if (ui.offset.left > 220) {
+							$('.card-settings').removeClass('top bottom right').addClass('left');
+						} else {
+							$('.card-settings').removeClass('top bottom left').addClass('right');
+						}
+						currentX = (ui.offset.left/$(".player-container").width())*100;
+						currentY = (ui.offset.top/$(".player-container").height())*100;
 					}
-					currentX = (ui.offset.left/$(".player-container").width())*100;
-					currentY = (ui.offset.top/$(".player-container").height())*100;
-				}
-			});
+				});
+			}
 		}
 	};
-});
+}]);
+
+EditCtrl.filter('secondsToDateTime', [function() {
+    return function(seconds) {
+        return new Date(1970, 0, 1).setSeconds(seconds);
+    };
+}]);
 
 function EditController($scope, $window, $document, $timeout, $http, $routeParams, $location) {
 	

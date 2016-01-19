@@ -201,7 +201,10 @@ body, h1 {
     border-radius: 31px;
     background: black;
     visibility: hidden;
-    cursor: move;
+
+    &.draggable {
+        cursor: move;
+    }
 
     .card-emoji, .card-settings, .card-text {
         cursor: default;
