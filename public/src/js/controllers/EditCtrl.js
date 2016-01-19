@@ -1,10 +1,9 @@
 var EditCtrl = angular.module('EditCtrl', []);
-var player, mouseX, mouseY;
+var player, mouseX, mouseY, timer, tabTimer;
 var cardOpen = false;
 var sidebarState = 0;
 var currentX = 0;
 var currentY = 0;
-var timer;
 
 EditCtrl.directive('isDraggable', function() {
 	return {
@@ -41,6 +40,7 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 				resObj = JSON.parse(response.data[0].data);
 				$scope.video = resObj.video;
 				$scope.cardIndex = resObj.data;
+				$('.sidebar-wrap').addClass('small');
 			}, function(response){
 				console.log(response);
 			});
@@ -80,6 +80,9 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 							} else {
 								$scope.player.playVideo();
 							}
+							setTimeout(function() {
+								$('.sidebar-wrap').removeClass('small');
+							}, 1000);
 						},
 						'onStateChange': $scope.onPlayerStateChange
 					},
@@ -152,17 +155,27 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 	$scope.mouseTracker = function(e) {
 		mouseX = e.pageX;
 		mouseY = e.pageY;
+		$('.sidebar-tab').removeClass('sidebar-tab-hidden');
+		$scope.tabHider();
 	};
 
 	$scope.onPlayerStateChange = function(state) {
 		clearTimeout(timer);
 		if (state.data == 1){
 			$scope.cardCheck();
+			$scope.tabHider();
 
 			if (cardOpen) {
 				$scope.closeCard();
 			}
 		}
+	};
+
+	$scope.tabHider = function() {
+		clearTimeout(tabTimer);
+		tabTimer = setTimeout(function() {
+			$('.sidebar-tab').addClass('sidebar-tab-hidden');
+		}, 2000);
 	};
 
 	$scope.cardCheck = function() {
@@ -276,7 +289,6 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 				$('.current-text').focus();
 			}, 500);
 		}
-		$('.sidebar-wrap').addClass('smaller-hover');
 	};
 
 	$scope.picker = function() {
@@ -295,7 +307,6 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 		window.setTimeout(function() {
 			$('.card').removeClass('bounceIn').addClass('bounceOut');
 			$('.card-settings').css('visibility','hidden');
-			$('.sidebar-wrap').removeClass('smaller-hover');
 			cardOpen = false;
 			$scope.player.playVideo();
 			window.setTimeout(function() {
@@ -350,6 +361,8 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 	};
 
 	$scope.enterSidebar = function() {
+		$('.sidebar-tab .chevron').addClass('chevron-hidden');
+		clearTimeout(tabTimer);
 		if (!cardOpen){
 			$scope.player.pauseVideo();
 		}
@@ -365,7 +378,8 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 	});
 
 	$scope.leaveSidebar = function() {
-
+		$('.sidebar-tab .chevron').removeClass('chevron-hidden');
+		$scope.tabHider();
 		if (!cardOpen && !$(".saveDialog").is(':visible')){
 			$scope.player.playVideo();
 		}
