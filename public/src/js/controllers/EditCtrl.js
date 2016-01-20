@@ -34,10 +34,25 @@ EditCtrl.directive('isDraggable', ['$routeParams', function($routeParams) {
 	};
 }]);
 
+EditCtrl.directive('googleSignInButton', function() {
+	return {
+		scope: {
+			buttonId: '@',
+			options: '&'
+		},
+		template: '<div></div>',
+		link: function(scope, element, attrs) {
+			var div = element.find('div')[0];
+			div.id = attrs.buttonId;
+			gapi.signin2.render(div.id, scope.options()); //render a google button, first argument is an id, second options
+		}
+	};
+});
+
 EditCtrl.filter('secondsToDateTime', [function() {
-    return function(seconds) {
-        return new Date(1970, 0, 1).setSeconds(seconds);
-    };
+	return function(seconds) {
+		return new Date(1970, 0, 1).setSeconds(seconds);
+	};
 }]);
 
 function EditController($scope, $window, $document, $timeout, $http, $routeParams, $location) {

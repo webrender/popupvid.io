@@ -27,6 +27,7 @@
     <div class="sidebar-wrap" ng-mouseover="enterSidebar()" ng-mouseleave="leaveSidebar()">
       <div class="sidebar-tab"><div class="chevron">&laquo;</div></div>
       <div class="sidebar">
+          <google-sign-in-button></google-sign-in-button>
           <div class="sidebar-content" ng-repeat="card in cardIndex">
               <div class="sidebar-card animated fadeIn" ng-click="displayCard(card)">
                 <div class="sidebar-card-emoji" style="background-color: {{card.bg}}">{{card.emoji | colonToCode}}</div>
