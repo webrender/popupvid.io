@@ -27,15 +27,19 @@
     <div class="sidebar-wrap" ng-mouseover="enterSidebar()" ng-mouseleave="leaveSidebar()" ng-click="sidebarClick()">
       <div class="sidebar-tab"><div class="tab-icon">&laquo;</div></div>
       <div class="sidebar">
-          <google-sign-in-button button-id="signin-button" options="{onsuccess:loginSuccess}" ng-hide="userName"></google-sign-in-button>
-          <div ng-show="userAvatar" class="user-panel" ng-click="userMenuClick($event)">
-            <img ng-src="{{userAvatar}}" class="user-avatar" ng-click="showUserMenu()">
-            <div class="user-panel-popup hidden">
-              <img ng-src="{{userAvatar}}" class="user-avatar -larger">
-              <div class="user-avatar-name">{{userName}}</div>
-              <div class="user-avatar-email">{{userEmail}}</div>
-              <button class="btn btn-sm sign-out-button" ng-click="signOut()">Sign Out</button>
+          <div class="user-panel">
+            <input type="text" ng-model="title" class="form-control form-inline form-title">
+            <google-sign-in-button button-id="signin-button" options="{onsuccess:loginSuccess, width: 36}" ng-hide="userName"></google-sign-in-button>
+            <div ng-show="userAvatar" ng-click="userMenuClick($event)">
+              <img ng-src="{{userAvatar}}" class="user-avatar" ng-click="showUserMenu()">
+              <div class="user-panel-popup hidden">
+                <img ng-src="{{userAvatar}}" class="user-avatar -larger">
+                <div class="user-avatar-name">{{userName}}</div>
+                <div class="user-avatar-email">{{userEmail}}</div>
+                <button class="btn btn-sm sign-out-button" ng-click="signOut()">Sign Out</button>
+              </div>
             </div>
+            <div class="clearfix"></div>
           </div>
           <div class="sidebar-content" ng-repeat="card in cardIndex">
               <div class="sidebar-card animated fadeIn" ng-click="displayCard(card)">

@@ -154,6 +154,7 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 	$scope.currentText = '';
 	$scope.selectedEmoji = ':wolf:';
 	$scope.emojiBgColor = '#7bd148';
+	$scope.title = 'Untitled Video';
 	currentX = 0;
 	currentY = 0;
 
@@ -387,7 +388,7 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 	};
 
 	$document.on('keypress', function(event){
-		if ($scope.player && !cardOpen){
+		if ($scope.player && !cardOpen && !$(".form-title").is(':focus')){
 			if ($scope.player.getPlayerState() == 1)
 				$scope.player.pauseVideo();
 			else
@@ -404,6 +405,7 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 	$scope.leaveSidebar = function() {
 		$('.sidebar-tab .tab-icon').removeClass('tab-icon-hidden');
 		$('.user-panel-popup').addClass('hidden');
+		$(".form-title").blur();
 		$scope.tabHider();
 		if (!cardOpen && !$(".saveDialog").is(':visible')){
 			$scope.player.playVideo();

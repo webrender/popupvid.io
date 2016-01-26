@@ -143,10 +143,19 @@ body, h1 {
     }
 
 }
+.form-title { 
+    width: 150px;
+    float: left;
+    background: none;
+    border: none;
+    outline: none;
+    padding: 5px 5px;
+}
 .user-avatar {
     height: 32px;
     width: 32px;
     border-radius: 16px;
+    margin: 2px;
 
     &.-larger {
         height: 96px;
@@ -168,11 +177,14 @@ body, h1 {
 }
 .sign-out-button {
     margin-top: 10px;
+    float: left;
 }
 .user-panel  {
-    float: right;
-    margin: 5px;
+    padding: 5px;
     position: relative;
+    text-align: right;
+    border-bottom: 1px solid rgba(255,255,255,0.8);
+    background-color: rgba(255,255,255, 0.7);
 }
 .user-panel-popup {
     position: absolute;
@@ -201,18 +213,16 @@ body, h1 {
 .hidden {
     display: none;
 }
+.clearfix {
+    clear: both;
+}
 #signin-button {
     display: inline-block;
-    margin: 5px;
     float: right;
 }
 .sidebar {
     background-color: rgba(255,255,255, 0.7);
     height:100%;
-
-    .sidebar-content {
-        padding-top: 50px;
-    }
 
     .sidebar-card {
         vertical-align: top;
@@ -223,10 +233,6 @@ body, h1 {
         overflow: hidden;
         transition: max-height 0.2s;
         cursor: pointer;
-
-        &:first-child {
-            border-top: 1px solid rgba(255,255,255,0.8);
-        }
 
         .sidebar-card-emoji {
             font-size: 26px;
