@@ -24,10 +24,19 @@
             <div class="card-text"><textarea autofocus ng-model="currentText" class="current-text large" ng-readonly="readOnly"></textarea></div>
         </div>
     </div>
-    <div class="sidebar-wrap" ng-mouseover="enterSidebar()" ng-mouseleave="leaveSidebar()">
-      <div class="sidebar-tab"><div class="chevron">&laquo;</div></div>
+    <div class="sidebar-wrap" ng-mouseover="enterSidebar()" ng-mouseleave="leaveSidebar()" ng-click="sidebarClick()">
+      <div class="sidebar-tab"><div class="tab-icon">&laquo;</div></div>
       <div class="sidebar">
-          <google-sign-in-button></google-sign-in-button>
+          <google-sign-in-button button-id="signin-button" options="{onsuccess:loginSuccess}" ng-hide="userName"></google-sign-in-button>
+          <div ng-show="userAvatar" class="user-panel" ng-click="userMenuClick($event)">
+            <img ng-src="{{userAvatar}}" class="user-avatar" ng-click="showUserMenu()">
+            <div class="user-panel-popup hidden">
+              <img ng-src="{{userAvatar}}" class="user-avatar -larger">
+              <div class="user-avatar-name">{{userName}}</div>
+              <div class="user-avatar-email">{{userEmail}}</div>
+              <button class="btn btn-sm sign-out-button" ng-click="signOut()">Sign Out</button>
+            </div>
+          </div>
           <div class="sidebar-content" ng-repeat="card in cardIndex">
               <div class="sidebar-card animated fadeIn" ng-click="displayCard(card)">
                 <div class="sidebar-card-emoji" style="background-color: {{card.bg}}">{{card.emoji | colonToCode}}</div>
@@ -64,7 +73,7 @@
         <h4 class="modal-title">File Saved</h4>
       </div>
       <div class="modal-body">
-        <p>Your popupvid.io has been saved! Share it with others using this link:</p>     
+        <p>Your popupvid.io has been saved! Share it with others using this link:</p>
         <input type="text" ng-model="savedUrl" class="form-control form-inline" readonly>
       </div>
       <div class="modal-footer text-center">

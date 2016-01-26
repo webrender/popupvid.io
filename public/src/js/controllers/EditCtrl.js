@@ -9,7 +9,7 @@ EditCtrl.directive('isDraggable', ['$routeParams', function($routeParams) {
 	return {
 		restrict: 'A',
 		link: function(scope, elm, attrs){
-			if ($routeParams.action === 'v'){ 
+			if ($routeParams.action === 'v'){
 				elm.removeClass('draggable');
 			} else {
 				elm.draggable({
@@ -56,7 +56,7 @@ EditCtrl.filter('secondsToDateTime', [function() {
 }]);
 
 function EditController($scope, $window, $document, $timeout, $http, $routeParams, $location) {
-	
+
 	switch($routeParams.action) {
 		case 'v':
 			$scope.readOnly = true;
@@ -379,7 +379,7 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 	};
 
 	$scope.enterSidebar = function() {
-		$('.sidebar-tab .chevron').addClass('chevron-hidden');
+		$('.sidebar-tab .tab-icon').addClass('tab-icon-hidden');
 		clearTimeout(tabTimer);
 		if (!cardOpen){
 			$scope.player.pauseVideo();
@@ -395,12 +395,35 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 		}
 	});
 
+	$scope.loginSuccess = function(obj) {
+		$scope.userName = obj.getBasicProfile().getName();
+		$scope.userAvatar = obj.getBasicProfile().getImageUrl();
+		$scope.userEmail = obj.getBasicProfile().getEmail();
+	};
+
 	$scope.leaveSidebar = function() {
-		$('.sidebar-tab .chevron').removeClass('chevron-hidden');
+		$('.sidebar-tab .tab-icon').removeClass('tab-icon-hidden');
+		$('.user-panel-popup').addClass('hidden');
 		$scope.tabHider();
 		if (!cardOpen && !$(".saveDialog").is(':visible')){
 			$scope.player.playVideo();
 		}
+	};
+
+	$scope.showUserMenu = function() {
+		$('.user-panel-popup').toggleClass('hidden');
+	};
+	$scope.sidebarClick = function() {
+		$('.user-panel-popup').addClass('hidden');
+	};
+	$scope.userMenuClick = function(e) {
+		e.stopPropagation();
+	};
+
+	$scope.signOut = function() {
+		$scope.userName = $scope.userAvatar = $scope.userEmail = '';
+		auth2 = gapi.auth2.getAuthInstance();
+		auth2.signOut();
 	};
 
 	$scope.$watch('currentText', function(data) {
@@ -440,7 +463,7 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 	};
 
 	$('.saveDialog').on('hidden.bs.modal', function (e) {
-		if ($routeParams.action == 'n'){ 
+		if ($routeParams.action == 'n'){
 			$location.path('/e/' + $scope.editId);
 		}
 	});
