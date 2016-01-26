@@ -24,7 +24,7 @@
             <div class="card-text"><textarea autofocus ng-model="currentText" class="current-text large" ng-readonly="readOnly"></textarea></div>
         </div>
     </div>
-    <div class="sidebar-wrap" ng-mouseover="enterSidebar()" ng-mouseleave="leaveSidebar()" ng-click="sidebarClick()">
+    <div class="sidebar-wrap" ng-click="sidebarClick()">
       <div class="sidebar-tab"><div class="tab-icon">&laquo;</div></div>
       <div class="sidebar">
           <div class="user-panel">
@@ -36,6 +36,7 @@
                 <img ng-src="{{userAvatar}}" class="user-avatar -larger">
                 <div class="user-avatar-name">{{userName}}</div>
                 <div class="user-avatar-email">{{userEmail}}</div>
+                <div class="user-videos"><a href="#">My Videos</a></div>
                 <button class="btn btn-sm sign-out-button" ng-click="signOut()">Sign Out</button>
               </div>
             </div>

@@ -96,16 +96,8 @@ body, h1 {
         }
     }
 
-    .btn-save {
-        display: none;
-    }
-
-    &:hover {
+    &:hover, &.open {
     transform: translateX(0px);
-
-        .btn-save {
-            display: block;
-        }
 
         .sidebar-card:hover {
             max-height: 100px;
@@ -131,25 +123,35 @@ body, h1 {
 
     &.sidebar-tab-hidden {
         opacity: 0;
+
+        .open &, .sidebar-wrap:hover & {
+            opacity: 1;
+        }
     }
 
     .tab-icon {
         opacity: 1;
         transition: opacity 0.2s ease-in-out;
 
-        &.tab-icon-hidden {
+        &.tab-icon-hidden, .open &, .sidebar-wrap:hover & {
             opacity: 0;
         }
     }
 
 }
-.form-title { 
+.form-control.form-title {
     width: 150px;
     float: left;
     background: none;
     border: none;
     outline: none;
     padding: 5px 5px;
+
+    &:focus {
+        outline: none;
+        border: none;
+        box-shadow: none;
+    }
 }
 .user-avatar {
     height: 32px;
@@ -174,6 +176,13 @@ body, h1 {
     float: left;
     font-size: 12px;
     line-height: 10px;
+}
+.user-videos {
+    float: left;
+    font-size: 12px;
+    margin-top: 9px;
+    width: 100px;
+    text-align: left;
 }
 .sign-out-button {
     margin-top: 10px;

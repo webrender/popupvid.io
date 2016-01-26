@@ -182,13 +182,16 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 
 	$scope.onPlayerStateChange = function(state) {
 		clearTimeout(timer);
-		if (state.data == 1){
+		if (state.data == 1){  // playing
+			$scope.leaveSidebar();
 			$scope.cardCheck();
 			$scope.tabHider();
 
 			if (cardOpen) {
 				$scope.closeCard();
 			}
+		} else if (state.data == 2 && !$scope.suppressSidebar) {  // paused
+			$scope.enterSidebar();
 		}
 	};
 
@@ -233,18 +236,20 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 	};
 
 	$scope.pause = function() {
-		if ($scope.player.getPlayerState() == 1) {
-			$scope.player.pauseVideo();
-			if (!$scope.readOnly){
+		if ($scope.player.getPlayerState() == 1) { // video playing
+			if (!$scope.readOnly){ // we're in edit mode - not view mode
+				$scope.suppressSidebar = true;
+				$scope.player.pauseVideo();
 				$scope.displayCard();
+			} else {
+				$scope.player.pauseVideo();
 			}
-		}
-		if ($scope.player.getPlayerState() == 2) {
+		} else if ($scope.player.getPlayerState() == 2) { // video paused
 			if ($scope.readOnly) {
 				$scope.player.playVideo();
 			} else {
 				if (cardOpen){
-				$scope.closeCard();
+					$scope.closeCard();
 				} else {
 					$scope.displayCard();
 				}
@@ -256,6 +261,7 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 		if (card){
 			$scope.currentTime = card.time;
 			$scope.player.seekTo(card.time);
+			$scope.suppressSidebar = true;
 			$scope.player.pauseVideo();
 			$scope.currentText = card.text;
 			$scope.selectedEmoji = card.emoji;
@@ -327,6 +333,7 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 			$('.card').removeClass('bounceIn').addClass('bounceOut');
 			$('.card-settings').css('visibility','hidden');
 			cardOpen = false;
+			$scope.suppressSidebar = false;
 			$scope.player.playVideo();
 			window.setTimeout(function() {
 				$scope.currentText = '';
@@ -381,10 +388,22 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 
 	$scope.enterSidebar = function() {
 		$('.sidebar-tab .tab-icon').addClass('tab-icon-hidden');
-		clearTimeout(tabTimer);
-		if (!cardOpen){
-			$scope.player.pauseVideo();
-		}
+		$('.sidebar-wrap').addClass('open');
+		//	clearTimeout(tabTimer);
+		//	if (!cardOpen){
+		//		$scope.player.pauseVideo();
+		//	}
+	};
+
+	$scope.leaveSidebar = function() {
+		$('.sidebar-tab .tab-icon').removeClass('tab-icon-hidden');
+		$('.sidebar-wrap').removeClass('open');
+		$('.user-panel-popup').addClass('hidden');
+		$(".form-title").blur();
+		$scope.tabHider();
+		//	if (!cardOpen && !$(".saveDialog").is(':visible')){
+		//		$scope.player.playVideo();
+		//	}
 	};
 
 	$document.on('keypress', function(event){
@@ -400,16 +419,6 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 		$scope.userName = obj.getBasicProfile().getName();
 		$scope.userAvatar = obj.getBasicProfile().getImageUrl();
 		$scope.userEmail = obj.getBasicProfile().getEmail();
-	};
-
-	$scope.leaveSidebar = function() {
-		$('.sidebar-tab .tab-icon').removeClass('tab-icon-hidden');
-		$('.user-panel-popup').addClass('hidden');
-		$(".form-title").blur();
-		$scope.tabHider();
-		if (!cardOpen && !$(".saveDialog").is(':visible')){
-			$scope.player.playVideo();
-		}
 	};
 
 	$scope.showUserMenu = function() {
