@@ -61,9 +61,11 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 		case 'v':
 			$scope.readOnly = true;
 			$http.get('/api/load/' + $routeParams.videoid).then(function(response) {
-				resObj = JSON.parse(response.data[0].data);
+				resObj = response.data[0];
+				console.log(resObj);
 				$scope.video = resObj.video;
-				$scope.cardIndex = resObj.data;
+				$scope.cardIndex = JSON.parse(resObj.data);
+				$scope.title = resObj.title;
 				$('.sidebar-wrap').addClass('large');
 			});
 			break;
@@ -419,6 +421,7 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 		$scope.userName = obj.getBasicProfile().getName();
 		$scope.userAvatar = obj.getBasicProfile().getImageUrl();
 		$scope.userEmail = obj.getBasicProfile().getEmail();
+		$scope.authToken = gapi.auth2.getAuthInstance().currentUser.get().getAuthResponse().id_token;
 	};
 
 	$scope.showUserMenu = function() {
@@ -455,6 +458,9 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 		$scope.player.pauseVideo();
 		var data = {
 			video: $scope.video,
+			username: $scope.userEmail,
+			token: $scope.authToken,
+			title: $scope.title,
 			data: $scope.cardIndex
 		};
 		if ($routeParams.action === 'n') {
