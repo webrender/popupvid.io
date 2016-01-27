@@ -2,18 +2,6 @@ var Entry = require('./models/entry');
 var shortId = require('shortid');
 var request = require('request');
 
-var authCheck = function(username, token) {
-    request('https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=' + token, function(error, response, body){
-        if (!error && response.statusCode ==200){
-            parsedBody = JSON.parse(body);
-            if (body.email === username){
-                return true;
-            }
-            return false;
-        }
-    });
-};
-
 module.exports = function(app) {
 
 	// server routes
@@ -37,14 +25,27 @@ module.exports = function(app) {
         });
     });
 
-    // save
-    // save/:id
-    // edit/:id
-    // auth
+    app.post('/api/save', function(req, res, next){
+        if (req.body.username){
+            request('https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=' + req.body.token, function(error, response, body){
+                if (!error && response.statusCode ==200){
+                    parsedBody = JSON.parse(body);
+                    if (parsedBody.email === req.body.username){
+                        next();
+                    } else {
+                        res.send(403);
+                    }
+                } else {
+                    res.send(500);
+                }
+            });
+        } else {
+            res.send(401);
+        }
+        
+    });
 
     app.post('/api/save', function(req, res){
-
-        console.log(authCheck(req.body.username, req.body.token));
 
     	var slug = shortId.generate();
 
@@ -61,6 +62,36 @@ module.exports = function(app) {
     		res.send(slug);
     	});
 
+    });
+
+    app.post('/api/save/:id', function(req, res, next){
+        if (req.body.username){
+            request('https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=' + req.body.token, function(error, response, body){
+                if (!error && response.statusCode == 200){
+                    parsedBody = JSON.parse(body);
+                    console.log(parsedBody.email);
+                    console.log(req.body.username);
+                    if (parsedBody.email === req.body.username){
+                        next();
+                    } else {
+                        res.send(403);
+                    }
+                } else {
+                    res.send(500);
+                }
+            });
+        } else {
+            res.send(401);
+        } 
+    });
+
+    app.post('/api/save/:id', function(req, res, next){
+        entry.find({ 'slug': req.params.id }, function (err, docs) {
+            console.log('---------SAVE CHECK----------');
+            console.log(docs);
+            console.log('---------SAVE CHECK----------');
+          // docs is an array
+        });
     });
 
     app.post('/api/save/:id', function(req, res){

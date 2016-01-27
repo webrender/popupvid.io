@@ -62,7 +62,6 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 			$scope.readOnly = true;
 			$http.get('/api/load/' + $routeParams.videoid).then(function(response) {
 				resObj = response.data[0];
-				console.log(resObj);
 				$scope.video = resObj.video;
 				$scope.cardIndex = JSON.parse(resObj.data);
 				$scope.title = resObj.title;
@@ -71,9 +70,10 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 			break;
 		case 'e':
 			$http.get('/api/load/' + $routeParams.videoid).then(function(response) {
-				resObj = JSON.parse(response.data[0].data);
+				resObj = response.data[0];
 				$scope.video = resObj.video;
-				$scope.cardIndex = resObj.data;
+				$scope.cardIndex = JSON.parse(resObj.data);
+				$scope.title = resObj.title;
 			});
 			break;
 		case 'n':
