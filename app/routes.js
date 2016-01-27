@@ -25,6 +25,7 @@ module.exports = function(app) {
         });
     });
 
+    // Check for valid token
     app.post('/api/save', function(req, res, next){
         if (req.body.username){
             request('https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=' + req.body.token, function(error, response, body){
@@ -45,6 +46,7 @@ module.exports = function(app) {
         
     });
 
+    // Save new video
     app.post('/api/save', function(req, res){
 
     	var slug = shortId.generate();
@@ -64,13 +66,12 @@ module.exports = function(app) {
 
     });
 
+    // Check for valid token
     app.post('/api/save/:id', function(req, res, next){
         if (req.body.username){
             request('https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=' + req.body.token, function(error, response, body){
                 if (!error && response.statusCode == 200){
                     parsedBody = JSON.parse(body);
-                    console.log(parsedBody.email);
-                    console.log(req.body.username);
                     if (parsedBody.email === req.body.username){
                         next();
                     } else {
@@ -85,28 +86,33 @@ module.exports = function(app) {
         } 
     });
 
+    // Check that logged in user is owner of video
     app.post('/api/save/:id', function(req, res, next){
-        entry.find({ 'slug': req.params.id }, function (err, docs) {
-            console.log('---------SAVE CHECK----------');
-            console.log(docs);
-            console.log('---------SAVE CHECK----------');
-          // docs is an array
+        Entry.find({ 'slug': req.params.id }, function (err, docs) {
+            if (docs[0]) {
+                if (docs[0].username === req.body.username) {
+                    next();
+                } else {
+                    res.send(403);
+                }
+            } else {
+                res.send(404);
+            }
         });
     });
 
+    // Save existing video
     app.post('/api/save/:id', function(req, res){
 
-        console.log(res.body);
-
         var slug = req.params.id;
-
         var query = {slug: slug};
-        //
+        
         Entry.update({
             slug: slug
         }, {
             $set: {
-                data: JSON.stringify(req.body)
+                data: JSON.stringify(req.body.data),
+                title: req.body.title
             }
         }, function() {
             res.send(slug);
