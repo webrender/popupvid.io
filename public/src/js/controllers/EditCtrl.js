@@ -111,7 +111,8 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 						'showinfo': 0,
 						'rel': 0,
 						'disablekb': 1,
-						'iv_load_policy': 3
+						'iv_load_policy': 3,
+						'origin': 'http://' + document.location.hostname
 					}
 				});
 			} else {
@@ -140,7 +141,8 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 							'showinfo': 0,
 							'rel': 0,
 							'disablekb': 1,
-							'iv_load_policy': 3
+							'iv_load_policy': 3,
+							'origin': 'http://' + document.location.hostname
 						}
 					});
 				};
