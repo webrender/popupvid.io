@@ -238,7 +238,8 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 	};
 
 	$scope.pause = function() {
-		if ($scope.player.getPlayerState() == 1) { // video playing
+		var playerState = $scope.player.getPlayerState();
+		if (playerState == 1) { // video playing
 			if (!$scope.readOnly){ // we're in edit mode - not view mode
 				$scope.suppressSidebar = true;
 				$scope.player.pauseVideo();
@@ -246,7 +247,7 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 			} else {
 				$scope.player.pauseVideo();
 			}
-		} else if ($scope.player.getPlayerState() == 2) { // video paused
+		} else if (playerState == 2) { // video paused
 			if ($scope.readOnly) {
 				$scope.player.playVideo();
 			} else {
@@ -256,6 +257,8 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 					$scope.displayCard();
 				}
 			}
+		} else if (playerState === 0) { // video ended
+			$scope.player.playVideo();
 		}
 	};
 
