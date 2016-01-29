@@ -24,7 +24,7 @@
             <div class="card-text"><textarea autofocus ng-model="currentText" class="current-text large" ng-readonly="readOnly"></textarea></div>
         </div>
     </div>
-    <div class="sidebar-wrap" ng-click="sidebarClick()">
+    <div class="sidebar-wrap" ng-click="hideUserPanel()" ng-mouseleave="hideUserPanel()">
       <div class="sidebar-tab"><div class="tab-icon">&laquo;</div></div>
       <div class="sidebar">
           <div class="user-panel">
@@ -67,6 +67,26 @@
       </div>
       <div class="modal-footer text-center">
         <button type="button" class="btn btn-success" data-dismiss="modal">Ok, got it!</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade save" class="save" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+          <span class="sr-only">Close</span>
+        </button>
+        <h4 class="modal-title">Login to Save</h4>
+      </div>
+      <div class="modal-body">
+        You're not currently logged in.  Would you like to login and save your video, or post it anonymously? <strong>You will not be able to edit an anonymously posted video after saving.</strong>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" ng-click="saveAnonymously()">Post Anonymously</button>
+        <google-sign-in-button button-id="save-signin-button" options="{onsuccess:loginAndSave, theme:'dark', longtitle: true, width: 175}"></google-sign-in-button>
       </div>
     </div>
   </div>

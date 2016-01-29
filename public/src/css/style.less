@@ -7,7 +7,8 @@ body {
     overflow-x: hidden;
 }
 body, h1 {
-    font-family: 'Varela Round', sans-serif;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 300;
 }
 
 // HOMEPAGE
@@ -197,13 +198,14 @@ body, h1 {
 }
 .user-panel-popup {
     position: absolute;
-    right: 1px;
-    top: 45px;
+    right: 9px;
+    top: 52px;
     background: white;
     padding: 10px;
     width: 300px;
     border-radius: 2px;
     border: 1px solid #ccc;
+    z-index: 20;
 
     &:after {
         content: '';
@@ -228,6 +230,20 @@ body, h1 {
 #signin-button {
     display: inline-block;
     float: right;
+}
+#save-signin-button {
+    display: inline-block;
+    float: right;
+    margin-left: 10px;
+
+    .abcRioButton {
+        border-radius: 5px;
+
+        .abcRioButtonIcon {
+            padding: 5px !important;
+            margin: 3px;
+        }
+    }
 }
 .sidebar {
     background-color: rgba(255,255,255, 0.7);
@@ -278,7 +294,7 @@ body, h1 {
 // CARD
 .card {
     position: absolute;
-    z-index: 12;
+    z-index: 20;
     height: 62px;
     width: 300px;
     top: 0px;
@@ -317,7 +333,7 @@ body, h1 {
     }
 
     .card-text {
-        font-family: 'Varela Round', sans-serif;
+        font-family: 'Nunito', sans-serif;
         overflow: hidden;
         background: black;
         color: white;
@@ -435,8 +451,8 @@ body, h1 {
         height: 50px;
 
         &.large {
-            font-size: 44px;
-            line-height: 44px;
+            font-size: 42px;
+            line-height: 42px;
         }
 
         &.medium {
@@ -445,8 +461,10 @@ body, h1 {
         }
 
         &.small {
-            font-size: 12px;
-            line-height: 13px;
+            font-size: 15px;
+            line-height: 14
+            px;
+            font-weight: 300;
         }
     }
 

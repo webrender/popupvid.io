@@ -424,11 +424,20 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 		$scope.authToken = gapi.auth2.getAuthInstance().currentUser.get().getAuthResponse().id_token;
 		$cookies.put('authToken', $scope.authToken);
 	};
+	$scope.loginAndSave = function(obj) {
+		$scope.userName = obj.getBasicProfile().getName();
+		$scope.userAvatar = obj.getBasicProfile().getImageUrl();
+		$scope.userEmail = obj.getBasicProfile().getEmail();
+		$scope.authToken = gapi.auth2.getAuthInstance().currentUser.get().getAuthResponse().id_token;
+		$cookies.put('authToken', $scope.authToken);
+		$('.save').modal('hide');
+		$scope.save();
+	};
 
 	$scope.showUserMenu = function() {
 		$('.user-panel-popup').toggleClass('hidden');
 	};
-	$scope.sidebarClick = function() {
+	$scope.hideUserPanel = function() {
 		$('.user-panel-popup').addClass('hidden');
 	};
 	$scope.userMenuClick = function(e) {
@@ -436,9 +445,11 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 	};
 
 	$scope.signOut = function() {
-		$scope.userName = $scope.userAvatar = $scope.userEmail = '';
+		$scope.userName = $scope.userAvatar = $scope.userEmail = $scope.userName = $scope.authToken = false;
+		$cookies.remove('authToken');
 		auth2 = gapi.auth2.getAuthInstance();
 		auth2.signOut();
+
 	};
 
 	$scope.$watch('currentText', function(data) {
@@ -455,15 +466,36 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 		}
 	});
 
-	$scope.save = function() {
+	$scope.saveAnonymously = function() {
+		$scope.save(true);
+	};
+
+	$scope.save = function(anonymous) {
 		$scope.player.pauseVideo();
-		var data = {
-			video: $scope.video,
-			username: $scope.userEmail,
-			token: $scope.authToken,
-			title: $scope.title,
-			data: $scope.cardIndex
-		};
+		var data;
+		if (anonymous) {
+			data = {
+				video: $scope.video,
+				username: 'Anonymous',
+				title: $scope.title,
+				data: $scope.cardIndex
+			};
+		} else {
+			if ($scope.authToken) {
+				console.log($scope.authToken);
+				data = {
+					video: $scope.video,
+					username: $scope.userEmail,
+					token: $scope.authToken,
+					title: $scope.title,
+					data: $scope.cardIndex
+				};
+			} else {
+				$('.save').modal('show');
+				return;
+			}	
+		}
+		
 		if ($routeParams.action === 'n') {
 			$http.post('/api/save', data).then(function(response) {
 				$scope.savedUrl = $window.location.origin + '/v/' + response.data;

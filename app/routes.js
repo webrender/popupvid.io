@@ -28,7 +28,7 @@ module.exports = function(app) {
 
     // Check for valid token
     app.post('/api/save', function(req, res, next){
-        if (req.body.username){
+        if (req.body.token){
             request('https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=' + req.body.token, function(error, response, body){
                 if (!error && response.statusCode ==200){
                     parsedBody = JSON.parse(body);
@@ -42,7 +42,7 @@ module.exports = function(app) {
                 }
             });
         } else {
-            res.send(401);
+            next();
         }
     });
 
