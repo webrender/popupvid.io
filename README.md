@@ -5,9 +5,9 @@
 2. Install npm modules: `npm install`
 3. Install bower dependencies `bower install`
 4. Install mongodb: 
-	a. `brew install mongodb`
-	b. Setup mongodb folder: `sudo mkdir -p /data/db`
-	c. Set permissions on folder: ``sudo chown `whoami` /data/db``
-	d. Start mongodb server: `mongod`
+  1. `brew install mongodb`
+  2. Setup mongodb folder: `sudo mkdir -p /data/db`
+  3. Set permissions on folder: ``sudo chown `whoami` /data/db``
+  4. Start mongodb server: `mongod`
 5. Start up the server: `grunt`
 6. View in browser at http://localhost:8080
