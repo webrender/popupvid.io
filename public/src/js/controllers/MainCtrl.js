@@ -22,8 +22,6 @@ MainCtrl.directive('urlInput', ['$window', function($window) {
 
 function MainController($scope) {
 
-	$scope.url = "https://www.youtube.com/watch?v=HtDgUHw0IJA";
-
 }
 
 MainCtrl.controller("MainController", ["$scope", MainController]);

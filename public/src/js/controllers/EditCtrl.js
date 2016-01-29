@@ -92,7 +92,6 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 					events: {
 						'onReady': function(event){
 							$('.player-container').show();
-							$scope.player.mute();
 							$('.editor').css({
 								'visibility': 'visible',
 								'opacity': '1'
@@ -125,7 +124,6 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 						events: {
 							'onReady': function(event){
 								$('.player-container').show();
-								$scope.player.mute();
 								$('.editor').css({
 									'visibility': 'visible',
 									'opacity': '1'
