@@ -1,6 +1,7 @@
 var Entry = require('./models/entry');
 var shortId = require('shortid');
 var request = require('request');
+var cookieParser = require('cookie-parser');
 
 module.exports = function(app) {
 
@@ -10,7 +11,7 @@ module.exports = function(app) {
 	// authentication routes
 
 
-
+    app.use(cookieParser());
 
     app.get('/api/load/:id', function(req, res) {
         // use mongoose to get all nerds in the database
@@ -43,7 +44,6 @@ module.exports = function(app) {
         } else {
             res.send(401);
         }
-        
     });
 
     // Save new video
@@ -121,10 +121,37 @@ module.exports = function(app) {
 
     });
 
+    app.get('/e/:id', function(req, res, next){
+        
+        if (req.cookies.authToken){
+            request('https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=' + req.cookies.authToken, function(error, response, body){
+                if (!error && response.statusCode == 200){
+                    var parsedBody = JSON.parse(body);
+                    Entry.find({ 'slug': req.params.id }, function (err, docs) {
+                        if (docs[0]) {
+                            if (docs[0].username === parsedBody.email) {
+                                next();
+                            } else {
+                                res.redirect('/v/' + req.params.id);
+                            }
+                        } else {
+                            res.redirect('/v/' + req.params.id);
+                        }
+                    });
+                } else {
+                    res.redirect('/v/' + req.params.id);
+                }
+            });
+        } else {
+            res.redirect('/v/' + req.params.id);
+        }
+    });
+
 	// frontend routes
 	// =========================================================
 	// route to handle all angular requests
 	app.get('*', function(req, res) {
+
 		res.sendfile('./public/dist/views/index.html');
 	});
 

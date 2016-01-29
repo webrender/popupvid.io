@@ -1,4 +1,4 @@
-var EditCtrl = angular.module('EditCtrl', []);
+var EditCtrl = angular.module('EditCtrl', ['ngCookies']);
 var player, mouseX, mouseY, timer, tabTimer;
 var cardOpen = false;
 var sidebarState = 0;
@@ -55,7 +55,7 @@ EditCtrl.filter('secondsToDateTime', [function() {
 	};
 }]);
 
-function EditController($scope, $window, $document, $timeout, $http, $routeParams, $location) {
+function EditController($scope, $window, $document, $timeout, $http, $routeParams, $location, $cookies) {
 
 	switch($routeParams.action) {
 		case 'v':
@@ -422,6 +422,7 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 		$scope.userAvatar = obj.getBasicProfile().getImageUrl();
 		$scope.userEmail = obj.getBasicProfile().getEmail();
 		$scope.authToken = gapi.auth2.getAuthInstance().currentUser.get().getAuthResponse().id_token;
+		$cookies.put('authToken', $scope.authToken);
 	};
 
 	$scope.showUserMenu = function() {
@@ -487,4 +488,4 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 
 }
 
-EditCtrl.controller("EditController", ["$scope", "$window", "$document", "$timeout", "$http", "$routeParams", "$location", EditController]);
+EditCtrl.controller("EditController", ["$scope", "$window", "$document", "$timeout", "$http", "$routeParams", "$location", "$cookies", EditController]);
