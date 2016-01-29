@@ -86,7 +86,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal" ng-click="saveAnonymously()">Post Anonymously</button>
-        <google-sign-in-button button-id="save-signin-button" options="{onsuccess:loginAndSave, theme:'dark', longtitle: true, width: 175}"></google-sign-in-button>
+        <google-sign-in-button button-id="save-signin-button" options="{onsuccess:loginSuccess, theme:'dark', longtitle: true, width: 175}" ng-click="saveAfter()"></google-sign-in-button>
       </div>
     </div>
   </div>
