@@ -55,18 +55,12 @@
 <div class="modal fade intro" class="intro" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-          <span class="sr-only">Close</span>
-        </button>
-        <h4 class="modal-title">Popupvid.io Editor</h4>
-      </div>
       <div class="modal-body">
-        Welcome to the editor. Click anywhere within the video to pause and insert a comment. The sidebar on the right will allow you to review your comments and save your edit.
+        <img src="dist/img/intro.png">
       </div>
       <div class="modal-footer text-center">
-        <button type="button" class="btn btn-success" data-dismiss="modal">Ok, got it!</button>
+        <button type="button" class="btn btn-success" data-dismiss="modal">Ok, let's go!</button>
+        <div style="font-size: 10px; padding-top:2px;"><input type="checkbox" ng-model="dismissIntro">Don't show this again</div>
       </div>
     </div>
   </div>

@@ -111,7 +111,7 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 								'visibility': 'visible',
 								'opacity': '1'
 							});
-							if ($scope.mode != 'v') {
+							if ($scope.mode != 'v' && $cookies.get('noIntro') != 'true') {
 								$('.intro').modal('show');
 							} else {
 								$scope.player.playVideo();
@@ -144,7 +144,7 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 									'visibility': 'visible',
 									'opacity': '1'
 								});
-								if ($scope.mode != 'v') {
+								if ($scope.mode != 'v' && $cookies.get('noIntro') != 'true') {
 									$('.intro').modal('show');
 								} else {
 									$scope.player.playVideo();
@@ -177,6 +177,7 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 	$scope.emojiBgColor = '#7bd148';
 	$scope.title = 'Untitled Video';
 	$scope.saveAfterLogin = false;
+	$scope.dismissIntro = false;
 	currentX = 0;
 	currentY = 0;
 
@@ -188,6 +189,9 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 	w.bind('resize', $scope.resizeEvent());
 
 	$('.intro').on('hidden.bs.modal', function (e) {
+		if ($scope.dismissIntro){
+			$cookies.put('noIntro', 'true');
+		}
 		$scope.player.playVideo();
 	});
 

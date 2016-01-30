@@ -51,6 +51,10 @@ module.exports = function(grunt) {
       views: {
         files: ['public/src/views/**.*'],
         tasks: ['copy:views']
+      },
+      images: {
+        files: ['public/src/img/**.*'],
+        tasks: ['copy:images']
       }
     },
 
@@ -79,6 +83,14 @@ module.exports = function(grunt) {
           cwd: 'public/src/views/',
           src: ['**'],
           dest: 'public/dist/views/'
+        }]
+      },
+      images: {
+        files: [{
+          expand: true,
+          cwd: 'public/src/img/',
+          src: ['**'],
+          dest: 'public/dist/img/'
         }]
       }
     }
