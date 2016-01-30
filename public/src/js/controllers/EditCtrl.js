@@ -49,8 +49,10 @@ EditCtrl.filter('secondsToDateTime', [function() {
 function EditController($scope, $window, $document, $timeout, $http, $routeParams, $location, $cookies, $ngSilentLocation) {
 
 	$window.loadButtons = function() {
-		gapi.signin2.render('signin-button', {onsuccess:'login', width: 36});
-		gapi.signin2.render('save-signin-button', {onsuccess:'login', theme:'dark', longtitle: true, width: 175});
+		$timeout(function() {
+			gapi.signin2.render('signin-button', {onsuccess:'login', width: 36});
+			gapi.signin2.render('save-signin-button', {onsuccess:'login', theme:'dark', longtitle: true, width: 175});
+		});	
 	};
 
 	$window.loginSuccess = function(obj) {
