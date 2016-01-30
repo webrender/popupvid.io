@@ -4,6 +4,12 @@ var cardOpen = false;
 var sidebarState = 0;
 var currentX = 0;
 var currentY = 0;
+var init = function() {
+	window.loadButtons();
+};
+var login = function(obj) {
+	window.loginSuccess(obj);
+};
 
 EditCtrl.directive('isDraggable', ['$routeParams', function($routeParams) {
 	return {
@@ -34,26 +40,6 @@ EditCtrl.directive('isDraggable', ['$routeParams', function($routeParams) {
 	};
 }]);
 
-EditCtrl.directive('googleSignInButton', ['$timeout', function($timeout) {
-	return {
-		scope: {
-			buttonId: '@',
-			options: '&'
-		},
-		template: '<div></div>',
-		link: function(scope, element, attrs) {
-			var div = element.find('div')[0];
-			div.id = attrs.buttonId;
-			if (gapi) {
-				gapi.signin2.render(div.id, scope.options()); //render a google button, first argument is an id, second options
-			} else {
-				$timeout(function() {
-					gapi.signin2.render(div.id, scope.options());
-				});
-			}
-		}
-	};
-}]);
 EditCtrl.filter('secondsToDateTime', [function() {
 	return function(seconds) {
 		return new Date(1970, 0, 1).setSeconds(seconds);
@@ -61,6 +47,25 @@ EditCtrl.filter('secondsToDateTime', [function() {
 }]);
 
 function EditController($scope, $window, $document, $timeout, $http, $routeParams, $location, $cookies) {
+
+	$window.loadButtons = function() {
+		gapi.signin2.render('signin-button', {onsuccess:'login', width: 36});
+		gapi.signin2.render('save-signin-button', {onsuccess:'login', theme:'dark', longtitle: true, width: 175});
+	};
+
+	$window.loginSuccess = function(obj) {
+		console.log('loginSuccess');
+		$scope.userName = obj.getBasicProfile().getName();
+		$scope.userAvatar = obj.getBasicProfile().getImageUrl();
+		$scope.userEmail = obj.getBasicProfile().getEmail();
+		$scope.authToken = gapi.auth2.getAuthInstance().currentUser.get().getAuthResponse().id_token;
+		$cookies.put('authToken', $scope.authToken);
+		if ($scope.saveAfterLogin) {
+			$('.save').modal('hide').on('hidden.bs.modal', function() {
+				$scope.save();				
+			});
+		}
+	};
 
 	switch($routeParams.action) {
 		case 'v':
@@ -438,19 +443,6 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 		$scope.saveAfterLogin = true;
 	};
 
-	$scope.loginSuccess = function(obj) {
-		$scope.userName = obj.getBasicProfile().getName();
-		$scope.userAvatar = obj.getBasicProfile().getImageUrl();
-		$scope.userEmail = obj.getBasicProfile().getEmail();
-		$scope.authToken = gapi.auth2.getAuthInstance().currentUser.get().getAuthResponse().id_token;
-		$cookies.put('authToken', $scope.authToken);
-		if ($scope.saveAfterLogin) {
-			$('.save').modal('hide').on('hidden.bs.modal', function() {
-				$scope.save();				
-			});
-		}
-	};
-
 	$scope.showUserMenu = function() {
 		$('.user-panel-popup').toggleClass('hidden');
 	};
@@ -499,7 +491,6 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 			};
 		} else {
 			if ($scope.authToken) {
-				console.log($scope.authToken);
 				data = {
 					video: $scope.video,
 					username: $scope.userEmail,

@@ -21,7 +21,7 @@
                 <textarea id="messageInput"></textarea>
             </div>
             <input type="hidden" class="card-emoji-input"></input>
-            <div class="card-text"><textarea autofocus ng-model="currentText" class="current-text large" ng-readonly="readOnly"></textarea></div>
+            <div class="card-text"><textarea autofocus ng-model="currentText" ng-trim="false" class="current-text large" ng-readonly="readOnly"></textarea></div>
         </div>
     </div>
     <div class="sidebar-wrap" ng-click="hideUserPanel()" ng-mouseleave="hideUserPanel()">
@@ -29,7 +29,7 @@
       <div class="sidebar">
           <div class="user-panel">
             <input type="text" ng-model="title" class="form-control form-inline form-title">
-            <google-sign-in-button button-id="signin-button" options="{onsuccess:loginSuccess, width: 36}" ng-hide="userName"></google-sign-in-button>
+            <div id="signin-button" ng-hide="userName"></div>
             <div ng-show="userAvatar" ng-click="userMenuClick($event)">
               <img ng-src="{{userAvatar}}" class="user-avatar" ng-click="showUserMenu()">
               <div class="user-panel-popup hidden">
@@ -86,7 +86,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal" ng-click="saveAnonymously()">Post Anonymously</button>
-        <google-sign-in-button button-id="save-signin-button" options="{onsuccess:loginSuccess, theme:'dark', longtitle: true, width: 175}" ng-click="saveAfter()"></google-sign-in-button>
+        <div id="save-signin-button" ng-click="saveAfter()"></div>
       </div>
     </div>
   </div>

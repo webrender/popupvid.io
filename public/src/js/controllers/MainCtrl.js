@@ -20,8 +20,13 @@ MainCtrl.directive('urlInput', ['$window', function($window) {
 	};
 }]);
 
-function MainController($scope) {
+function MainController($scope, $window) {
+	$window.loadButtons = function() {
 
+	};
+	$window.loginSuccess = function() {
+
+	};
 }
 
-MainCtrl.controller("MainController", ["$scope", MainController]);
+MainCtrl.controller("MainController", ["$scope", "$window", MainController]);
