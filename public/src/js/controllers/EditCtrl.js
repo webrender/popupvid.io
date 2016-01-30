@@ -54,7 +54,6 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 	};
 
 	$window.loginSuccess = function(obj) {
-		console.log('loginSuccess');
 		$scope.userName = obj.getBasicProfile().getName();
 		$scope.userAvatar = obj.getBasicProfile().getImageUrl();
 		$scope.userEmail = obj.getBasicProfile().getEmail();
