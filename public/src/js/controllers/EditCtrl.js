@@ -1,4 +1,4 @@
-var EditCtrl = angular.module('EditCtrl', ['ngCookies']);
+var EditCtrl = angular.module('EditCtrl', ['ngCookies', 'ngSilent', 'ngRoute']);
 var player, mouseX, mouseY, timer, tabTimer;
 var cardOpen = false;
 var sidebarState = 0;
@@ -46,7 +46,7 @@ EditCtrl.filter('secondsToDateTime', [function() {
 	};
 }]);
 
-function EditController($scope, $window, $document, $timeout, $http, $routeParams, $location, $cookies) {
+function EditController($scope, $window, $document, $timeout, $http, $routeParams, $location, $cookies, $ngSilentLocation) {
 
 	$window.loadButtons = function() {
 		gapi.signin2.render('signin-button', {onsuccess:'login', width: 36});
@@ -66,10 +66,12 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 		}
 	};
 
-	switch($routeParams.action) {
+	$scope.mode = $routeParams.action;
+	$scope.videoId = $routeParams.videoid;
+	switch($scope.mode) {
 		case 'v':
 			$scope.readOnly = true;
-			$http.get('/api/load/' + $routeParams.videoid).then(function(response) {
+			$http.get('/api/load/' + $scope.videoId).then(function(response) {
 				resObj = response.data[0];
 				$scope.video = resObj.video;
 				$scope.cardIndex = JSON.parse(resObj.data);
@@ -80,7 +82,7 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 			});
 			break;
 		case 'e':
-			$http.get('/api/load/' + $routeParams.videoid).then(function(response) {
+			$http.get('/api/load/' + $scope.videoId).then(function(response) {
 				resObj = response.data[0];
 				$scope.video = resObj.video;
 				$scope.cardIndex = JSON.parse(resObj.data);
@@ -90,7 +92,7 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 			});
 			break;
 		case 'n':
-			$scope.video = $routeParams.videoid;
+			$scope.video = $scope.videoId;
 			$scope.cardIndex = [];
 			break;
 	}
@@ -109,7 +111,7 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 								'visibility': 'visible',
 								'opacity': '1'
 							});
-							if ($routeParams.action != 'v') {
+							if ($scope.mode != 'v') {
 								$('.intro').modal('show');
 							} else {
 								$scope.player.playVideo();
@@ -142,7 +144,7 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 									'visibility': 'visible',
 									'opacity': '1'
 								});
-								if ($routeParams.action != 'v') {
+								if ($scope.mode != 'v') {
 									$('.intro').modal('show');
 								} else {
 									$scope.player.playVideo();
@@ -503,17 +505,17 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 			}	
 		}
 		
-		if ($routeParams.action === 'n') {
+		if ($scope.mode === 'n') {
 			$http.post('/api/save', data).then(function(response) {
 				$scope.savedUrl = $window.location.origin + '/v/' + response.data;
 				$scope.editUrl = $window.location.origin + '/e/' + response.data;
-				$scope.editId = response.data;
+				$scope.videoId = response.data;
 				$('.saveDialog').modal('show');
 			}, function() {
 				$('.genericError').modal('show');
 			});
 		} else {
-			$http.post('/api/save/' + $routeParams.videoid, data).then(function(response) {
+			$http.post('/api/save/' + $scope.videoId, data).then(function(response) {
 				$scope.savedUrl = $window.location.origin + '/v/' + response.data;
 				$scope.editUrl = $window.location.origin + '/e/' + response.data;
 				$('.saveDialog').modal('show');
@@ -524,11 +526,12 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 	};
 
 	$('.saveDialog').on('hidden.bs.modal', function (e) {
-		if ($routeParams.action == 'n'){
-			$location.path('/e/' + $scope.editId);
+		if ($scope.mode == 'n'){
+			$ngSilentLocation.silent('/e/' + $scope.videoId);
+			$scope.mode = 'e';
 		}
 	});
 
 }
 
-EditCtrl.controller("EditController", ["$scope", "$window", "$document", "$timeout", "$http", "$routeParams", "$location", "$cookies", EditController]);
+EditCtrl.controller("EditController", ["$scope", "$window", "$document", "$timeout", "$http", "$routeParams", "$location", "$cookies", "$ngSilentLocation", EditController]);
