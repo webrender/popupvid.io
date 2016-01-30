@@ -14,15 +14,14 @@ module.exports = function(app) {
     app.use(cookieParser());
 
     app.get('/api/load/:id', function(req, res) {
-        // use mongoose to get all nerds in the database
         Entry.find({slug: req.params.id}, function(err, entries) {
-
-            // if there is an error retrieving, send the error.
-            // nothing after res.send(err) will execute
             if (err)
                 res.send(err);
-
-            res.json(entries); // return all nerds in JSON format
+            if (entries[0]){
+                res.json(entries);
+            } else {
+                res.send(404);
+            }
         });
     });
 

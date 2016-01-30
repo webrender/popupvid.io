@@ -34,7 +34,7 @@ EditCtrl.directive('isDraggable', ['$routeParams', function($routeParams) {
 	};
 }]);
 
-EditCtrl.directive('googleSignInButton', function() {
+EditCtrl.directive('googleSignInButton', ['$timeout', function($timeout) {
 	return {
 		scope: {
 			buttonId: '@',
@@ -44,10 +44,16 @@ EditCtrl.directive('googleSignInButton', function() {
 		link: function(scope, element, attrs) {
 			var div = element.find('div')[0];
 			div.id = attrs.buttonId;
-			gapi.signin2.render(div.id, scope.options()); //render a google button, first argument is an id, second options
+			if (gapi) {
+				gapi.signin2.render(div.id, scope.options()); //render a google button, first argument is an id, second options
+			} else {
+				$timeout(function() {
+					gapi.signin2.render(div.id, scope.options());
+				});
+			}
 		}
 	};
-});
+}]);
 EditCtrl.filter('secondsToDateTime', [function() {
 	return function(seconds) {
 		return new Date(1970, 0, 1).setSeconds(seconds);
@@ -65,6 +71,8 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 				$scope.cardIndex = JSON.parse(resObj.data);
 				$scope.title = resObj.title;
 				$('.sidebar-wrap').addClass('large');
+			}, function() {
+				$('.genericError').modal('show');
 			});
 			break;
 		case 'e':
@@ -73,6 +81,8 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 				$scope.video = resObj.video;
 				$scope.cardIndex = JSON.parse(resObj.data);
 				$scope.title = resObj.title;
+			}, function() {
+				$('.genericError').modal('show');
 			});
 			break;
 		case 'n':
@@ -148,6 +158,10 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 				};
 			}
 		}
+	});
+
+	$scope.$on('$locationChangeStart', function(event, url) {
+		$('.modal-backdrop').remove();
 	});
 
 	$scope.colorList = ['#7bd148','#5484ed','#a4bdfc','#46d6db','#7ae7bf','#51b749','#fbd75b','#ffb878','#ff887c','#dc2127','#dbadff','#e1e1e1', '#ffffff'];
@@ -505,12 +519,16 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 				$scope.editUrl = $window.location.origin + '/e/' + response.data;
 				$scope.editId = response.data;
 				$('.saveDialog').modal('show');
+			}, function() {
+				$('.genericError').modal('show');
 			});
 		} else {
 			$http.post('/api/save/' + $routeParams.videoid, data).then(function(response) {
 				$scope.savedUrl = $window.location.origin + '/v/' + response.data;
 				$scope.editUrl = $window.location.origin + '/e/' + response.data;
 				$('.saveDialog').modal('show');
+			}, function() {
+				$('.genericError').modal('show');
 			});
 		}
 	};

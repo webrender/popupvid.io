@@ -239,20 +239,20 @@ emojiApp.directive('emojiForm', ['$timeout', '$http', '$interpolate','$compile',
             });
         }
 
-        $scope.$on('$destroy', function cleanup()
-        {
+        // $scope.$on('$destroy', function cleanup()
+        // {
 
-            $(document).off('paste', onPasteEvent);
-            $(document).off('keydown', onKeyDown);
-            $(submitBtn).off('mousedown')
-            fileSelects.off('change');
-            if (richTextarea)
-            {
-                $(richTextarea).off('DOMNodeInserted keyup',
-                    onPastedImageEvent);
-            }
-            $(editorElement).off('keydown');
-        });
+        //     $(document).off('paste', onPasteEvent);
+        //     $(document).off('keydown', onKeyDown);
+        //     $(submitBtn).off('mousedown')
+        //     fileSelects.off('change');
+        //     if (richTextarea)
+        //     {
+        //         $(richTextarea).off('DOMNodeInserted keyup',
+        //             onPastedImageEvent);
+        //     }
+        //     $(editorElement).off('keydown');
+        // });
     }
 }]);
 
