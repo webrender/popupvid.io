@@ -144,14 +144,10 @@ body, h1 {
     left: 35px;
     cursor: pointer;
     font-size: 16px;
-    transition: opacity 0.2s ease-in-out;
+    transition: opacity 0.3s ease-in-out;
 
-    &.sidebar-tab-hidden {
+    &.sidebar-tab-hidden, .open &, .sidebar-wrap:hover & {
         opacity: 0;
-
-        .open &, .sidebar-wrap:hover & {
-            opacity: 1;
-        }
     }
 
     .tab-icon {
@@ -170,13 +166,23 @@ body, h1 {
     background: none;
     border: none;
     outline: none;
-    padding: 5px 5px;
+    padding: 0px 5px;
+
+    &.readOnly {
+        padding-top: 6px;
+        padding-bottom: 6px;
+    }
 
     &:focus {
         outline: none;
         border: none;
         box-shadow: none;
     }
+}
+.creator {
+    font-size: 10px;
+    float: left;
+    margin: -5px 0 0 5px;
 }
 .user-avatar {
     height: 32px;
@@ -219,6 +225,16 @@ body, h1 {
     text-align: right;
     border-bottom: 1px solid rgba(255,255,255,0.8);
     background-color: rgba(255,255,255, 0.7);
+    height: 47px;
+
+    .divider {
+        position: absolute;
+        width: 1px;
+        height: 47px;
+        background: rgba(255, 255, 255, 0.7);
+        top: 0;
+        right: 47px;
+    }
 }
 .user-panel-popup {
     position: absolute;
@@ -252,8 +268,8 @@ body, h1 {
     clear: both;
 }
 #signin-button {
-    display: inline-block;
-    float: right;
+    position: absolute;
+    right: 4px;
 }
 #save-signin-button {
     display: inline-block;

@@ -28,7 +28,9 @@
       <div class="sidebar-tab"><div class="tab-icon">&laquo;</div></div>
       <div class="sidebar">
           <div class="user-panel">
-            <input type="text" ng-model="title" class="form-control form-inline form-title">
+            <div class="divider"></div>
+            <input type="text" ng-model="title" class="form-control form-inline form-title" ng-class="{'readOnly': !readOnly}" ng-readonly="readOnly">
+            <div class="creator" ng-show="readOnly">by {{creator}}</div>
             <div id="signin-button" ng-hide="userName"></div>
             <div ng-show="userAvatar" ng-click="userMenuClick($event)">
               <img ng-src="{{userAvatar}}" class="user-avatar" ng-click="showUserMenu()">
@@ -92,8 +94,10 @@
         <h4 class="modal-title">File Saved</h4>
       </div>
       <div class="modal-body">
-        <p>Your popupvid.io has been saved! Share it with others using this link:</p>
-        <input type="text" ng-model="savedUrl" class="form-control form-inline" readonly>
+        <p>Your popupvid.io has been saved! Share it with others using this link:
+        <input type="text" ng-model="savedUrl" class="form-control form-inline" readonly></p>
+        <p>Or embed it using the code below:
+        <input type="text" class="form-control form-inline" value='<iframe width="560" height="315" src="{{savedUrl}}" frameborder="0" allowfullscreen></iframe>' readonly></p>
       </div>
       <div class="modal-footer text-center">
         <a ng-href="{{savedUrl}}" target="_blank"><button type="button" class="btn btn-success">View Video</button></a>

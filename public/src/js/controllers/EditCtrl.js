@@ -82,6 +82,7 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 				$scope.video = resObj.video;
 				$scope.cardIndex = JSON.parse(resObj.data);
 				$scope.title = resObj.title;
+				$scope.creator = resObj.username;
 				$('.sidebar-wrap').addClass('large');
 			}, function() {
 				$('.genericError').modal('show');
