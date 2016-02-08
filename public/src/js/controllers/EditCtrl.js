@@ -56,18 +56,18 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 		$timeout(function() {
 			gapi.signin2.render('signin-button', {onsuccess:'login', width: 36});
 			gapi.signin2.render('save-signin-button', {onsuccess:'login', theme:'dark', longtitle: true, width: 175});
-		});	
+		});
 	};
 
 	$window.loginSuccess = function(obj) {
 		$scope.userName = obj.getBasicProfile().getName();
 		$scope.userAvatar = obj.getBasicProfile().getImageUrl();
-		$scope.userEmail = obj.getBasicProfile().getEmail();
+		$scope.googleId = obj.getBasicProfile().getEmail();
 		$scope.authToken = gapi.auth2.getAuthInstance().currentUser.get().getAuthResponse().id_token;
 		$cookies.put('authToken', $scope.authToken);
 		if ($scope.saveAfterLogin) {
 			$('.save').modal('hide').on('hidden.bs.modal', function() {
-				$scope.save();				
+				$scope.save();
 			});
 		}
 	};
@@ -82,7 +82,7 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 				$scope.video = resObj.video;
 				$scope.cardIndex = JSON.parse(resObj.data);
 				$scope.title = resObj.title;
-				$scope.creator = resObj.username;
+				$scope.creator = resObj.googleId;
 				$('.sidebar-wrap').addClass('large');
 			}, function() {
 				$('.genericError').modal('show');
@@ -118,7 +118,7 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 								'visibility': 'visible',
 								'opacity': '1'
 							});
-							if ($scope.mode != 'v' && $cookies.get('noIntro') != 'true') {
+							if ($scope.mode == 'n' && $cookies.get('noIntro') != 'true') {
 								$('.intro').modal('show');
 							} else {
 								$scope.player.playVideo();
@@ -151,7 +151,7 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 									'visibility': 'visible',
 									'opacity': '1'
 								});
-								if ($scope.mode != 'v' && $cookies.get('noIntro') != 'true') {
+								if ($scope.mode == 'n' && $cookies.get('noIntro') != 'true') {
 									$('.intro').modal('show');
 								} else {
 									$scope.player.playVideo();
@@ -466,7 +466,7 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 	};
 
 	$scope.signOut = function() {
-		$scope.userName = $scope.userAvatar = $scope.userEmail = $scope.userName = $scope.authToken = false;
+		$scope.userName = $scope.userAvatar = $scope.googleId = $scope.authToken = false;
 		$cookies.remove('authToken');
 		auth2 = gapi.auth2.getAuthInstance();
 		auth2.signOut();
@@ -497,7 +497,7 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 		if (anonymous) {
 			data = {
 				video: $scope.video,
-				username: 'Anonymous',
+				googleId: 'Anonymous',
 				title: $scope.title,
 				data: $scope.cardIndex
 			};
@@ -505,7 +505,7 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 			if ($scope.authToken) {
 				data = {
 					video: $scope.video,
-					username: $scope.userEmail,
+					googleId: $scope.googleId,
 					token: $scope.authToken,
 					title: $scope.title,
 					data: $scope.cardIndex
@@ -513,9 +513,9 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 			} else {
 				$('.save').modal('show');
 				return;
-			}	
+			}
 		}
-		
+
 		if ($scope.mode === 'n') {
 			$http.post('/api/save', data).then(function(response) {
 				$scope.savedUrl = $window.location.origin + '/v/' + response.data;

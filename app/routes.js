@@ -31,7 +31,7 @@ module.exports = function(app) {
             request('https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=' + req.body.token, function(error, response, body){
                 if (!error && response.statusCode ==200){
                     parsedBody = JSON.parse(body);
-                    if (parsedBody.email === req.body.username){
+                    if (parsedBody.email === req.body.googleId){
                         next();
                     } else {
                         res.send(403);
@@ -52,7 +52,7 @@ module.exports = function(app) {
 
     	var video = new Entry({
     		slug: slug,
-            username: req.body.username,
+            googleId: req.body.googleId,
             title: req.body.title,
             video: req.body.video,
             data: JSON.stringify(req.body.data)
@@ -67,11 +67,11 @@ module.exports = function(app) {
 
     // Check for valid token
     app.post('/api/save/:id', function(req, res, next){
-        if (req.body.username){
+        if (req.body.googleId){
             request('https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=' + req.body.token, function(error, response, body){
                 if (!error && response.statusCode == 200){
                     parsedBody = JSON.parse(body);
-                    if (parsedBody.email === req.body.username){
+                    if (parsedBody.email === req.body.googleId){
                         next();
                     } else {
                         res.send(403);
@@ -82,14 +82,14 @@ module.exports = function(app) {
             });
         } else {
             res.send(401);
-        } 
+        }
     });
 
     // Check that logged in user is owner of video
     app.post('/api/save/:id', function(req, res, next){
         Entry.find({ 'slug': req.params.id }, function (err, docs) {
             if (docs[0]) {
-                if (docs[0].username === req.body.username) {
+                if (docs[0].googleId === req.body.googleId) {
                     next();
                 } else {
                     res.send(403);
@@ -105,7 +105,7 @@ module.exports = function(app) {
 
         var slug = req.params.id;
         var query = {slug: slug};
-        
+
         Entry.update({
             slug: slug
         }, {
@@ -121,14 +121,14 @@ module.exports = function(app) {
     });
 
     app.get('/e/:id', function(req, res, next){
-        
+
         if (req.cookies.authToken){
             request('https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=' + req.cookies.authToken, function(error, response, body){
                 if (!error && response.statusCode == 200){
                     var parsedBody = JSON.parse(body);
                     Entry.find({ 'slug': req.params.id }, function (err, docs) {
                         if (docs[0]) {
-                            if (docs[0].username === parsedBody.email) {
+                            if (docs[0].googleId === parsedBody.email) {
                                 next();
                             } else {
                                 res.redirect('/v/' + req.params.id);

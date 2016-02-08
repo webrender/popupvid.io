@@ -31,13 +31,13 @@
             <div class="divider"></div>
             <input type="text" ng-model="title" class="form-control form-inline form-title" ng-class="{'readOnly': !readOnly}" ng-readonly="readOnly">
             <div class="creator" ng-show="readOnly">by {{creator}}</div>
-            <div id="signin-button" ng-hide="userName"></div>
+            <div id="signin-button" ng-hide="googleId"></div>
             <div ng-show="userAvatar" ng-click="userMenuClick($event)">
               <img ng-src="{{userAvatar}}" class="user-avatar" ng-click="showUserMenu()">
               <div class="user-panel-popup hidden">
                 <img ng-src="{{userAvatar}}" class="user-avatar -larger">
                 <div class="user-avatar-name">{{userName}}</div>
-                <div class="user-avatar-email">{{userEmail}}</div>
+                <div class="user-avatar-email">{{googleId}}</div>
                 <div class="user-videos"><a href="#">My Videos</a></div>
                 <button class="btn btn-sm sign-out-button" ng-click="signOut()">Sign Out</button>
               </div>
@@ -113,7 +113,7 @@
         <div class="alert alert-danger">Something went wrong. Sorry about that, details have been logged and we'll work on fixing it!</div>
         <div class="text-center">
           <a ng-href="/"><button type="button" class="btn btn-danger">Back to Homepage</button></a>
-        </div>      
+        </div>
       </div>
     </div>
   </div>
