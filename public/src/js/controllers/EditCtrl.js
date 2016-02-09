@@ -59,19 +59,6 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 		});
 	};
 
-	$window.loginSuccess = function(obj) {
-		$scope.userName = obj.getBasicProfile().getName();
-		$scope.userAvatar = obj.getBasicProfile().getImageUrl();
-		$scope.googleId = obj.getBasicProfile().getEmail();
-		$scope.authToken = gapi.auth2.getAuthInstance().currentUser.get().getAuthResponse().id_token;
-		$cookies.put('authToken', $scope.authToken);
-		if ($scope.saveAfterLogin) {
-			$('.save').modal('hide').on('hidden.bs.modal', function() {
-				$scope.save();
-			});
-		}
-	};
-
 	$scope.mode = $routeParams.action;
 	$scope.videoId = $routeParams.videoid;
 	switch($scope.mode) {
@@ -79,10 +66,11 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 			$scope.readOnly = true;
 			$http.get('/api/load/' + $scope.videoId).then(function(response) {
 				resObj = response.data[0];
+				console.log(resObj);
 				$scope.video = resObj.video;
 				$scope.cardIndex = JSON.parse(resObj.data);
 				$scope.title = resObj.title;
-				$scope.creator = resObj.googleId;
+				$scope.creator = resObj.username;
 				$('.sidebar-wrap').addClass('large');
 			}, function() {
 				$('.genericError').modal('show');
@@ -466,7 +454,7 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 	};
 
 	$scope.signOut = function() {
-		$scope.userName = $scope.userAvatar = $scope.googleId = $scope.authToken = false;
+		$scope.googleFullName = $scope.userAvatar = $scope.googleId = $scope.authToken = false;
 		$cookies.remove('authToken');
 		auth2 = gapi.auth2.getAuthInstance();
 		auth2.signOut();
@@ -491,6 +479,61 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 		$scope.save(true);
 	};
 
+	$scope.preventDefault = function(e) {
+		e.stopPropagation();
+	};
+
+	$scope.userCheck = function() {
+		$scope.usernameAlert = false;
+		var data = {
+			username: $scope.usernameInput
+		};
+		$http.post('/api/username', data).then(function(response){
+			if (response.error){
+				$scope.usernameAlert = response.error;
+			} else {
+				$('.username').modal('hide').on('hidden.bs.modal', function() {
+					$scope.username = $scope.usernameInput;
+					$scope.save();
+				});
+			}
+		}, function() {
+			$('.username').modal('hide').on('hidden.bs.modal', function() {
+				$genericError.modal('show');
+			});
+		});
+	};
+
+	$window.loginSuccess = function(obj) {
+		$scope.googleFullName = obj.getBasicProfile().getName();
+		$scope.userAvatar = obj.getBasicProfile().getImageUrl();
+		$scope.googleId = obj.getBasicProfile().getEmail();
+		$scope.authToken = gapi.auth2.getAuthInstance().currentUser.get().getAuthResponse().id_token;
+		$cookies.put('authToken', $scope.authToken);
+		$http.get('/api/username').then(function(response){
+
+			if (response.username)
+				$scope.username = response.username;
+
+			if ($scope.saveAfterLogin) {
+				// if we've got a username, hide the .save modal and save the doc
+				// if there's no username, show the .username modal instead
+				if ($scope.username) {
+					$('.save').modal('hide').on('hidden.bs.modal', function() {
+						$scope.save();
+					});
+				} else {
+					$('.save').modal('hide').on('hidden.bs.modal', function() {
+						$('.username').modal('show').on('shown.bs.modal',function() {
+							$('.usernameInput').focus();
+						});
+					});
+				}
+
+			}
+		});
+	};
+
 	$scope.save = function(anonymous) {
 		$scope.player.pauseVideo();
 		var data;
@@ -503,13 +546,20 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 			};
 		} else {
 			if ($scope.authToken) {
-				data = {
-					video: $scope.video,
-					googleId: $scope.googleId,
-					token: $scope.authToken,
-					title: $scope.title,
-					data: $scope.cardIndex
-				};
+				if ($scope.username) {
+					data = {
+						video: $scope.video,
+						googleId: $scope.googleId,
+						token: $scope.authToken,
+						title: $scope.title,
+						data: $scope.cardIndex
+					};
+				} else {
+					$('.username').modal('show').on('shown.bs.modal',function() {
+						$('.usernameInput').focus();
+					});
+					return;
+				}
 			} else {
 				$('.save').modal('show');
 				return;
@@ -540,6 +590,12 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 		if ($scope.mode == 'n'){
 			$ngSilentLocation.silent('/e/' + $scope.videoId);
 			$scope.mode = 'e';
+		}
+	});
+
+	$('.username').on('hidden.bs.modal', function (e) {
+		if ($scope.username) {
+			$scope.save();
 		}
 	});
 

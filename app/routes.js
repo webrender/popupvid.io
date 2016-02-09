@@ -1,4 +1,5 @@
 var Entry = require('./models/entry');
+var User = require('./models/user');
 var shortId = require('shortid');
 var request = require('request');
 var cookieParser = require('cookie-parser');
@@ -18,9 +19,86 @@ module.exports = function(app) {
             if (err)
                 res.send(err);
             if (entries[0]){
-                res.json(entries);
+                User.find({googleId: entries[0].googleId}, function(err2, entries2) {
+                    if (err) {
+                        res.send(500);
+                    } else {
+                        console.log(entries2[0].username);
+                        var response = entries[0];
+                        response.username = entries2[0].username;
+                        console.log(response);
+                        res.json([{
+                            "username": entries2[0].username,
+                            "title": entries[0].title,
+                            "video": entries[0].video,
+                            "data": entries[0].data,
+                        }]);
+                    }
+                });
             } else {
                 res.send(404);
+            }
+        });
+    });
+
+
+    // api/username ALL should check for token cookie and use it to verify googleId
+    // api/username GET should return username if one exists
+    // api/username POST should set a username if it's available, otherwise return an error
+
+    app.all('/api/username', function(req, res, next) {
+        if (req.cookies.authToken) {
+            request('https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=' + req.cookies.authToken, function(error, response, body){
+                if (!error && response.statusCode == 200){
+                    var parsedBody = JSON.parse(body);
+                    req.verifiedGoogleId = parsedBody.email;
+                    next();
+                } else {
+                    res.send(500);
+                }
+            });
+        } else {
+            res.send(403);
+        }
+    });
+
+    app.get('/api/username', function(req, res, next) {
+        User.find({googleId: res.verifiedGoogleId}, function(err, entries){
+            if (err) {
+                res.send(500);
+            } else {
+                if (entries[0] && entries[0].username) {
+                    res.send(entries[0].username);
+                } else {
+                    res.send('');
+                }
+            }
+        });
+    });
+
+    app.post('/api/username', function(req, res, next) {
+        User.find({username: req.body.username}, function(err, entries){
+            if (err) {
+                res.send(500);
+            } else {
+                if (entries[0].username) {
+                    res.json({
+                        'error': 'Sorry, this username is already taken.'
+                    });
+                } else {
+                    var newUser = new User({
+                        username: req.body.username,
+                        googleId: res.verifiedGoogleId
+                    });
+
+                    newUser.save(function(err){
+                        if (err) {
+                            res.send(err);
+                        } else {
+                            res.send(200);
+                        }
+                    });
+                }
             }
         });
     });
