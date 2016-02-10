@@ -4,5 +4,7 @@ module.exports = mongoose.model('Entry', {
     video:      {type : String},
     googleId:   {type : String},
     title:      {type : String},
-    data:       {type : String}
+    data:       {type : String},
+    created:    {type : Date},
+    modified:   {type : Date}
 });

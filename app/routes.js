@@ -131,7 +131,8 @@ module.exports = function(app) {
             googleId: req.body.googleId,
             title: req.body.title,
             video: req.body.video,
-            data: JSON.stringify(req.body.data)
+            data: JSON.stringify(req.body.data),
+            created: Date.now()
     	});
 
     	video.save(function(err){
@@ -181,13 +182,13 @@ module.exports = function(app) {
 
         var slug = req.params.id;
         var query = {slug: slug};
-
         Entry.update({
             slug: slug
         }, {
             $set: {
                 data: JSON.stringify(req.body.data),
-                title: req.body.title
+                title: req.body.title,
+                modified: Date.now()
             }
         }, function() {
             res.send(slug);
