@@ -493,8 +493,8 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 			username: $scope.usernameInput
 		};
 		$http.post('/api/username', data).then(function(response){
-			if (response.error){
-				$scope.usernameAlert = response.error;
+			if (response.data.error){
+				$scope.usernameAlert = response.data.error;
 			} else {
 				$('.username').modal('hide').on('hidden.bs.modal', function() {
 					$scope.username = $scope.usernameInput;
