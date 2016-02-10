@@ -223,10 +223,13 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 		}, 2000);
 	};
 
+	// There's some sort of race condition occurring with the cardCheck timing that
+	// I'll eventually have to fix.
+
 	$scope.cardCheck = function() {
 		var currentTime = $scope.player.getCurrentTime();
 		for (var prop in $scope.cardIndex) {
-			if ($scope.cardIndex[prop].time - currentTime > 0.49){
+			if ($scope.cardIndex[prop].time - currentTime > 0){
 				$scope.setTimer(currentTime, $scope.cardIndex[prop]);
 				break;
 			}
