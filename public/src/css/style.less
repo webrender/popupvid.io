@@ -66,6 +66,9 @@ body, h1 {
     display: flex;
     align-items: center;
     overflow: hidden;
+    -webkit-transform: translate3d(0, 0, 0);
+    -webkit-backface-visibility: hidden;
+    -webkit-perspective: 1000;
 
     .player-container {
         position: relative;
@@ -87,6 +90,14 @@ body, h1 {
             width: 100%;
             height: 100%;
         }
+    }
+
+    .modal-open & {
+        -webkit-filter: blur(10px);
+        -moz-filter: blur(10px);
+        -o-filter: blur(10px);
+        -ms-filter: blur(10px);
+        filter: blur(10px);
     }
 }
 
@@ -546,4 +557,74 @@ body, h1 {
     color: #966;
     font-size: 10px;
     margin-left: 2px;
+}
+
+.anim-wrap {
+  height: 360px;
+  width: 480px;
+  position: relative;
+  margin: 10px auto;
+  border: 1px solid #000000;
+}
+
+.anim-pointer {
+    z-index: 30;
+
+    .modal-open & {
+        animation-name: pointer;
+        animation-duration: 4s;
+        position: absolute;
+        animation-iteration-count: infinite;
+        animation-timing-function: ease-in-out;
+    }
+}
+
+.intro-card {
+    visibility: visible;
+    top: 120px;
+    right: 100px;
+
+    .modal-open & {
+        animation-name: card;
+    animation-duration: 4s;
+    animation-iteration-count: infinite;
+    animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+    }
+
+    .card-emoji {
+        background: #7bd148;
+    }
+
+    .intro-text {
+        width: 100%;
+        color: #999;
+        background: transparent;
+        border: none;
+        outline: none;
+        resize: none;
+        height: 50px;
+        font-size: 22px;
+        line-height: 23px;
+        font-style: italic;
+    }
+}
+
+@keyframes pointer {
+  0%   {opacity: 0; transform:translate(500px,290px);}
+  30%  {opacity: 1; transform:translate(130px,150px);}
+  40%  {opacity: 0; transform:translate(130px,150px);}
+  100% {opacity: 0; transform:translate(500px,290px);}
+}
+
+@keyframes card {
+  0% {opacity: 0;}
+  30% {opacity: 0;}
+  35%  {opacity: 0; transform: scale3d(.3, .3, .3);}
+  40%  {transform: scale3d(1.1, 1.1, 1.1);}
+  45% {transform: scale3d(.9, .9, .9);}
+  50% {opacity: 1;transform: scale3d(1.03, 1.03, 1.03);}
+  55% {transform: scale3d(.97, .97, .97);}
+  60% {opacity: 1; transform: scale3d(1, 1, 1);}
+  80% {opacity: 1; transform: scale3d(1, 1, 1);}
+  100% {opacity: 0;}
 }

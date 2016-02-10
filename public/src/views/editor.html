@@ -58,8 +58,19 @@
 <div class="modal fade intro" class="intro" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <div class="modal-body">
-        <img src="dist/img/intro.png">
+      <div class="modal-body text-center">
+        <h4>Click to insert comment</h4>
+        <div class="anim-wrap" style="background: url('http://img.youtube.com/vi/{{video}}/hqdefault.jpg');">
+          <div class="anim-pointer">
+            <img src="http://tobiasahlin.com/static/cursors/pointer.png">
+          </div>
+          <div class="card intro-card">
+            <div class="card-emoji">🐺</div>
+            <div class="card-text">
+              <textarea class="intro-text" readonly>[Your Comment Here]</textarea>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="modal-footer text-center">
         <button type="button" class="btn btn-success" data-dismiss="modal">Ok, let's go!</button>
