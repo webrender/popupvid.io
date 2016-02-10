@@ -23,10 +23,8 @@ module.exports = function(app) {
                     if (err) {
                         res.send(500);
                     } else {
-                        console.log(entries2[0].username);
                         var response = entries[0];
                         response.username = entries2[0].username;
-                        console.log(response);
                         res.json([{
                             "username": entries2[0].username,
                             "title": entries[0].title,
@@ -63,7 +61,7 @@ module.exports = function(app) {
     });
 
     app.get('/api/username', function(req, res, next) {
-        User.find({googleId: res.verifiedGoogleId}, function(err, entries){
+        User.find({googleId: req.verifiedGoogleId}, function(err, entries){
             if (err) {
                 res.send(500);
             } else {
@@ -81,14 +79,14 @@ module.exports = function(app) {
             if (err) {
                 res.send(500);
             } else {
-                if (entries[0].username) {
+                if (entries[0] && entries[0].username) {
                     res.json({
                         'error': 'Sorry, this username is already taken.'
                     });
                 } else {
                     var newUser = new User({
                         username: req.body.username,
-                        googleId: res.verifiedGoogleId
+                        googleId: req.verifiedGoogleId
                     });
 
                     newUser.save(function(err){

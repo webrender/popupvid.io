@@ -454,7 +454,11 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 	};
 
 	$scope.signOut = function() {
-		$scope.googleFullName = $scope.userAvatar = $scope.googleId = $scope.authToken = false;
+		$scope.username =
+			$scope.googleFullName =
+			$scope.userAvatar =
+			$scope.googleId =
+			$scope.authToken = false;
 		$cookies.remove('authToken');
 		auth2 = gapi.auth2.getAuthInstance();
 		auth2.signOut();
@@ -512,8 +516,8 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 		$cookies.put('authToken', $scope.authToken);
 		$http.get('/api/username').then(function(response){
 
-			if (response.username)
-				$scope.username = response.username;
+			if (response.data)
+				$scope.username = response.data;
 
 			if ($scope.saveAfterLogin) {
 				// if we've got a username, hide the .save modal and save the doc
