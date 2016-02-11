@@ -4,11 +4,11 @@
   "dependencies": {
     "bootstrap": "4.0",
     "angular": "latest",
-    "angular-route": "latest",
     "angular-sanitize": "~1.4.8",
     "animate.css": "~3.4.0",
     "jquery-ui": "~1.11.4",
     "angular-cookies": "~1.4.9",
-    "ngSilent": "*"
+    "ngSilent": "*",
+    "angular-ui-router": "~0.2.18"
   }
 }

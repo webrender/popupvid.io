@@ -12,6 +12,9 @@ module.exports = function(grunt) {
     // take all the js files and minify them into app.min.js
     uglify: {
       build: {
+        options: {
+          mangle: false
+        },
         files: {
           'public/dist/js/app.min.js': ['public/src/js/**/*.js', 'public/src/js/*.js']
         }

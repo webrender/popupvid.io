@@ -1,4 +1,4 @@
-var EditCtrl = angular.module('EditCtrl', ['ngCookies', 'ngSilent', 'ngRoute']);
+var EditCtrl = angular.module('EditCtrl', ['ngCookies', 'ngSilent']);
 var player, mouseX, mouseY, timer, tabTimer;
 var cardOpen = false;
 var sidebarState = 0;
@@ -11,11 +11,11 @@ var login = function(obj) {
 	window.loginSuccess(obj);
 };
 
-EditCtrl.directive('isDraggable', ['$routeParams', function($routeParams) {
+EditCtrl.directive('isDraggable', ['$stateParams', function($stateParams) {
 	return {
 		restrict: 'A',
 		link: function(scope, elm, attrs){
-			if ($routeParams.action === 'v'){
+			if ($stateParams.action === 'v'){
 				elm.removeClass('draggable');
 			} else {
 				elm.draggable({
@@ -46,7 +46,7 @@ EditCtrl.filter('secondsToDateTime', [function() {
 	};
 }]);
 
-function EditController($scope, $window, $document, $timeout, $http, $routeParams, $location, $cookies, $ngSilentLocation) {
+function EditController($scope, $window, $document, $timeout, $http, $stateParams, $location, $cookies, $ngSilentLocation) {
 
 	var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true; po.defer = true;
     po.src = 'https://apis.google.com/js/platform.js?onload=init';
@@ -59,8 +59,8 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 		});
 	};
 
-	$scope.mode = $routeParams.action;
-	$scope.videoId = $routeParams.videoid;
+	$scope.mode = $stateParams.action;
+	$scope.videoId = $stateParams.videoid;
 	switch($scope.mode) {
 		case 'v':
 			$scope.readOnly = true;
@@ -608,4 +608,4 @@ function EditController($scope, $window, $document, $timeout, $http, $routeParam
 
 }
 
-EditCtrl.controller("EditController", ["$scope", "$window", "$document", "$timeout", "$http", "$routeParams", "$location", "$cookies", "$ngSilentLocation", EditController]);
+EditCtrl.controller("EditController", ["$scope", "$window", "$document", "$timeout", "$http", "$stateParams", "$location", "$cookies", "$ngSilentLocation", EditController]);
