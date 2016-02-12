@@ -19,20 +19,29 @@ module.exports = function(app) {
             if (err)
                 res.send(err);
             if (entries[0]){
-                User.find({googleId: entries[0].googleId}, function(err2, entries2) {
-                    if (err) {
-                        res.send(500);
-                    } else {
-                        var response = entries[0];
-                        response.username = entries2[0].username;
-                        res.json([{
-                            "username": entries2[0].username,
-                            "title": entries[0].title,
-                            "video": entries[0].video,
-                            "data": entries[0].data,
-                        }]);
-                    }
-                });
+                if (entries[0].googleId != 'Anonymous'){
+                    User.find({googleId: entries[0].googleId}, function(err2, entries2) {
+                        if (err) {
+                            res.send(500);
+                        } else {
+                            var response = entries[0];
+                            response.username = entries2[0].username;
+                            res.json([{
+                                "username": entries2[0].username,
+                                "title": entries[0].title,
+                                "video": entries[0].video,
+                                "data": entries[0].data,
+                            }]);
+                        }
+                    });
+                } else {
+                    res.json([{
+                        "username": 'Anonymous',
+                        "title": entries[0].title,
+                        "video": entries[0].video,
+                        "data": entries[0].data,
+                    }]);
+                }
             } else {
                 res.send(404);
             }
