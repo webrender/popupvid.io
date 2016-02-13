@@ -55,11 +55,11 @@
     </div>
 </div>
 
-<div class="modal fade intro" class="intro" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade intro card-one" class="intro" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-body text-center">
-        <h4>Click to insert comment</h4>
+        <div class="anim-chrome"></div>
         <div class="anim-wrap" style="background: url('http://img.youtube.com/vi/{{video}}/hqdefault.jpg');">
           <div class="anim-pointer">
             <img src="http://tobiasahlin.com/static/cursors/pointer.png">
@@ -67,15 +67,32 @@
           <div class="card intro-card">
             <div class="card-emoji">🐺</div>
             <div class="card-text">
-              <textarea class="intro-text" readonly>[Your Comment Here]</textarea>
+              <textarea class="intro-text" readonly>Your Comment</textarea>
             </div>
           </div>
         </div>
+        <div class='modal-subpanel'>
+          <h1 class="card-one-text">Click to insert comment</h1>
+          <h1 class="card-two-text">Use the sidebar to edit</h1>
+          <h1 class="card-three-text">Save and share your video</h1>
+          <hr class="modal-subpanel-hr">
+          <div class="modal-subpanel-dismiss">
+          DON'T SHOW AGAIN
+          </div>
+          <div class="modal-subpanel-next">
+            NEXT <img src="dist/img/next.png">
+          </div>
+          <div class="modal-subpanel-dots">
+            <div class="dot dot-one active"></div>
+            <div class="dot dot-two"></div>
+            <div class="dot dot-three"></div>
+          </div>
+        </div>
       </div>
-      <div class="modal-footer text-center">
+      <!--<div class="modal-footer text-center">
         <button type="button" class="btn btn-success" data-dismiss="modal">Ok, let's go!</button>
         <div style="font-size: 10px; padding-top:2px;"><input type="checkbox" ng-model="dismissIntro">Don't show this again</div>
-      </div>
+      </div>-->
     </div>
   </div>
 </div>

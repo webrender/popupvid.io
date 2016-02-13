@@ -247,6 +247,14 @@ body, h1 {
         right: 47px;
     }
 }
+.intro {
+    .modal-dialog {
+        margin-top: ~'calc(50vh - 220px)';
+    }
+    .modal-content {
+        border-radius: 10px;
+    }
+}
 .user-panel-popup {
     position: absolute;
     right: 9px;
@@ -254,7 +262,7 @@ body, h1 {
     background: white;
     padding: 10px;
     width: 300px;
-    border-radius: 2px;
+    border-radius: 10px;
     border: 1px solid #ccc;
     z-index: 20;
 
@@ -559,11 +567,122 @@ body, h1 {
     margin-left: 2px;
 }
 
+.anim-chrome {
+    height: 28px;
+    width: 480px;
+    background: url('../img/chrome.svg');
+    margin: 20px auto 0;
+}
+
+.modal-subpanel {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 155px;
+    border-radius: 0 0 3px 3px;
+    color: rgba(255,255,255,0.8);
+
+    .card-one & {
+        background: #4A90E2;
+    }
+
+    .card-two & {
+        background: #F5A623;
+    }
+
+    .card-three & {
+        background: #4CAF50;
+    }
+
+    h1 {
+        display: block;
+        position: absolute;
+        width: 100%;
+        line-height: 2.5em;
+        opacity: 0;
+        transition: opacity 0.2s ease-in;
+
+        &.card-one-text {
+            .card-one & {
+                opacity: 1;
+            }
+        }
+
+        &.card-two-text {
+            .card-two & {
+                opacity: 1;
+            }
+        }
+
+        &.card-three-text {
+            .card-three & {
+                opacity: 1;
+            }
+        }
+    }
+
+    .modal-subpanel-hr {
+        margin-top: 100px;
+        border: none;
+        border-top: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .modal-subpanel-dismiss {
+        float: left;
+        width: 140px;
+        text-align: left;
+        margin-left: 15px;
+        font-size: 14px;
+    }
+
+    .modal-subpanel-dots {
+
+        display: block;
+        text-align: center;
+
+        .dot {
+            display: inline-block;
+            background: rgba(255,255,255,0.4);
+            height: 16px;
+            width: 16px;
+            border-radius: 8px;
+            margin: 0 1px;
+
+            .card-one & {
+                &:nth-child(1) {
+                    background: rgba(255,255,255,1);
+                }
+            }
+
+            .card-two & {
+                &:nth-child(2) {
+                    background: rgba(255,255,255,1);
+                }
+            }
+
+            .card-three & {
+                &:nth-child(3) {
+                    background: rgba(255,255,255,1);
+                }
+            }
+        }
+    }
+
+    .modal-subpanel-next {
+        float: right;
+        width: 140px;
+        text-align: right;
+        margin-right: 15px;
+        font-size: 14px;
+    }
+}
+
 .anim-wrap {
   height: 360px;
   width: 480px;
   position: relative;
-  margin: 10px auto;
+  margin: 0 auto 10px;
   border: 1px solid #000000;
 }
 
@@ -586,9 +705,9 @@ body, h1 {
 
     .modal-open & {
         animation-name: card;
-    animation-duration: 4s;
-    animation-iteration-count: infinite;
-    animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+        animation-duration: 4s;
+        animation-iteration-count: infinite;
+        animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
     }
 
     .card-emoji {
@@ -610,21 +729,24 @@ body, h1 {
 }
 
 @keyframes pointer {
-  0%   {opacity: 0; transform:translate(500px,290px);}
-  30%  {opacity: 1; transform:translate(130px,150px);}
-  40%  {opacity: 0; transform:translate(130px,150px);}
-  100% {opacity: 0; transform:translate(500px,290px);}
+  0%   {opacity: 0; transform:translate(420px,190px);}
+  5%   {opacity: 1; transform:translate(420px,190px);}
+  40%  {opacity: 1; transform:translate(110px,150px);}
+  78%  {opacity: 1; transform:translate(110px,150px);}
+  99%  {opacity: 0; transform:translate(110px,150px);}
+  100% {opacity: 0; transform:translate(420px,190px);}
 }
 
 @keyframes card {
   0% {opacity: 0;}
   30% {opacity: 0;}
-  35%  {opacity: 0; transform: scale3d(.3, .3, .3);}
-  40%  {transform: scale3d(1.1, 1.1, 1.1);}
-  45% {transform: scale3d(.9, .9, .9);}
-  50% {opacity: 1;transform: scale3d(1.03, 1.03, 1.03);}
-  55% {transform: scale3d(.97, .97, .97);}
-  60% {opacity: 1; transform: scale3d(1, 1, 1);}
+  50%  {opacity: 0; transform: scale3d(.3, .3, .3);}
+  55%  {transform: scale3d(1.1, 1.1, 1.1);}
+  60% {transform: scale3d(.9, .9, .9);}
+  65% {opacity: 1;transform: scale3d(1.03, 1.03, 1.03);}
+  70% {transform: scale3d(.97, .97, .97);}
+  75% {opacity: 1; transform: scale3d(1, 1, 1);}
   80% {opacity: 1; transform: scale3d(1, 1, 1);}
   100% {opacity: 0;}
 }
+
