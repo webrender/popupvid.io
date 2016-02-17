@@ -55,7 +55,7 @@
     </div>
 </div>
 
-<div class="modal fade intro card-one" class="intro" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade intro card-{{introStep}}" class="intro" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-body text-center">
@@ -71,7 +71,7 @@
             </div>
           </div>
         </div>
-        <div class='modal-subpanel'>
+        <div class="modal-subpanel">
           <h1 class="card-one-text">Click to insert comment</h1>
           <h1 class="card-two-text">Use the sidebar to edit</h1>
           <h1 class="card-three-text">Save and share your video</h1>
@@ -80,12 +80,12 @@
           DON'T SHOW AGAIN
           </div>
           <div class="modal-subpanel-next">
-            NEXT <img src="dist/img/next.png">
+            <div ng-click="introNext()">{{introText}} <img src="dist/img/next.png"></div>
           </div>
           <div class="modal-subpanel-dots">
-            <div class="dot dot-one active"></div>
-            <div class="dot dot-two"></div>
-            <div class="dot dot-three"></div>
+            <div class="dot" ng-click="introNext(1)"></div>
+            <div class="dot" ng-click="introNext(2)"></div>
+            <div class="dot" ng-click="introNext(3)"></div>
           </div>
         </div>
       </div>

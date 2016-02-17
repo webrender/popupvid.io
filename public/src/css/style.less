@@ -582,16 +582,17 @@ body, h1 {
     height: 155px;
     border-radius: 0 0 3px 3px;
     color: rgba(255,255,255,0.8);
+    transition: background-color 0.5s ease-in;
 
-    .card-one & {
+    .card-1 & {
         background: #4A90E2;
     }
 
-    .card-two & {
+    .card-2 & {
         background: #F5A623;
     }
 
-    .card-three & {
+    .card-3 & {
         background: #4CAF50;
     }
 
@@ -601,22 +602,22 @@ body, h1 {
         width: 100%;
         line-height: 2.5em;
         opacity: 0;
-        transition: opacity 0.2s ease-in;
+        transition: opacity 0.5s ease-in;
 
         &.card-one-text {
-            .card-one & {
+            .card-1 & {
                 opacity: 1;
             }
         }
 
         &.card-two-text {
-            .card-two & {
+            .card-2 & {
                 opacity: 1;
             }
         }
 
         &.card-three-text {
-            .card-three & {
+            .card-3 & {
                 opacity: 1;
             }
         }
@@ -634,6 +635,7 @@ body, h1 {
         text-align: left;
         margin-left: 15px;
         font-size: 14px;
+        cursor: pointer;
     }
 
     .modal-subpanel-dots {
@@ -649,19 +651,19 @@ body, h1 {
             border-radius: 8px;
             margin: 0 1px;
 
-            .card-one & {
+            .card-1 & {
                 &:nth-child(1) {
                     background: rgba(255,255,255,1);
                 }
             }
 
-            .card-two & {
+            .card-2 & {
                 &:nth-child(2) {
                     background: rgba(255,255,255,1);
                 }
             }
 
-            .card-three & {
+            .card-3 & {
                 &:nth-child(3) {
                     background: rgba(255,255,255,1);
                 }
@@ -675,6 +677,7 @@ body, h1 {
         text-align: right;
         margin-right: 15px;
         font-size: 14px;
+        cursor: pointer;
     }
 }
 
@@ -686,29 +689,10 @@ body, h1 {
   border: 1px solid #000000;
 }
 
-.anim-pointer {
-    z-index: 30;
-
-    .modal-open & {
-        animation-name: pointer;
-        animation-duration: 4s;
-        position: absolute;
-        animation-iteration-count: infinite;
-        animation-timing-function: ease-in-out;
-    }
-}
-
 .intro-card {
-    visibility: visible;
     top: 120px;
     right: 100px;
-
-    .modal-open & {
-        animation-name: card;
-        animation-duration: 4s;
-        animation-iteration-count: infinite;
-        animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
-    }
+    visibility: hidden;
 
     .card-emoji {
         background: #7bd148;
@@ -728,7 +712,48 @@ body, h1 {
     }
 }
 
-@keyframes pointer {
+body.modal-open {
+
+    .anim-pointer {
+        z-index: 30;
+        position: absolute;
+        animation-duration: 4s;
+        animation-iteration-count: infinite;
+        animation-timing-function: ease-in-out;
+    }
+
+    .intro-card {
+        visibility: hidden;
+        animation-duration: 4s;
+        animation-iteration-count: infinite;
+        animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+    }
+
+    .card-1 {
+
+        .anim-pointer {
+            animation-name: pointer-one;
+        }
+
+        .intro-card {
+            visibility: visible;
+            animation-name: card-one;
+        }
+    }
+
+    .card-2 {
+
+        .anim-pointer {
+            animation-name: pointer-two;
+        }
+
+        .intro-card {
+            animation-name: card-two;
+        }
+    }
+}
+
+@keyframes pointer-one {
   0%   {opacity: 0; transform:translate(420px,190px);}
   5%   {opacity: 1; transform:translate(420px,190px);}
   40%  {opacity: 1; transform:translate(110px,150px);}
@@ -737,7 +762,15 @@ body, h1 {
   100% {opacity: 0; transform:translate(420px,190px);}
 }
 
-@keyframes card {
+@keyframes pointer-two {
+  0%   {opacity: 0; transform:translate(240px,180px);}
+  10%   {opacity: 1; transform:translate(240px,180px);}
+  40%   {opacity: 1; transform:translate(472px,140px);}
+  90%   {opacity: 1; transform:translate(472px,140px);}
+  100% {opacity: 0; transform:translate(472px,140px);}
+}
+
+@keyframes card-one {
   0% {opacity: 0;}
   30% {opacity: 0;}
   50%  {opacity: 0; transform: scale3d(.3, .3, .3);}

@@ -173,6 +173,8 @@ function EditController($scope, $window, $document, $timeout, $http, $stateParam
 	$scope.title = 'Untitled Video';
 	$scope.saveAfterLogin = false;
 	$scope.dismissIntro = false;
+	$scope.introStep = 1;
+	$scope.introText = 'NEXT';
 	currentX = 0;
 	currentY = 0;
 
@@ -605,6 +607,24 @@ function EditController($scope, $window, $document, $timeout, $http, $stateParam
 			$scope.save();
 		}
 	});
+
+	$scope.introNext = function(step) {
+		var introStep;
+		if (step) {
+			introStep = $scope.introStep = step;
+		} else {
+			$scope.introStep++;
+			introStep = $scope.introStep;
+		}
+		switch(introStep) {
+			case 1:
+				break;
+			case 2:
+				$scope.introText = 'LET\'S GO!';
+				break;
+		}
+
+	};
 
 }
 
