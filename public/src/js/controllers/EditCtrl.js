@@ -192,6 +192,11 @@ function EditController($scope, $window, $document, $timeout, $http, $stateParam
 		$scope.player.playVideo();
 	});
 
+	$scope.dismissForever = function() {
+		$scope.dismissIntro = true;
+		$('.intro').modal('hide');
+	};
+
 	$scope.resizeEvent = function() {
 		$('.player-container').css('height', document.body.clientWidth * 0.5625);
 	};
@@ -618,9 +623,14 @@ function EditController($scope, $window, $document, $timeout, $http, $stateParam
 		}
 		switch(introStep) {
 			case 1:
-				break;
 			case 2:
+				$scope.introText = 'NEXT';
+				break;
+			case 3:
 				$scope.introText = 'LET\'S GO!';
+				break;
+			case 4:
+				$('.intro').modal('hide');
 				break;
 		}
 

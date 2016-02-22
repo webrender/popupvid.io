@@ -59,16 +59,42 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-body text-center">
-        <div class="anim-chrome"></div>
-        <div class="anim-wrap" style="background: url('http://img.youtube.com/vi/{{video}}/hqdefault.jpg');">
-          <div class="anim-pointer">
-            <img src="http://tobiasahlin.com/static/cursors/pointer.png">
-          </div>
-          <div class="card intro-card">
-            <div class="card-emoji">🐺</div>
-            <div class="card-text">
-              <textarea class="intro-text" readonly>Your Comment</textarea>
+        <div class="anim-wrap-wrap">
+          <div class="anim-chrome"></div>
+          <div class="anim-wrap" style="background: url('http://img.youtube.com/vi/{{video}}/hqdefault.jpg');">
+            <div class="anim-pointer">
+              <img src="http://tobiasahlin.com/static/cursors/pointer.png">
             </div>
+            <div class="card intro-card">
+              <div class="card-emoji">🐺</div>
+              <div class="card-text">
+                <textarea class="intro-text" readonly>Your Comment</textarea>
+              </div>
+            </div>
+            <div class="sidebar intro-sidebar">
+              <div class="sidebar-content">
+                  <div class="sidebar-card">
+                    <div class="sidebar-card-emoji" style="background-color: #7bd148">🐺</div>
+                    <div class="sidebar-card-text"><strong>00:10</strong> comment one</div>
+                  </div>
+              </div>
+              <div class="sidebar-content">
+                  <div class="sidebar-card">
+                    <div class="sidebar-card-emoji" style="background-color: #5484ed">👍</div>
+                    <div class="sidebar-card-text"><strong>00:20</strong> comment two</div>
+                  </div>
+              </div>
+              <div class="sidebar-content">
+                  <div class="sidebar-card">
+                    <div class="sidebar-card-emoji" style="background-color: #ffb878">🐶</div>
+                    <div class="sidebar-card-text"><strong>00:30</strong> comment three</div>
+                  </div>
+              </div>
+              <div class="sidebar-save"><button type="button" class="btn btn-success btn-block btn-save">Save Video</button></div>
+            </div>
+          </div>
+          <div class="intro-save-field">
+            <input type="text" class="form-control form-inline" value="http://popupvid.io/v/abc123" readonly></p>
           </div>
         </div>
         <div class="modal-subpanel">
@@ -76,7 +102,7 @@
           <h1 class="card-two-text">Use the sidebar to edit</h1>
           <h1 class="card-three-text">Save and share your video</h1>
           <hr class="modal-subpanel-hr">
-          <div class="modal-subpanel-dismiss">
+          <div class="modal-subpanel-dismiss" ng-click="dismissForever()">
           DON'T SHOW AGAIN
           </div>
           <div class="modal-subpanel-next">
