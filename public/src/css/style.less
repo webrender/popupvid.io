@@ -724,6 +724,7 @@ body, h1 {
     width: 0px;
     text-align: left;
     overflow: hidden;
+    background-color: rgba(255, 255, 255, 0.9);
 
     .sidebar-save {
         left: 2px;
@@ -758,15 +759,77 @@ body, h1 {
 }
 
 .intro-save-bubble {
-    background: red;
     position: absolute;
-    color: #dd0000;
     height: 60px;
     width: 60px;
     border-radius: 30px;
-    border: 3px solid #dd0000;
-    bottom: -74px;
-    left: 150px;
+    border: 3px solid;
+    padding-top: 15px;
+    opacity: 0;
+    transition: opacity 0.4s ease-in;
+
+    img {
+        transform: scale(1.8);
+    }
+
+    &.bubble-1 {
+        background: #F5A623;
+        color: #dd0000;
+        border-color: #000000;
+        bottom: -74px;
+        left: 354px;
+
+        &:after {
+            border-bottom-color: #000000;
+            top: -5px;
+            transform: rotate(-33deg);
+        }
+    }
+
+    &.bubble-2 {
+        background: #4CAF50;
+        color: #dd0000;
+        border-color: #000000;
+        bottom: -80px;
+        left: 252px;
+
+        &:after {
+            border-bottom-color: #000000;
+            top: -10px;
+            left: 18px;
+        }
+    }
+
+    &.bubble-3 {
+        background: #4A90E2;
+        color: #dd0000;
+        border-color: #000000;
+        bottom: -74px;
+        left: 150px;
+
+        &:after {
+            border-bottom-color: #000000;
+            top: -5px;
+            left: 36px;
+            transform: rotate(33deg);
+        }
+    }
+
+    .card-3 & {
+        opacity: 1;
+
+        &.bubble-1 {
+            transition-delay: 3s;
+        }
+
+        &.bubble-2 {
+            transition-delay: 2.5s;
+        }
+
+        &.bubble-3 {
+            transition-delay: 2s;
+        }
+    }
 
     &:after {
         content: '';
@@ -774,11 +837,9 @@ body, h1 {
         position: absolute;
         border-left: 10px solid transparent;
         border-right: 10px solid transparent;
-        border-bottom: 10px solid #dd0000;
-        top: -5px;
-        left: 36px;
-        transform: rotate(33deg);
+        border-bottom: 10px solid;
     }
+
 }
 
 body.modal-open {
