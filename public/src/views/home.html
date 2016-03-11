@@ -9,9 +9,11 @@ hi
         <div class="results-wrap">
             <strong>Currently trending videos:</strong>
             <div class="results">
-              <div ng-repeat="video in popularVideos" class="youtube-preview__wrap">
-                <img ng-src="{{video.snippet.thumbnails.medium.url}}" class="youtube-preview__thumb">
-                <span class="youtube-preview__title">{{video.snippet.title}}</span>
+              <div ng-repeat="video in videoResults" class="youtube-preview__wrap">
+                <div ng-click="loadVideo(video.id.videoId ? video.id.videoId : video.id)">
+                  <img ng-src="{{video.snippet.thumbnails.medium.url}}" class="youtube-preview__thumb">
+                  <span class="youtube-preview__title">{{video.snippet.title}}</span>
+                </div>
               </div>
             </div>
         </div>

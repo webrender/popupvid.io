@@ -55,7 +55,7 @@ body, h1 {
 }
 
 .search-wrap {
-    display:block;
+    display:none;
     overflow: hidden;
     padding: 0 5px 0 20px;
 }
@@ -92,6 +92,37 @@ body, h1 {
 
 .results-wrap {
     margin-top: 15px;
+}
+
+.results {
+    margin-top: 9px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.youtube-preview__wrap {
+    width: 175px;
+    display: inline-block;
+    white-space: nowrap;
+    line-height: 14px;
+    font-size: 12px;
+    font-weight: bold;
+    color: #0275d8;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.youtube-preview__thumb {
+    width: 174px;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.youtube-preview__title {
+
 }
 
 // EDITOR WINDOW
@@ -918,6 +949,14 @@ body.modal-open {
     }
 
     .card-3 {
+
+        .anim-pointer {
+            animation-name: pointer-three;
+            animation-duration: 0.9s;
+            animation-iteration-count: 1;
+            animation-fill-mode: forwards;
+            animation-delay: 0.3s;
+        }
         .intro-sidebar {
             width: 200px;
         }
@@ -943,6 +982,13 @@ body.modal-open {
   90%   {opacity: 1; transform:translate(472px,140px);}
   100% {opacity: 0; transform:translate(472px,140px);}
 }
+
+@keyframes pointer-three {
+  0%   {opacity: 0; transform:translate(240px,240px);}
+  10%   {opacity: 1; transform:translate(240px,240px);}
+  100%   {opacity: 1; transform:translate(370px,330px);}
+}
+
 
 @keyframes card-one {
   0% {opacity: 0;}
