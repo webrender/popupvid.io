@@ -4,12 +4,6 @@ var cardOpen = false;
 var sidebarState = 0;
 var currentX = 0;
 var currentY = 0;
-var init = function() {
-	window.loadButtons();
-};
-var login = function(obj) {
-	window.loginSuccess(obj);
-};
 
 EditCtrl.directive('isDraggable', ['$stateParams', function($stateParams) {
 	return {
@@ -48,17 +42,6 @@ EditCtrl.filter('secondsToDateTime', [function() {
 
 function EditController($scope, $window, $document, $timeout, $http, $stateParams, $location, $cookies, $ngSilentLocation) {
 
-	var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true; po.defer = true;
-    po.src = 'https://apis.google.com/js/platform.js?onload=init';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-
-	$window.loadButtons = function() {
-		$timeout(function() {
-			gapi.signin2.render('signin-button', {onsuccess:'login', width: 36});
-			gapi.signin2.render('save-signin-button', {onsuccess:'login', theme:'dark', longtitle: true, width: 175});
-		});
-	};
-
 	$scope.mode = $stateParams.action;
 	$scope.videoId = $stateParams.videoid;
 	switch($scope.mode) {
@@ -66,7 +49,6 @@ function EditController($scope, $window, $document, $timeout, $http, $stateParam
 			$scope.readOnly = true;
 			$http.get('/api/load/' + $scope.videoId).then(function(response) {
 				resObj = response.data[0];
-				console.log(resObj);
 				$scope.video = resObj.video;
 				$scope.cardIndex = JSON.parse(resObj.data);
 				$scope.title = resObj.title;
@@ -453,28 +435,6 @@ function EditController($scope, $window, $document, $timeout, $http, $stateParam
 		$scope.saveAfterLogin = true;
 	};
 
-	$scope.showUserMenu = function() {
-		$('.user-panel-popup').toggleClass('hidden');
-	};
-	$scope.hideUserPanel = function() {
-		$('.user-panel-popup').addClass('hidden');
-	};
-	$scope.userMenuClick = function(e) {
-		e.stopPropagation();
-	};
-
-	$scope.signOut = function() {
-		$scope.username =
-			$scope.googleFullName =
-			$scope.userAvatar =
-			$scope.googleId =
-			$scope.authToken = false;
-		$cookies.remove('authToken');
-		auth2 = gapi.auth2.getAuthInstance();
-		auth2.signOut();
-
-	};
-
 	$scope.$watch('currentText', function(data) {
 		if ($('.current-text')[0]){
 			$timeout(function() {
@@ -515,36 +475,6 @@ function EditController($scope, $window, $document, $timeout, $http, $stateParam
 			$('.username').modal('hide').on('hidden.bs.modal', function() {
 				$genericError.modal('show');
 			});
-		});
-	};
-
-	$window.loginSuccess = function(obj) {
-		$scope.googleFullName = obj.getBasicProfile().getName();
-		$scope.userAvatar = obj.getBasicProfile().getImageUrl();
-		$scope.googleId = obj.getBasicProfile().getEmail();
-		$scope.authToken = gapi.auth2.getAuthInstance().currentUser.get().getAuthResponse().id_token;
-		$cookies.put('authToken', $scope.authToken);
-		$http.get('/api/username').then(function(response){
-
-			if (response.data)
-				$scope.username = response.data;
-
-			if ($scope.saveAfterLogin) {
-				// if we've got a username, hide the .save modal and save the doc
-				// if there's no username, show the .username modal instead
-				if ($scope.username) {
-					$('.save').modal('hide').on('hidden.bs.modal', function() {
-						$scope.save();
-					});
-				} else {
-					$('.save').modal('hide').on('hidden.bs.modal', function() {
-						$('.username').modal('show').on('shown.bs.modal',function() {
-							$('.usernameInput').focus();
-						});
-					});
-				}
-
-			}
 		});
 	};
 

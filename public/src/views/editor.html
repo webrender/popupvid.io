@@ -1,3 +1,4 @@
+<div class="container">
 <div class="editor">
     <div class="player-container" ng-mousemove="mouseTracker($event)">
         <div class="player-overlay" ng-click="pause()"></div>
@@ -27,23 +28,12 @@
     <div class="sidebar-wrap" ng-click="hideUserPanel()" ng-mouseleave="hideUserPanel()">
       <div class="sidebar-tab"><div class="tab-icon">&laquo;</div></div>
       <div class="sidebar">
-          <div class="user-panel">
-            <div class="divider"></div>
-            <input type="text" ng-model="title" class="form-control form-inline form-title" ng-class="{'readOnly': !readOnly}" ng-readonly="readOnly">
-            <div class="creator" ng-show="readOnly">by {{creator}}</div>
-            <div id="signin-button" ng-hide="googleId"></div>
-            <div ng-show="userAvatar" ng-click="userMenuClick($event)">
-              <img ng-src="{{userAvatar}}" class="user-avatar" ng-click="showUserMenu()">
-              <div class="user-panel-popup hidden">
-                <img ng-src="{{userAvatar}}" class="user-avatar -larger">
-                <div class="user-avatar-name">{{googleFullName}}</div>
-                <div class="user-avatar-email">{{googleId}}</div>
-                <div class="user-videos"><a href="#">My Videos</a></div>
-                <button class="btn btn-sm sign-out-button" ng-click="signOut()">Sign Out</button>
-              </div>
-            </div>
-            <div class="clearfix"></div>
-          </div>
+        <div class="user-panel">
+          <div class="divider"></div>
+          <input type="text" ng-model="title" class="form-control form-inline form-title" ng-class="{'readOnly': !readOnly}" ng-readonly="readOnly">
+          <div class="creator" ng-show="readOnly">by {{creator}}</div>
+          <div ui-view="usermenu"></div>
+        </div>
           <div class="sidebar-content" ng-repeat="card in cardIndex">
               <div class="sidebar-card animated fadeIn" ng-click="displayCard(card)">
                 <div class="sidebar-card-emoji" style="background-color: {{card.bg}}">{{card.emoji | colonToCode}}</div>
@@ -53,6 +43,7 @@
           <div class="sidebar-save"><button type="button" class="btn btn-success btn-block btn-save" ng-click="save()" ng-hide="readOnly">Save Video</button></div>
       </div>
     </div>
+</div>
 </div>
 
 <div class="modal fade intro card-{{introStep}}" class="intro" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
@@ -118,10 +109,6 @@
           </div>
         </div>
       </div>
-      <!--<div class="modal-footer text-center">
-        <button type="button" class="btn btn-success" data-dismiss="modal">Ok, let's go!</button>
-        <div style="font-size: 10px; padding-top:2px;"><input type="checkbox" ng-model="dismissIntro">Don't show this again</div>
-      </div>-->
     </div>
   </div>
 </div>

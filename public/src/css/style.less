@@ -2,7 +2,6 @@ html, body {
     height: 100%;
 }
 body {
-    padding-top:30px;
     background: #222;
     overflow-x: hidden;
 }
@@ -30,26 +29,69 @@ body, h1 {
 
 @emoji-fonts: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 
-// HOMEPAGE
-.jumbotron {
+.navbar-wrap {
+    height: 50px;
     background: #444;
+    text-align: center;
+    margin-bottom: 30px;
     color: #999;
+}
 
-    input {
-        background: #555;
+.logo-wrap {
+    margin-top: 5px;
+    margin-right:20px;
+    text-align: left;
+
+    .form-control {
+        width: 70%;
+        background: transparent;
         border-color: #666;
-        color: #aaa;
 
         &:focus {
             border-color: #999;
             color: #999;
         }
     }
-
 }
 
-.text-center {
-    text-align: center;
+.search-wrap {
+    display:block;
+    overflow: hidden;
+    padding: 0 5px 0 20px;
+}
+
+.new-video-btn {
+    margin-top: 5px;
+    margin-right: 10px;
+}
+
+.nav-logo {
+    display: inline-block;
+}
+
+.navbar-usermenu-wrap {
+    width: 36px;
+    display: inline-block;
+    vertical-align: top;
+
+    .user-avatar {
+        margin-top: 7px;
+    }
+
+    #signin-button {
+        margin-top: 5px;
+    }
+}
+
+.beta {
+    display: inline-block;
+    color: #966;
+    font-size: 10px;
+    margin-left: 2px;
+}
+
+.results-wrap {
+    margin-top: 15px;
 }
 
 // EDITOR WINDOW
@@ -195,6 +237,9 @@ body, h1 {
     float: left;
     margin: -5px 0 0 5px;
 }
+.usermenu-wrapper {
+    position: relative;
+}
 .user-avatar {
     height: 32px;
     width: 32px;
@@ -258,8 +303,8 @@ body, h1 {
 }
 .user-panel-popup {
     position: absolute;
-    right: 9px;
-    top: 52px;
+    right: 4px;
+    top: 48px;
     background: white;
     padding: 10px;
     width: 300px;
@@ -285,10 +330,6 @@ body, h1 {
 }
 .clearfix {
     clear: both;
-}
-#signin-button {
-    position: absolute;
-    right: 4px;
 }
 #save-signin-button {
     display: inline-block;
@@ -554,17 +595,6 @@ body, h1 {
 
 .emoji-wysiwyg-editor {
     display: none;
-}
-
-.jumbotron-header {
-    display: inline-block;
-}
-
-.beta {
-    display: inline-block;
-    color: #966;
-    font-size: 10px;
-    margin-left: 2px;
 }
 
 .anim-chrome {

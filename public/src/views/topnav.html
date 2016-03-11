@@ -1,0 +1,18 @@
+<div class="container-fluid navbar-wrap">
+    <div class="container">
+        <div class="pull-right">
+            <button type="button" class="btn btn-primary new-video-btn" ng-click="openUploader()">New Video</button>
+            <div class="navbar-usermenu-wrap">
+                <div ui-view="usermenu"></div>
+            </div>
+        </div>
+        <div class="logo-wrap">
+            <div class="pull-left">
+                <h2 class="nav-logo">popupvid.io</h2><span class="beta">beta</span>
+            </div>
+            <div class="search-wrap">
+                <input type="text" ng-model="url" url-input autofocus class="form-control urlInput" placeholder="search by keyword">
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,4 +1,4 @@
-var app = angular.module('popupvid.io', ['ui.router', 'MainCtrl', 'EditCtrl', 'ngSanitize', 'emojiApp']);
+var app = angular.module('popupvid.io', ['ui.router', 'MainCtrl', 'EditCtrl', 'UserCtrl', 'HomeCtrl', 'NavCtrl', 'ngSanitize', 'emojiApp']);
 
 app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
 
@@ -6,14 +6,37 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
 
         .state('home', {
             url: '/',
-            templateUrl: 'dist/views/home.html',
-            controller: 'MainController'
+            views: {
+                '': {
+                    templateUrl: 'dist/views/home.html',
+                    controller: 'HomeController'
+                },
+
+                'topnav': {
+                    templateUrl: 'dist/views/topnav.html',
+                    controller: 'NavController'
+                },
+
+                'usermenu@home': {
+                    templateUrl: 'dist/views/usermenu.html',
+                    controller: 'UserController'
+                }
+            }
         })
 
         .state('editor', {
             url: '/:action/:videoid',
-            templateUrl: 'dist/views/editor.html',
-            controller: 'EditController',
+            views: {
+                '': {
+                    templateUrl: 'dist/views/editor.html',
+                    controller: 'EditController'
+                },
+
+                'usermenu@editor': {
+                    templateUrl: 'dist/views/usermenu.html',
+                    controller: 'UserController'
+                }
+            }
         });
 
     $urlRouterProvider.otherwise('/');
