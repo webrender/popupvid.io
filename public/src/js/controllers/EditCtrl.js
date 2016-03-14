@@ -4,7 +4,6 @@ var cardOpen = false;
 var sidebarState = 0;
 var currentX = 0;
 var currentY = 0;
-var Tether = true;
 
 EditCtrl.directive('isDraggable', ['$stateParams', function($stateParams) {
 	return {
