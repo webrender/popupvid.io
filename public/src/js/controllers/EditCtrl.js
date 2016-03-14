@@ -417,7 +417,6 @@ function EditController($scope, $window, $document, $timeout, $http, $stateParam
 	$document.on('keypress', function(event){
 		if ($scope.player && !cardOpen && !$(".form-title").is(':focus') && !$("body.modal-open").length){
 			if ($scope.state == 1){
-				console.log('pauseVideo');
 				$scope.sendMessage({'event': 'pauseVideo'});
 			} else {
 				$scope.sendMessage({'event': 'playVideo'});
