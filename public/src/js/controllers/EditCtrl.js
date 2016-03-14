@@ -44,6 +44,7 @@ function EditController($scope, $window, $document, $timeout, $http, $stateParam
 
 	$scope.mode = $stateParams.action;
 	$scope.videoId = $stateParams.videoid;
+	$scope.player = false;
 
 	$scope.receiveMessage = function(message) {
 		var origin = message.origin || message.originalEvent.origin; // For Chrome, the origin property is in the event.originalEvent object.
@@ -94,6 +95,7 @@ function EditController($scope, $window, $document, $timeout, $http, $stateParam
 	});
 
 	$scope.playerReady = function() {
+		$scope.player = true;
 		$('.player-container').show();
 		$('.editor').css({
 			'visibility': 'visible',
@@ -402,10 +404,6 @@ function EditController($scope, $window, $document, $timeout, $http, $stateParam
 	$scope.enterSidebar = function() {
 		$('.sidebar-tab .tab-icon').addClass('tab-icon-hidden');
 		$('.sidebar-wrap').addClass('open');
-		//	clearTimeout(tabTimer);
-		//	if (!cardOpen){
-		//		$scope.player.pauseVideo();
-		//	}
 	};
 
 	$scope.leaveSidebar = function() {
@@ -414,9 +412,6 @@ function EditController($scope, $window, $document, $timeout, $http, $stateParam
 		$('.user-panel-popup').addClass('hidden');
 		$(".form-title").blur();
 		$scope.tabHider();
-		//	if (!cardOpen && !$(".saveDialog").is(':visible')){
-		//		$scope.player.playVideo();
-		//	}
 	};
 
 	$document.on('keypress', function(event){
