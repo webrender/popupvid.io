@@ -7,7 +7,7 @@ hi
       <div class="modal-body">
         <input type="text" ng-model="url" url-input class="form-control urlInput" placeholder="Search YouTube, or enter a video URL directly">
         <div class="results-wrap">
-            <strong>Currently trending videos:</strong>
+            <strong>{{message}}</strong>
             <div class="results">
               <div ng-repeat="video in videoResults" class="youtube-preview__wrap">
                 <div ng-click="loadVideo(video.id.videoId ? video.id.videoId : video.id)">

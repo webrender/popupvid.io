@@ -44,6 +44,74 @@ function EditController($scope, $window, $document, $timeout, $http, $stateParam
 
 	$scope.mode = $stateParams.action;
 	$scope.videoId = $stateParams.videoid;
+
+	$scope.receiveMessage = function(message) {
+		var origin = message.origin || message.originalEvent.origin; // For Chrome, the origin property is in the event.originalEvent object.
+		var validOrigins = {
+			'https://www.youtube.com': true,
+			'http://webrender.net': true,
+			'http://localhost:8080': true
+		};
+		if (!validOrigins[origin])
+			return;
+		var commands = {
+			'updateState': $scope.updateState,
+			'playerReady': $scope.playerReady
+		};
+		var msg = JSON.parse(message.data);
+		if (commands[msg.event]) {
+			commands[msg.event](msg);
+		}
+	};
+
+	window.addEventListener('message', $scope.receiveMessage);
+
+	$scope.sendMessage = function(message) {
+		document.getElementById('child').contentWindow.postMessage(JSON.stringify(message), 'http://webrender.net');
+	};
+
+	$scope.updateState = function(msg){
+		$scope.time = msg.state.currentTime;
+		if (msg.state.playerState){
+			$scope.state = msg.state.playerState;
+			$scope.$apply();
+		}
+	};
+
+	$scope.$watch('state', function() {
+		clearTimeout(timer);
+		if ($scope.state == 1){  // playing
+			$scope.leaveSidebar();
+			$scope.cardCheck();
+			$scope.tabHider();
+
+			if (cardOpen) {
+				$scope.closeCard();
+			}
+		} else if ($scope.state == 2 && !$scope.suppressSidebar) {  // paused
+			$scope.enterSidebar();
+		}
+	});
+
+	$scope.playerReady = function() {
+		$('.player-container').show();
+		$('.editor').css({
+			'visibility': 'visible',
+			'opacity': '1'
+		});
+		if ($scope.mode == 'n' && $cookies.get('noIntro') != 'true') {
+			$('.intro').modal('show');
+		} else {
+			$scope.sendMessage({
+				'event': 'playVideo'
+			});
+			setTimeout(function() {
+				$('.sidebar-wrap').removeClass('large');
+			}, 2000);
+
+		}
+	};
+
 	switch($scope.mode) {
 		case 'v':
 			$scope.readOnly = true;
@@ -76,70 +144,10 @@ function EditController($scope, $window, $document, $timeout, $http, $stateParam
 
 	$scope.$watch('video', function(data) {
 		if ($scope.video) {
-			if (YT.Player) {
-				$scope.player = new YT.Player('player', {
-					height: '100%',
-					width: '100%',
-					videoId: $scope.video,
-					events: {
-						'onReady': function(event){
-							$('.player-container').show();
-							$('.editor').css({
-								'visibility': 'visible',
-								'opacity': '1'
-							});
-							if ($scope.mode == 'n' && $cookies.get('noIntro') != 'true') {
-								$('.intro').modal('show');
-							} else {
-								$scope.player.playVideo();
-							}
-							setTimeout(function() {
-								$('.sidebar-wrap').removeClass('large');
-							}, 2000);
-						},
-						'onStateChange': $scope.onPlayerStateChange
-					},
-					playerVars: {
-						'playsinline': 1,
-						'showinfo': 0,
-						'rel': 0,
-						'disablekb': 1,
-						'iv_load_policy': 3,
-						'origin': 'http://' + document.location.hostname
-					}
-				});
-			} else {
-				$window.onYouTubeIframeAPIReady = function() {
-					$scope.player = new YT.Player('player', {
-						height: '100%',
-						width: '100%',
-						videoId: $scope.video,
-						events: {
-							'onReady': function(event){
-								$('.player-container').show();
-								$('.editor').css({
-									'visibility': 'visible',
-									'opacity': '1'
-								});
-								if ($scope.mode == 'n' && $cookies.get('noIntro') != 'true') {
-									$('.intro').modal('show');
-								} else {
-									$scope.player.playVideo();
-								}
-							},
-							'onStateChange': $scope.onPlayerStateChange
-						},
-						playerVars: {
-							'playsinline': 1,
-							'showinfo': 0,
-							'rel': 0,
-							'disablekb': 1,
-							'iv_load_policy': 3,
-							'origin': 'http://' + document.location.hostname
-						}
-					});
-				};
-			}
+			var iframe = document.createElement('iframe');
+			iframe.src = 'http://webrender.net/shiv.html#' + $scope.video;
+			iframe.id = 'child';
+			document.getElementById('player').appendChild(iframe);
 		}
 	});
 
@@ -171,7 +179,9 @@ function EditController($scope, $window, $document, $timeout, $http, $stateParam
 		if ($scope.dismissIntro){
 			$cookies.put('noIntro', 'true');
 		}
-		$scope.player.playVideo();
+		$scope.sendMessage({
+			'event': 'playVideo'
+		});
 	});
 
 	$scope.dismissForever = function() {
@@ -190,21 +200,6 @@ function EditController($scope, $window, $document, $timeout, $http, $stateParam
 		$scope.tabHider();
 	};
 
-	$scope.onPlayerStateChange = function(state) {
-		clearTimeout(timer);
-		if (state.data == 1){  // playing
-			$scope.leaveSidebar();
-			$scope.cardCheck();
-			$scope.tabHider();
-
-			if (cardOpen) {
-				$scope.closeCard();
-			}
-		} else if (state.data == 2 && !$scope.suppressSidebar) {  // paused
-			$scope.enterSidebar();
-		}
-	};
-
 	$scope.tabHider = function() {
 		clearTimeout(tabTimer);
 		tabTimer = setTimeout(function() {
@@ -216,10 +211,9 @@ function EditController($scope, $window, $document, $timeout, $http, $stateParam
 	// I'll eventually have to fix.
 
 	$scope.cardCheck = function() {
-		var currentTime = $scope.player.getCurrentTime();
 		for (var prop in $scope.cardIndex) {
-			if ($scope.cardIndex[prop].time - currentTime > 0){
-				$scope.setTimer(currentTime, $scope.cardIndex[prop]);
+			if ($scope.cardIndex[prop].time - $scope.time > 0){
+				$scope.setTimer($scope.time, $scope.cardIndex[prop]);
 				break;
 			}
 		}
@@ -249,18 +243,19 @@ function EditController($scope, $window, $document, $timeout, $http, $stateParam
 	};
 
 	$scope.pause = function() {
-		var playerState = $scope.player.getPlayerState();
-		if (playerState == 1) { // video playing
+		if ($scope.state == 1) { // video playing
 			if (!$scope.readOnly){ // we're in edit mode - not view mode
 				$scope.suppressSidebar = true;
-				$scope.player.pauseVideo();
+				$scope.sendMessage({'event': 'pauseVideo'});
 				$scope.displayCard();
 			} else {
-				$scope.player.pauseVideo();
+				$scope.sendMessage({'event': 'pauseVideo'});
 			}
-		} else if (playerState == 2) { // video paused
+		} else if ($scope.state == 2) { // video paused
 			if ($scope.readOnly) {
-				$scope.player.playVideo();
+				$scope.sendMessage({
+					'event': 'playVideo'
+				});
 			} else {
 				if (cardOpen){
 					$scope.closeCard();
@@ -268,17 +263,18 @@ function EditController($scope, $window, $document, $timeout, $http, $stateParam
 					$scope.displayCard();
 				}
 			}
-		} else if (playerState === 0) { // video ended
-			$scope.player.playVideo();
+		} else if ($scope.state === 0) { // video ended
+			$scope.sendMessage({
+				'event': 'playVideo'
+			});
 		}
 	};
 
 	$scope.displayCard = function(card) {
 		if (card){
-			$scope.currentTime = card.time;
-			$scope.player.seekTo(card.time);
+			$scope.sendMessage({'event': 'seekTo', 'time':card.time});
 			$scope.suppressSidebar = true;
-			$scope.player.pauseVideo();
+			$scope.sendMessage({'event': 'pauseVideo'});
 			$scope.currentText = card.text;
 			$scope.selectedEmoji = card.emoji;
 			$scope.emojiBgColor = card.bg;
@@ -305,7 +301,6 @@ function EditController($scope, $window, $document, $timeout, $http, $stateParam
 				$('.current-text').focus();
 			}, 500);
 		} else {
-			$scope.currentTime = $scope.player.getCurrentTime();
 			var offset = $(".player-container").offset();
 			currentX = ((mouseX - 32)/$(".player-container").width())*100;
 			currentY = ((mouseY - offset.top - 32)/$(".player-container").height())*100;
@@ -350,7 +345,9 @@ function EditController($scope, $window, $document, $timeout, $http, $stateParam
 			$('.card-settings').css('visibility','hidden');
 			cardOpen = false;
 			$scope.suppressSidebar = false;
-			$scope.player.playVideo();
+			$scope.sendMessage({
+				'event': 'playVideo'
+			});
 			window.setTimeout(function() {
 				$scope.currentText = '';
 				$scope.selectedEmoji = ':wolf:';
@@ -362,7 +359,7 @@ function EditController($scope, $window, $document, $timeout, $http, $stateParam
 
 	$scope.saveCard = function() {
 		var cardData = {
-			'time': $scope.currentTime,
+			'time': $scope.time,
 			'text': $scope.currentText,
 			'emoji': $scope.selectedEmoji,
 			'bg': $scope.emojiBgColor,
@@ -373,13 +370,13 @@ function EditController($scope, $window, $document, $timeout, $http, $stateParam
 			$scope.cardIndex[0] = cardData;
 		} else {
 			for (var i = 0; i < $scope.cardIndex.length; i++){
-				if ($scope.cardIndex[i].time === $scope.currentTime){
+				if ($scope.cardIndex[i].time === $scope.time){
 					$scope.cardIndex[i] = cardData;
 					break;
 				} else if (i+1 === $scope.cardIndex.length) {
 					$scope.cardIndex.push(cardData);
 					break;
-				} else if ($scope.cardIndex[i].time > $scope.currentTime) {
+				} else if ($scope.cardIndex[i].time > $scope.time) {
 					$scope.cardIndex.splice(i, 0, cardData);
 					break;
 				}
@@ -394,7 +391,7 @@ function EditController($scope, $window, $document, $timeout, $http, $stateParam
 
 	$scope.deleteCard = function() {
 		for (var i = 0; i < $scope.cardIndex.length; i++){
-			if ($scope.cardIndex[i].time === $scope.currentTime){
+			if ($scope.cardIndex[i].time === $scope.time){
 				$scope.cardIndex.splice(i,1);
 				break;
 			}
@@ -424,10 +421,10 @@ function EditController($scope, $window, $document, $timeout, $http, $stateParam
 
 	$document.on('keypress', function(event){
 		if ($scope.player && !cardOpen && !$(".form-title").is(':focus') && !$("body.modal-open")){
-			if ($scope.player.getPlayerState() == 1)
-				$scope.player.pauseVideo();
+			if ($scope.state == 1)
+				$scope.sendMessage({'event': 'pauseVideo'});
 			else
-				$scope.player.playVideo();
+				$scope.sendMessage({'event': 'playVideo'});
 		}
 	});
 
@@ -479,7 +476,7 @@ function EditController($scope, $window, $document, $timeout, $http, $stateParam
 	};
 
 	$scope.save = function(anonymous) {
-		$scope.player.pauseVideo();
+		$scope.sendMessage({'event': 'pauseVideo'});
 		var data;
 		if (anonymous) {
 			data = {

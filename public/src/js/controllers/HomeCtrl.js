@@ -20,12 +20,14 @@ HomeCtrl.directive('urlInput', ['$window', function($window) {
 
 function HomeController($scope, $http, $window) {
 
+	$scope.message = 'Currently trending videos:';
+
 	$scope.getVideos = function(query) {
 		if (query) {
 			// Search API
 			$http.get('https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&maxResults=6&q=' + query + '&key=AIzaSyD8vizJsg-5nnnu7jkTS-H9IC76EszFUCQ').then(function(response){
-				console.log(response.data.items);
 				$scope.videoResults = response.data.items;
+				$scope.message = 'Results for "' + query + '":';
 			}, function() {
 				// Todo: error handling on this page
 			});
@@ -33,6 +35,7 @@ function HomeController($scope, $http, $window) {
 			// Videos API, trending videos
 			$http.get('https://www.googleapis.com/youtube/v3/videos?part=snippet&chart=mostPopular&maxResults=6&key=AIzaSyD8vizJsg-5nnnu7jkTS-H9IC76EszFUCQ').then(function(response){
 				$scope.videoResults = response.data.items;
+				$scope.message = 'Currently trending videos:';
 			}, function() {
 				// Todo: error handling on this page
 			});
