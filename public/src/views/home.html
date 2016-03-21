@@ -1,23 +1,4 @@
+<div ui-view="topnav"></div>
 <div class="container">
-</div>
-<div class="modal fade select" class="select" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-body">
-        <input type="text" ng-model="url" url-input class="form-control urlInput" placeholder="Search YouTube, or enter a video URL directly">
-        <div class="results-wrap">
-            <strong>{{message}}</strong>
-            <div class="results">
-              <div ng-repeat="video in videoResults" class="youtube-preview__wrap">
-                <div ng-click="loadVideo(video.id.videoId ? video.id.videoId : video.id)">
-                  <img ng-src="{{video.snippet.thumbnails.medium.url}}" class="youtube-preview__thumb">
-                  <span class="youtube-preview__title">{{video.snippet.title}}</span>
-                </div>
-              </div>
-            </div>
-        </div>
-      </div>
-    </div>
-  </div>
 </div>
 
