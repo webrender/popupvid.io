@@ -10,7 +10,15 @@ var methodOverride = require('method-override');
 // config files
 var db = require('./config/db');
 
-var port = process.env.PORT || 8080; // set our port
+console.log();
+
+if (process.argv[3] && !isNaN(parseInt(process.argv[3].substr(2)))){
+    var port = parseInt(process.argv[3].substr(2));
+} else {
+    var port = 8080;
+}
+
+// var port = process.env.PORT || 8080; // set our port
 mongoose.connect(db.popupvidio); // connect to our mongoDB database (commented out after you enter in your own credentials)
 
 // get all data/stuff of the body (POST) parameters

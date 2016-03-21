@@ -66,7 +66,10 @@ module.exports = function(grunt) {
         options: {
           script: 'server.js',
           background: false,
-          port: 8080
+          port: grunt.option('port') || 8080,
+          args: [
+            grunt.option('port')
+          ]
         }
       }
     },
