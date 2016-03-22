@@ -206,6 +206,7 @@ module.exports = function(app) {
 
     });
 
+    // Redirect edit page to view if it's not the auth'd user
     app.get('/e/:id', function(req, res, next){
 
         if (req.cookies.authToken){
@@ -230,6 +231,27 @@ module.exports = function(app) {
         } else {
             res.redirect('/v/' + req.params.id);
         }
+    });
+
+    app.get('/api/u/:username', function(req, res, next){
+
+
+        User.find({username: req.params.username}, function(err, entries){
+            if (err) {
+                res.send(500);
+            } else {
+                if (entries[0] && entries[0].googleId) {
+
+                    Entry.find({googleId: entries[0].googleId}, function(err, entries) {
+                        //return video info array
+                    });
+                    // res.send(entries[0].username);
+                } else {
+                    res.send('');
+                }
+            }
+        });
+
     });
 
 	// frontend routes
