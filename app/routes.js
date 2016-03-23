@@ -237,14 +237,14 @@ module.exports = function(app) {
     app.get('/api/u/:username', function(req, res, next){
 
 
-        User.find({username: req.params.username}, function(err, entries){
+        User.find({username: req.params.username}, function(err, users){
             if (err) {
                 res.send(500);
             } else {
-                if (entries[0] && entries[0].googleId) {
-
-                    Entry.find({googleId: entries[0].googleId}, function(err, entries) {
+                if (users[0] && users[0].googleId) {
+                    Entry.find({googleId: users[0].googleId}, 'slug video title origTitle created', function(err, entries) {
                         //return video info array
+                        res.send(entries);
                     });
                     // res.send(entries[0].username);
                 } else {

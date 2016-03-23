@@ -3,7 +3,64 @@
 <div class="container text-white">
   <div class="row">
   <h2>{{listUser}}'s Videos</h2>
+  <ul class="video-list">
+    <li ng-repeat="video in videoList track by $index">
+        <a ng-href="/v/{{video.slug}}">
+            <img ng-src="http://img.youtube.com/vi/{{video.video}}/mqdefault.jpg">
+        </a>
+        <h4><a ng-href="/v/{{video.slug}}">{{video.title}}</a></h4>
+        <div class="info-line">
+            <span class='info-tag'>Source: </span><a href="https://youtube.com/watch?v={{video.video}}" target="_blank">{{video.origTitle}}</a>
+        </div>
+        <div class="info-line">
+            <span class='info-tag'>Created: </span>{{video.created | date:'shortDate'}}
+        </div>
+        <div class="listToolbar" ng-show="username==listUser">
+            <button class="btn btn-sm btn-secondary-outline" ng-click="confirmDelete($index)"><i class="fa fa-trash"></i> Delete</button>
+            <a ng-href="/e/{{video.slug}}">
+                <button class="btn btn-sm btn-secondary-outline">
+                    <i class="fa fa-floppy-o"></i> Edit
+                </button>
+            </a>
+        </div>
+    </li>
+  </ul>
   </div>
 </div>
 </div>
 
+<div class="modal fade genericError" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="alert alert-danger">Something went wrong. Sorry about that, details have been logged and we'll work on fixing it!</div>
+        <div class="text-center">
+          <a ng-href="/"><button type="button" class="btn btn-danger">Back to Homepage</button></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade confirmDelete" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" tabindex="-1">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+          <span class="sr-only">Close</span>
+        </button>
+        <h4 class="modal-title">Confirm Deletion</h4>
+      </div>
+      <div class="modal-body">
+        <p>
+          Are you sure you want to delete the following video?
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary">Cancel</button>
+        <button type="button" class="btn btn-danger" ng-click="deleteVideo()">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
