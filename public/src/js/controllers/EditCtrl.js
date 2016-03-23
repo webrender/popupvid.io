@@ -123,6 +123,7 @@ function EditController($scope, $window, $document, $timeout, $http, $stateParam
 				$scope.cardIndex = JSON.parse(resObj.data);
 				$scope.title = resObj.title;
 				$scope.creator = resObj.username;
+				$scope.origTitle = resObj.origTitle;
 				$('.sidebar-wrap').addClass('large');
 			}, function() {
 				$('.genericError').modal('show');
@@ -134,6 +135,7 @@ function EditController($scope, $window, $document, $timeout, $http, $stateParam
 				$scope.video = resObj.video;
 				$scope.cardIndex = JSON.parse(resObj.data);
 				$scope.title = resObj.title;
+				$scope.origTitle = resObj.origTitle;
 			}, function() {
 				$('.genericError').modal('show');
 			});
@@ -150,6 +152,14 @@ function EditController($scope, $window, $document, $timeout, $http, $stateParam
 			iframe.src = 'http://webrender.net/shiv.html#' + $scope.video;
 			iframe.id = 'child';
 			document.getElementById('player').appendChild(iframe);
+		}
+		if ($scope.mode == 'n' && !$scope.origTitle) {
+			// Search API
+			$http.get('https://noembed.com/embed?url=https://www.youtube.com/watch?v=' + $scope.video).then(function(response){
+				$scope.origTitle = response.data.title;
+			}, function() {
+				// Todo: error handling
+			});
 		}
 	});
 
@@ -479,6 +489,7 @@ function EditController($scope, $window, $document, $timeout, $http, $stateParam
 				video: $scope.video,
 				googleId: 'Anonymous',
 				title: $scope.title,
+				origTitle: $scope.origTitle,
 				data: $scope.cardIndex
 			};
 		} else {
@@ -489,6 +500,7 @@ function EditController($scope, $window, $document, $timeout, $http, $stateParam
 						googleId: $scope.googleId,
 						token: $scope.authToken,
 						title: $scope.title,
+						origTitle: $scope.origTitle,
 						data: $scope.cardIndex
 					};
 				} else {

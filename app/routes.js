@@ -140,6 +140,7 @@ module.exports = function(app) {
             googleId: req.body.googleId,
             title: req.body.title,
             video: req.body.video,
+            origTitle: req.body.origTitle,
             data: JSON.stringify(req.body.data),
             created: Date.now()
     	});
