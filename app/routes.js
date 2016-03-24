@@ -255,6 +255,50 @@ module.exports = function(app) {
 
     });
 
+    // Check for valid token
+    app.post('/api/delete/:video', function(req, res, next){
+        if (req.body.googleId){
+            request('https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=' + req.body.token, function(error, response, body){
+                if (!error && response.statusCode == 200){
+                    parsedBody = JSON.parse(body);
+                    if (parsedBody.email === req.body.googleId){
+                        next();
+                    } else {
+                        res.send(403);
+                    }
+                } else {
+                    res.send(500);
+                }
+            });
+        } else {
+            res.send(401);
+        }
+    });
+
+    // Check that logged in user is owner of video
+    app.post('/api/delete/:video', function(req, res, next){
+        Entry.find({ 'slug': req.params.video }, function (err, docs) {
+            if (docs[0]) {
+                if (docs[0].googleId === req.body.googleId) {
+                    next();
+                } else {
+                    res.send(403);
+                }
+            } else {
+                res.send(404);
+            }
+        });
+    });
+
+    // Delete entry
+    app.get('/api/delete/:video', function(req, res, next){
+        Entry.remove({'slug': req.params.video}, function(err, videos){
+            if (err)
+                res.send(500);
+            res.send(200);
+        });
+    });
+
 	// frontend routes
 	// =========================================================
 	// route to handle all angular requests
