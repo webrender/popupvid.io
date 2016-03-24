@@ -29,13 +29,17 @@ body, h1 {
 
 @emoji-fonts: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 
-.text-center {
-    text-align: center;
-}
+.text-center { text-align: center; }
+.text-white { color: white; }
+.text-grey { color: #ccc; }
+.text-medium { font-size: 16px;}
 
-.text-white {
-    color: white;
-}
+.margin-top { margin-top: 40px; }
+.margin-top-larger { margin-top: 60px; }
+.margin-bottom-small { margin-bottom: 5px; display: block;}
+.margin-bottom-larger {margin-bottom: 60px;}
+
+.inline-block {display:inline-block;}
 
 .navbar-wrap {
     height: 50px;
@@ -43,6 +47,17 @@ body, h1 {
     text-align: center;
     margin-bottom: 30px;
     color: #999;
+}
+
+.flex-wrapper {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.jumbotron {
+    background-color: transparent;
+    padding: 1rem 0 0;
 }
 
 .logo-wrap {
@@ -121,15 +136,119 @@ body, h1 {
     overflow: hidden;
     cursor: pointer;
     margin-bottom: 10px;
+
+    &.-homepage {
+        margin: 0 10px 10px 0;
+        width: 23%;
+
+        &:last-child {
+            margin-right: 0;
+        }
+    }
 }
 
 .youtube-preview__thumb {
     width: 174px;
     display: block;
     margin-bottom: 5px;
+
+    &.-homepage {
+        width: 100%;
+    }
 }
 
 .youtube-preview__title {
+
+
+    &.-homepage {
+        font-size: 16px;
+        line-height: 20px;
+        color: #ccc;
+    }
+}
+
+.home-points {
+
+    margin: 80px 0;
+
+    .fa {
+        font-size: 128px;
+    }
+}
+
+.home-points__column {
+    padding: 0 35px;
+}
+
+.home-points__point {
+    position: relative;
+    padding-top: 20px;
+    font-size: 12px;
+}
+
+.bg-icon {
+    position: absolute;
+    width: 100%;
+    color: #444;
+    z-index: 0;
+    left: 0;
+}
+
+.home-iframe-container {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 51%;
+    margin-top: 20px;
+
+    iframe {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        left: 0; top: 0;
+    }
+}
+
+.home-card {
+    display: inline-block;
+    font-size: 2.5rem;
+    line-height: 1;
+    height: 50px;
+    border: 4px solid white;
+    border-radius: 30px;
+    padding: 0 20px 0 50px;
+    background: black;
+    position: relative;
+    margin: 0 5px;
+}
+
+.home-card-emoji {
+    font-family: emoji;
+    display: inline-block;
+    font-size: 32px;
+    height: 50px;
+    width: 50px;
+    border: 4px solid white;
+    border-radius: 30px;
+    position: absolute;
+    left: -4px;
+    top: -4px;
+    padding-top: 7px;
+
+    &.-green {
+        background: #7bd148;
+    }
+
+    &.-blue {
+        background: #46d6db;
+    }
+
+    &.-red {
+        background: #ff887c;
+    }
+}
+
+.home-card-text {
 
 }
 

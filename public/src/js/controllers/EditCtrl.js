@@ -148,8 +148,12 @@ function EditController($scope, $window, $document, $timeout, $http, $stateParam
 
 	$scope.$watch('video', function(data) {
 		if ($scope.video) {
+			var embedUrl = 'http://webrender.net/shiv.html?v=' + $scope.video;
+			if ($location.search().mute) {
+				embedUrl = embedUrl + '&mute=1';
+			}
 			var iframe = document.createElement('iframe');
-			iframe.src = 'http://webrender.net/shiv.html#' + $scope.video;
+			iframe.src = embedUrl;
 			iframe.id = 'child';
 			document.getElementById('player').appendChild(iframe);
 		}

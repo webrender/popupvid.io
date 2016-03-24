@@ -1,4 +1,58 @@
 <div ui-view="topnav"></div>
-<div class="container">
+<div class="container text-grey">
+    <div class="jumbotron text-center">
+        <h1 class="inline-block">Add a little</h1>
+            <div class="home-card inline-block animated">
+                <!-- Trivia, input, fun -->
+                <div class="home-card-emoji -blue">ℹ️</div>
+                <div class="home-card-text">trivia</div>
+            </div>
+        <h1 class="inline-block">to your videos</h1>
+        <div class="home-iframe-container">
+            <iframe width="100%" height="0" src="http://localhost:8080/v/VkyLlG6Te?mute=1" frameborder="0" allowfullscreen></iframe>
+        </div>
+    </div>
+    <div class="row text-center home-points">
+        <div class="col-sm-4 home-points__column">
+            <div class="bg-icon">
+                <i class="fa fa-info-circle"></i><br>
+            </div>
+            <div class="home-points__point">
+                <strong class="text-medium margin-bottom-small">Add a new layer to videos</strong>
+                Add your own commentary to YouTube videos. Insert behind-the-scenes trivia on your own, or create a response to friends' videos.
+            </div>
+        </div>
+        <div class="col-sm-4 home-points__column">
+            <div class="bg-icon">
+                <i class="fa fa-comments-o"></i><br>
+            </div>
+            <div class="home-points__point">
+                <strong class="text-medium margin-bottom-small">Ask for input</strong>
+                Send videos to clients for an interactive review that makes it easy to see exactly what they're referring to.
+            </div>
+        </div>
+        <div class="col-sm-4 home-points__column">
+            <div class="bg-icon">
+                <i class="fa fa-compress"></i><br>
+            </div>
+            <div class="home-points__point">
+                <strong class="text-medium margin-bottom-small">Highlight the Excitement</strong>
+                Annotate events to feature your favorite moments. Embed them on your own site, or link directly to popupvid.io.
+            </div>
+        </div>
+    </div>
+    <div class="row margin-top-larger margin-bottom-larger">
+        <div class="col-sm-12">
+            <div class="margin-bottom-small"><strong>Recent Videos</strong></div>
+            <div class="flex-wrapper">
+                <div ng-repeat="video in recentVideos track by $index" class="youtube-preview__wrap -homepage">
+                    <a ng-href="/v/{{video.slug}}">
+                        <img ng-src="http://img.youtube.com/vi/{{video.video}}/hqdefault.jpg" class="youtube-preview__thumb -homepage">
+                        <span class="youtube-preview__title -homepage">{{video.title}}</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 

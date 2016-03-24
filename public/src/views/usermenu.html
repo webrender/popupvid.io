@@ -6,7 +6,7 @@
       <img ng-src="{{$parent.userAvatar}}" class="user-avatar -larger">
       <div class="user-avatar-name">{{$parent.googleFullName}}</div>
       <div class="user-avatar-email">{{$parent.googleId}}</div>
-      <div class="user-videos"><a href="#">My Videos</a></div>
+      <div class="user-videos"><a ng-href="/u/{{$parent.username}}">My Videos</a></div>
       <button class="btn btn-sm sign-out-button" ng-click="signOut()">Sign Out</button>
     </div>
   </div>

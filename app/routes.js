@@ -299,6 +299,13 @@ module.exports = function(app) {
         });
     });
 
+    // Recent Videos
+    app.get('/api/recentVideos', function(req, res, next){
+        Entry.find({},'slug video title created').sort([['created', 'descending']]).limit(10).exec(function (err, entries) {
+          res.send(entries);
+        });
+    });
+
 	// frontend routes
 	// =========================================================
 	// route to handle all angular requests
