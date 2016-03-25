@@ -255,7 +255,6 @@ function EditController($scope, $window, $document, $timeout, $http, $stateParam
 		});
 		clearTimeout(ccTimer);
 		ccTimer = setTimeout(function() {
-			console.log('cctimer');
 			$scope.closeCard();
 		}, 2000);
 	};
