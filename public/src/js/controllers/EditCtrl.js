@@ -25,8 +25,8 @@ EditCtrl.directive('isDraggable', ['$stateParams', function($stateParams) {
 						} else {
 							$('.card-settings').removeClass('top bottom left').addClass('right');
 						}
-						currentX = (ui.offset.left/$(".player-container").width())*100;
-						currentY = (ui.offset.top/$(".player-container").height())*100;
+						currentX = ((ui.offset.left - $('.player-container').offset().left)/$(".player-container").width())*100;
+						currentY = ((ui.offset.top - $('.player-container').offset().top)/$(".player-container").height())*100;
 					}
 				});
 			}
