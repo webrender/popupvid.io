@@ -301,7 +301,7 @@ module.exports = function(app) {
 
     // Recent Videos
     app.get('/api/recentVideos', function(req, res, next){
-        Entry.find({},'slug video title created').sort([['created', 'descending']]).limit(10).exec(function (err, entries) {
+        Entry.find({},'slug video title created').sort([['created', 'descending']]).limit(4).exec(function (err, entries) {
           res.send(entries);
         });
     });
