@@ -1,16 +1,12 @@
 var HomeCtrl = angular.module('HomeCtrl', []);
 
-function HomeController($scope, $http, $window) {
+function HomeController($scope, $http, $document) {
 
     $http.get('/api/recentVideos').then(function(response) {
         $scope.recentVideos = response.data;
     }, function(err) {
         console.log(err);
     });
-
-    $window.onload = function() {
-        $scope.animLoop();
-    };
 
     var iter = 0;
     $scope.animLoop = function() {
@@ -40,6 +36,10 @@ function HomeController($scope, $http, $window) {
         }, 1000);
     };
 
+    setTimeout(function(){
+        $scope.animLoop();
+    }, 5000);
+
 }
 
-HomeCtrl.controller("HomeController", ["$scope", "$http", "$window", HomeController]);
+HomeCtrl.controller("HomeController", ["$scope", "$http", "$document", HomeController]);
