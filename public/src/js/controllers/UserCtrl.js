@@ -44,6 +44,7 @@ function UserController($scope, $window, $document, $timeout, $http, $cookies) {
 	$window.loginSuccess = function(obj) {
 		$scope.$parent.googleFullName = obj.getBasicProfile().getName();
 		$scope.$parent.userAvatar = obj.getBasicProfile().getImageUrl();
+		$scope.$parent.userAvatar = $scope.$parent.userAvatar ? $scope.$parent.userAvatar : 'dist/img/generic_avatar.png';
 		$scope.$parent.googleId = obj.getBasicProfile().getEmail();
 		$scope.$parent.authToken = gapi.auth2.getAuthInstance().currentUser.get().getAuthResponse().id_token;
 		$cookies.put('authToken', $scope.$parent.authToken);
