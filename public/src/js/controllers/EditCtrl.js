@@ -1,5 +1,5 @@
 var EditCtrl = angular.module('EditCtrl', ['ngCookies', 'ngSilent']);
-var player, mouseX, mouseY, timer, tabTimer;
+var player, mouseX, mouseY, timer, tabTimer, ccTimer;
 var cardOpen = false;
 var sidebarState = 0;
 var currentX = 0;
@@ -253,7 +253,9 @@ function EditController($scope, $window, $document, $timeout, $http, $stateParam
 			'top': data.y + '%',
 			'left': data.x + '%'
 		});
-		$window.setTimeout(function() {
+		clearTimeout(ccTimer);
+		ccTimer = setTimeout(function() {
+			console.log('cctimer');
 			$scope.closeCard();
 		}, 2000);
 	};
@@ -287,6 +289,7 @@ function EditController($scope, $window, $document, $timeout, $http, $stateParam
 	};
 
 	$scope.displayCard = function(card) {
+		clearTimeout(ccTimer);
 		if (card){
 			$scope.sendMessage({'event': 'seekTo', 'time':card.time});
 			$scope.suppressSidebar = true;
