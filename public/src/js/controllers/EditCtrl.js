@@ -60,7 +60,7 @@ function EditController($scope, $window, $document, $timeout, $http, $stateParam
 			'updateState': $scope.updateState,
 			'playerReady': $scope.playerReady
 		};
-		var msg = JSON.parse(message.data);
+		var msg = typeof message.data == 'object' ? message.data : JSON.parse(message.data);
 		if (commands[msg.event]) {
 			commands[msg.event](msg);
 		}
