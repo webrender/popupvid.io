@@ -51,6 +51,7 @@ function EditController($scope, $window, $document, $timeout, $http, $stateParam
 		var validOrigins = {
 			'https://www.youtube.com': true,
 			'http://webrender.net': true,
+			'https://webrender.net': true,
 			'http://localhost:8080': true
 		};
 		if (!validOrigins[origin])
@@ -68,7 +69,7 @@ function EditController($scope, $window, $document, $timeout, $http, $stateParam
 	window.addEventListener('message', $scope.receiveMessage);
 
 	$scope.sendMessage = function(message) {
-		document.getElementById('child').contentWindow.postMessage(JSON.stringify(message), 'http://webrender.net');
+		document.getElementById('child').contentWindow.postMessage(JSON.stringify(message), window.location.protocol + '//webrender.net');
 	};
 
 	$scope.updateState = function(msg){
@@ -148,7 +149,7 @@ function EditController($scope, $window, $document, $timeout, $http, $stateParam
 
 	$scope.$watch('video', function(data) {
 		if ($scope.video) {
-			var embedUrl = 'http://webrender.net/shiv.html?v=' + $scope.video;
+			var embedUrl = '//webrender.net/shiv.html?v=' + $scope.video;
 			if ($location.search().mute) {
 				embedUrl = embedUrl + '&mute=1';
 			}
