@@ -8,7 +8,7 @@
     "body-parser": "~1.4.2",
     "cookie-parser": "^1.4.1",
     "express": "~4.5.1",
-    "method-override": "~2.0.2",
+    "method-override": "~3.0.0",
     "mongoose": "~3.8.0",
     "request": "^2.67.0",
     "shortid": "^2.2.4"
