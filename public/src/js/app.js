@@ -55,6 +55,15 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
                     controller: 'UserController'
                 }
             }
+        })
+
+        .state('privacy', {
+            url: '/privacy',
+            views: {
+                '': {
+                    templateUrl: 'dist/views/privacy.html',
+                },
+            }
         });
 
     $urlRouterProvider.otherwise('/');
